@@ -1,58 +1,60 @@
 {
-  "type": "minecraft:block",
+  "type": "block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
-          "type": "minecraft:alternatives",
+          "type": "alternatives",
           "children": [
             {
-              "type": "minecraft:item",
+              "type": "item",
               "conditions": [
                 {
-                  "condition": "minecraft:match_tool",
+                  "condition": "match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
+                    "predicates": {
+                      "enchantments": [
+                        {
+                          "enchantments": "silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ],
               "name": "divinerpg:frozen_gravel"
             },
             {
-              "type": "minecraft:alternatives",
+              "type": "alternatives",
               "conditions": [
                 {
-                  "condition": "minecraft:survives_explosion"
+                  "condition": "survives_explosion"
                 }
               ],
               "children": [
                 {
-                  "type": "minecraft:item",
+                  "type": "item",
                   "conditions": [
                     {
-                      "condition": "minecraft:table_bonus",
-                      "enchantment": "minecraft:fortune",
+                      "condition": "table_bonus",
+                      "enchantment": "fortune",
                       "chances": [
                         0.1,
                         0.14285715,
                         0.25,
-                        1.0
+                        1
                       ]
                     }
                   ],
-                  "name": "minecraft:flint"
+                  "name": "flint"
                 },
                 {
-                  "type": "minecraft:item",
+                  "type": "item",
                   "name": "divinerpg:frozen_gravel"
                 }
               ]

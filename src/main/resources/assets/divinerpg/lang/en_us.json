@@ -873,6 +873,7 @@
   "item.divinerpg.kraken_leggings": "Kraken Leggings",
   "item.divinerpg.kraken_boots": "Kraken Boots",
 
+  "item.divinerpg.aquatic_coating_template": "Smithing Template",
   "upgrade.divinerpg.aquatic_coating": "Aquatic Coating",
   "item.divinerpg.smithing_template.aquatic_coating.applies_to": "Aquastrive Armor",
   "item.divinerpg.smithing_template.aquatic_coating.ingredients": "Kraken Skin",
@@ -979,6 +980,7 @@
   "item.divinerpg.green_diamond_chunk": "Green Diamond Chunk",
   "item.divinerpg.blue_diamond_chunk": "Blue Diamond Chunk",
 
+  "item.divinerpg.color_template": "Smithing Template",
   "trim_pattern.divinerpg.color_template": "Color Template",
   "item.divinerpg.smithing_template.color_template.applies_to": "Dyeable Equipment",
   "item.divinerpg.smithing_template.color_template.ingredients": "Colored Diamond Chunk",
@@ -1048,6 +1050,7 @@
   "item.divinerpg.bedrock_axe": "Bedrock Axe",
   "item.divinerpg.bedrock_hoe": "Bedrock Hoe",
 
+  "item.divinerpg.bedrock_upgrade_template": "Smithing Template",
   "upgrade.divinerpg.bedrock_upgrade": "Bedrock Upgrade",
   "item.divinerpg.smithing_template.bedrock_upgrade.applies_to": "Inferno or Torridite Armor",
   "item.divinerpg.smithing_template.bedrock_upgrade.ingredients": "Bedrock Chunk",

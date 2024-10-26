@@ -1,36 +1,38 @@
 {
-  "type": "minecraft:block",
+  "type": "block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
-          "type": "minecraft:alternatives",
+          "type": "alternatives",
           "children": [
             {
-              "type": "minecraft:item",
+              "type": "item",
               "conditions": [
                 {
-                  "condition": "minecraft:match_tool",
+                  "condition": "match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
+                    "predicates": {
+                      "enchantments": [
+                        {
+                          "enchantments": "silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ],
               "name": "divinerpg:dream_grass"
             },
             {
-              "type": "minecraft:item",
+              "type": "item",
               "conditions": [
                 {
-                  "condition": "minecraft:survives_explosion"
+                  "condition": "survives_explosion"
                 }
               ],
               "name": "divinerpg:dream_dirt"
@@ -38,7 +40,7 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ]
 }

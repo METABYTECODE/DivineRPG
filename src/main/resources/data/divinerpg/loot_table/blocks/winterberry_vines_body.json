@@ -1,21 +1,21 @@
 {
-	"type": "minecraft:block",
+	"type": "block",
 	"pools": [
 		{
 			"rolls": 1,
 			"bonus_rolls": 0,
 			"entries": [
 				{
-					"type": "minecraft:alternatives",
+					"type": "alternatives",
 					"children": [
 						{
-							"type": "minecraft:item",
+							"type": "item",
 							"name": "divinerpg:winterberry_vines_head",
 							"conditions": [
 								{
-									"condition": "minecraft:match_tool",
+									"condition": "match_tool",
 									"predicate": {
-									"tag": "c:tools/shear"
+										"items": "#c:tools/shear"
 									}
 								}
 							]
@@ -29,14 +29,14 @@
 			"bonus_rolls": 0,
 			"entries": [
 				{
-					"type": "minecraft:alternatives",
+					"type": "alternatives",
 					"children": [
 						{
-							"type": "minecraft:item",
+							"type": "item",
 							"name": "divinerpg:winterberry",
 							"conditions": [
 								{
-									"condition": "minecraft:block_state_property",
+									"condition": "block_state_property",
 									"block": "divinerpg:winterberry_vines_body",
 									"properties": {
 										"bloom": "true"
