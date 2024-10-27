@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '1.0.20'
+    id 'net.neoforged.moddev' version '1.0.21'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -85,8 +85,8 @@ dependencies {
     runtimeOnly("curse.maven:just-enough-professions-jep-417645:${jep_version}") //Curios Continuation
     compileOnly("vazkii.patchouli:Patchouli:1.21-${patchouli_version}-NEOFORGE-SNAPSHOT:api") //Patchouli
     runtimeOnly("vazkii.patchouli:Patchouli:1.21-${patchouli_version}-NEOFORGE-SNAPSHOT") //Patchouli
-    compileOnly("curse.maven:curios-continuation-1037991:${curios_version}") //Curios Continuation
-    runtimeOnly("curse.maven:curios-continuation-1037991:${curios_version}") //Curios Continuation
+    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}") //Curios Continuation
+    runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}") //Curios Continuation
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
