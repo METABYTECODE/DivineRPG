@@ -1,33 +1,33 @@
 {
-  "parent": "minecraft:recipes/root",
+  "parent": "recipes/root",
   "criteria": {
     "has_ore": {
       "conditions": {
         "items": [
           {
-              "tag": "minecraft:redstone_ores"
+              "items": "#redstone_ores"
           }
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "inventory_changed"
     },
     "has_powder": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:blaze_powder"
+              "blaze_powder"
             ]
           }
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "inventory_changed"
     },
     "has_the_recipe": {
       "conditions": {
         "recipe": "divinerpg:shaped/inferno_sword"
       },
-      "trigger": "minecraft:recipe_unlocked"
+      "trigger": "recipe_unlocked"
     }
   },
   "requirements": [
