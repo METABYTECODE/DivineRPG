@@ -132,11 +132,12 @@ public abstract class EntityDivineMerchant extends Villager {
         this.resetSpecialPrices();
     }
     private void resetSpecialPrices() {for(MerchantOffer merchantoffer : this.getOffers()) merchantoffer.resetSpecialPriceDiff();}
-    
+
     public static class DivineTrades implements VillagerTrades.ItemListing {
-		protected ItemStack input1, input2;
-		private ItemStack output;
+        protected ItemStack input1, input2;
+        private ItemStack output;
         protected int xp, stock;
+
         public DivineTrades(ItemStack input1, ItemStack input2, ItemStack output, int stock, int xp) {
             this.xp = xp;
             this.stock = stock + 1;
@@ -144,39 +145,47 @@ public abstract class EntityDivineMerchant extends Villager {
             this.input1 = input1;
             this.input2 = input2;
         }
-        public DivineTrades(ItemStack input1, ItemStack output, int stock, int xp) {this(input1, ItemStack.EMPTY, output, stock, xp);}
-        @Override public MerchantOffer getOffer(Entity tradeEnt, RandomSource rand) {return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), output, stock, xp, 0F);}
+
+        public DivineTrades(ItemStack input1, ItemStack output, int stock, int xp) {
+            this(input1, null, output, stock, xp); // Pass null for input2 if not provided
+        }
+
+        @Override
+        public MerchantOffer getOffer(Entity tradeEnt, RandomSource rand) {
+            if (input2 != null) {
+                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), output, stock, xp, 0F);
+            } else {
+                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), output, stock, xp, 0F);
+            }
+        }
     }
+
     public static class DivineMapTrades extends DivineTrades {
-    	private final String displayName;
-    	private final TagKey<Structure> destination;
-    	private final Holder<MapDecorationType> destinationType;
+        private final String displayName;
+        private final TagKey<Structure> destination;
+        private final Holder<MapDecorationType> destinationType;
+
         public DivineMapTrades(ItemStack input1, ItemStack input2, String displayName, TagKey<Structure> destination, Holder<MapDecorationType> destinationType, int xp) {
             super(input1, input2, null, 1, xp);
             this.displayName = displayName;
             this.destination = destination;
             this.destinationType = destinationType;
         }
+
         public DivineMapTrades(ItemStack input1, String displayName, TagKey<Structure> destination, Holder<MapDecorationType> destinationType, int xp) {
-            this(input1, ItemStack.EMPTY, displayName, destination, destinationType, xp);
+            this(input1, null, displayName, destination, destinationType, xp);
         }
+
         @Nullable
         @Override
         public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-            MerchantOffer offer;
             ItemStack itemstack = MapItem.create(trader.level(), trader.blockPosition().getX(), trader.blockPosition().getZ(), (byte)2, true, true);
 
             if (input2 != null) {
-                offer = new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), itemstack, stock, xp, 0f);
+                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), itemstack, stock, xp, 0f);
+            } else {
+                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), itemstack, stock, xp, 0f);
             }
-            else if (input1 != null) {
-                offer = new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), itemstack, stock, xp, 0f);
-            }
-            else {
-                return null;
-            }
-
-            return offer;
         }
     }
     @Override
