@@ -37,7 +37,7 @@ public class EntityTheEye extends EntityDivineMonster {
     public void tick() {
         super.tick();
         LivingEntity entity = this.getTarget();
-        if(entity != null && entity instanceof ServerPlayer && (isLookingAt(this, entity) || isLookingAt(entity, this))) {
+        if(entity instanceof ServerPlayer && (isLookingAt(this, entity) || isLookingAt(entity, this))) {
             entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 120, 0, false, true));
             TriggerRegistry.EYE.get().trigger((ServerPlayer) entity, this);
         }
@@ -52,6 +52,6 @@ public class EntityTheEye extends EntityDivineMonster {
             double d0 = vec31.length();
             vec31 = vec31.normalize();
             double d1 = vec3.dot(vec31);
-            return d1 > 1.0D - 0.025D / d0 ? looking.hasLineOfSight(target) : false;
+            return d1 > 1.0D - 0.025D / d0 && looking.hasLineOfSight(target);
     }
 }

@@ -28,7 +28,6 @@ import java.util.EnumSet;
 public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAttackMob {
     private ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE,
             BossEvent.BossBarOverlay.PROGRESS));
-    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(EntityTheWatcher.class, EntityDataSerializers.BOOLEAN);
     private int explosionStrength = 1;
 
     public EntityTheWatcher(EntityType<? extends EntityDivineFlyingMob> type, Level worldIn) {
@@ -56,14 +55,14 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
         }));
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public boolean isAttacking() {
-        return this.entityData.get(ATTACKING);
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public boolean isAttacking() {
+//        return this.entityData.get(ATTACKING);
+//    }
 
-    public void setAttacking(boolean attacking) {
-        this.entityData.set(ATTACKING, attacking);
-    }
+//    public void setAttacking(boolean attacking) {
+//        this.entityData.set(ATTACKING, attacking);
+//    }
 
     public int getFireballStrength() {
         return this.explosionStrength;
@@ -95,10 +94,6 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
         } else {
             return super.hurt(source, amount);
         }
-    }
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ATTACKING, false);
     }
 
     public SoundSource getSoundSource() {
@@ -168,7 +163,7 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
         }
 
         public void stop() {
-            this.mob.setAttacking(false);
+        //    this.mob.setAttacking(false);
         }
 
         public void tick() {
@@ -201,7 +196,7 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
                 --this.chargeTime;
             }
 
-            this.mob.setAttacking(this.chargeTime > 10);
+            //this.mob.setAttacking(this.chargeTime > 10);
         }
     }
 

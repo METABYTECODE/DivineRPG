@@ -9,7 +9,6 @@ import divinerpg.util.Utils;
 import net.minecraft.core.*;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.*;
 import net.minecraft.util.Mth;
@@ -31,26 +30,13 @@ import java.util.*;
 public class EntityRobbin extends EntityDivineFlyingMob {
     private int tiredTicks = 0;
     public boolean wantsNest = false;
-    private static final EntityDataAccessor<Integer> ITEM = SynchedEntityData.defineId(EntityRobbin.class, EntityDataSerializers.INT);
-    public ItemStack mouthPiece = ItemStack.EMPTY;
     public EntityRobbin(EntityType<? extends EntityDivineFlyingMob> entityType, Level world) {
         super(entityType, world);
         moveControl = new RobbinMoveControl(this);
     }
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-    	super.defineSynchedData(builder);
-    	builder.define(ITEM, 0);
-    }
-    @Override public void addAdditionalSaveData(CompoundTag tag) {
-    	super.addAdditionalSaveData(tag);
-    	tag.put("MouthPiece", mouthPiece.save(registryAccess()));
-    }
     @Override public void readAdditionalSaveData(CompoundTag tag) {
     	super.readAdditionalSaveData(tag);
     	if(tag.contains("MouthPiece")) setMouthPiece(ItemStack.parse(registryAccess(), tag.getCompound("MouthPiece")).orElse(ItemStack.EMPTY));
-    }
-    public int getItemID() {
-    	return entityData.get(ITEM);
     }
     @Override protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
@@ -65,13 +51,13 @@ public class EntityRobbin extends EntityDivineFlyingMob {
     }
     public void setMouthPiece(ItemStack item) {
     	if(item == null) item = ItemStack.EMPTY;
-    	mouthPiece = item;
-    	entityData.set(ITEM, Item.getId(item.getItem()));
+        setItemSlot(EquipmentSlot.MAINHAND, item);
     }
     @Override
     public void die(DamageSource source) {
     	super.die(source);
-    	if(!mouthPiece.isEmpty()) level().addFreshEntity(new ItemEntity(level(), getX(), getY(), getZ(), mouthPiece));
+        ItemStack item = getItemBySlot(EquipmentSlot.MAINHAND);
+    	if(!item.isEmpty()) level().addFreshEntity(new ItemEntity(level(), getX(), getY(), getZ(), item));
     }
     @Override protected float getJumpPower() {
     	return .22F * getBlockJumpFactor() + getJumpBoostPower();
@@ -92,14 +78,14 @@ public class EntityRobbin extends EntityDivineFlyingMob {
     			if(!nest.isEmpty()) level().addFreshEntity(new ItemEntity(level(), targetPos.getX() + .5, targetPos.getY() + .1, targetPos.getZ() + .5, nest.getItem()));
     			nest.setItem(ItemRegistry.robbin_egg.get().getDefaultInstance());
     			level().playSound(this, targetPos, SoundEvents.BEEHIVE_ENTER, SoundSource.NEUTRAL, .5F, 1.5F);
-    		} else if(nest.isEmpty() && !mouthPiece.isEmpty()) {
-    			nest.setItem(mouthPiece);
+    		} else if(nest.isEmpty() && !getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
+    			nest.setItem(getItemBySlot(EquipmentSlot.MAINHAND));
     			level().playSound(this, targetPos, SoundEvents.BEEHIVE_ENTER, SoundSource.NEUTRAL, .5F, 1.5F);
     			setMouthPiece(ItemStack.EMPTY);
     		}
     	} else {
     		List<ItemEntity> items = level().getEntitiesOfClass(ItemEntity.class, new AABB(-1, -1, -1, 1, 1, 1));
-    		if(items.size() > 0) {
+    		if(!items.isEmpty()) {
     			setMouthPiece(items.get(0).getItem());
     			level().playSound(this, targetPos, SoundEvents.ITEM_PICKUP, SoundSource.NEUTRAL, .5F, 1F);
     			items.get(0).discard();
@@ -123,11 +109,11 @@ public class EntityRobbin extends EntityDivineFlyingMob {
                 		return;
             		}
                 } else pathfindPos = nearbyWhale.position();
-            } else if(wantsNest || !mouthPiece.isEmpty()) {for(int x = blockPosition().getX() - 5; x < blockPosition().getX() + 5; x++) for(int y = blockPosition().getY() - 5; y < blockPosition().getY() + 5; y++) for(int z = blockPosition().getZ() - 5; z < blockPosition().getZ() + 5; z++) if(!level().isOutsideBuildHeight(pos = new BlockPos(x, y, z)) && level().getBlockState(pos).is(BlockRegistry.robbinNest.get()) && level().getBlockEntity(pos) instanceof RobbinNestBlockEntity nest && (nest.isEmpty() || (wantsNest && !nest.getItem().is(ItemRegistry.robbin_egg.get()))))
+            } else if(wantsNest || !getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {for(int x = blockPosition().getX() - 5; x < blockPosition().getX() + 5; x++) for(int y = blockPosition().getY() - 5; y < blockPosition().getY() + 5; y++) for(int z = blockPosition().getZ() - 5; z < blockPosition().getZ() + 5; z++) if(!level().isOutsideBuildHeight(pos = new BlockPos(x, y, z)) && level().getBlockState(pos).is(BlockRegistry.robbinNest.get()) && level().getBlockEntity(pos) instanceof RobbinNestBlockEntity nest && (nest.isEmpty() || (wantsNest && !nest.getItem().is(ItemRegistry.robbin_egg.get()))))
  				getNavigation().moveTo(x, y, z, 1D);
 			} else {
     			List<Entity> items = level().getEntities(this, new AABB(-5, -5, -5, 5, 5, 5), (entity) -> entity instanceof ItemEntity);
-            	if(items.size() > 0) {
+            	if(!items.isEmpty()) {
             		ItemEntity nearest = (ItemEntity) items.get(0);
             		for(Entity e : items) if(distanceTo(e) < distanceTo(nearest)) nearest = (ItemEntity) e;
             		getNavigation().moveTo(nearest, 1D);
@@ -146,7 +132,7 @@ public class EntityRobbin extends EntityDivineFlyingMob {
         	setNoGravity(true);
         }
 	}
-    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return mouthPiece.isEmpty();}
+    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();}
     static class RobbinMoveControl extends MoveControl {
     	private int jumpDelay;
     	RobbinMoveControl(EntityRobbin entity) {
@@ -219,7 +205,7 @@ public class EntityRobbin extends EntityDivineFlyingMob {
         @Override public boolean canUse() {
         	if(isTired()) {
         		whale = level().getNearestEntity(EntityKitra.class, TargetingConditions.DEFAULT, EntityRobbin.this, getX(), getY(), getZ(), getBoundingBox().inflate(16.0));
-        		return whale != null && distanceTo(whale) < 3F && whale.getPassengers().size() == 0;
+        		return whale != null && distanceTo(whale) < 3F && whale.getPassengers().isEmpty();
         	} return false;
         }
         @Override public void start() {

@@ -23,15 +23,9 @@ public class EntityFirefly extends EntityHeatSeekingProjectile {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        if(tickCount != 1 || tickCount != 0) {
-            if (result.getEntity() != null && result.getEntity() instanceof LivingEntity) {
-                LivingEntity entity = (LivingEntity) result.getEntity();
-                entity.hurt(damageSources().indirectMagic(this, this.getOwner()), 8);
-
-            }
-
-            if (!this.level().isClientSide())
-                this.kill();
+        if(tickCount > 1) {
+            if(result.getEntity() instanceof LivingEntity entity) entity.hurt(damageSources().indirectMagic(this, getOwner()), 8);
+            if(!level().isClientSide()) kill();
         }
     }
 }

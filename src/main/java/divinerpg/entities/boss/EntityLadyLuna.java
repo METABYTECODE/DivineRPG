@@ -7,7 +7,6 @@ import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
@@ -28,29 +27,18 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityLadyLuna extends EntityDivineBoss {
-    public static final EntityDataAccessor<Integer> PROTECTION = SynchedEntityData.defineId(EntityLadyLuna.class, EntityDataSerializers.INT);
     public EntityLadyLuna(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        this.setRandomProtectionValues();
-    }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(PROTECTION, 0);
-    }
-    @Nullable
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance instance, MobSpawnType type, @Nullable SpawnGroupData data) {
-        entityData.set(PROTECTION, random.nextInt(2));
-        return data;
+        setProtectionTimer(200 + this.random.nextInt(200));
     }
 
     public int getProtection() {
-        return this.entityData.get(PROTECTION);
+        return AttachmentRegistry.VARIANT.getOrDefault(this, (byte) 2);
     }
 
     private int protectionTimer;
 
-    private List<BlockPos> acidPositions = new ArrayList<BlockPos>();
+    private final List<BlockPos> acidPositions = new ArrayList<BlockPos>();
 
     @Override
     protected void registerGoals() {
@@ -113,12 +101,9 @@ public class EntityLadyLuna extends EntityDivineBoss {
     }
 
     public void setProtectionType(int i) {
-        this.entityData.set(PROTECTION, i);
-        if(i == 0) {
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
-        }
-        else
-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.32D);
+        AttachmentRegistry.VARIANT.set(this, (byte)i);
+        if(i == 0) getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
+        else getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.32D);
     }
 
     public void setProtectionTimer(int i) {
@@ -160,14 +145,12 @@ public class EntityLadyLuna extends EntityDivineBoss {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("Immunity", getProtection());
         tag.putInt("ImmunityCooldown", this.getProtectionTimer());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.setProtectionType(tag.getInt("Immunity"));
         this.setProtectionTimer(tag.getInt("ImmunityCooldown"));
     }
 
@@ -187,7 +170,6 @@ public class EntityLadyLuna extends EntityDivineBoss {
     }
 
     private void setRandomProtectionValues() {
-        DivineRPG.LOGGER.info("protection type: " + getProtection() + ". protection timer: " + getProtectionTimer());
         this.setProtectionType(random.nextInt(2));
         this.setProtectionTimer(200 + this.random.nextInt(200));
     }

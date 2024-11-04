@@ -11,21 +11,21 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Arcana {
 	public static boolean hasArcana(@Nullable LivingEntity entity) {
-		return entity != null && entity.hasData(AttachmentRegistry.ARCANA);
+		return entity != null && AttachmentRegistry.ARCANA.has(entity);
 	}
     /**
      * Get current arcana
      * @return amount of arcana
      */
     public static float getAmount(@Nullable LivingEntity entity) {
-        return entity == null ? 0 : entity.getData(AttachmentRegistry.ARCANA);
+        return entity == null ? 0 : AttachmentRegistry.ARCANA.get(entity);
     }
     /**
      * Gets arcana max
      * @return amount of max possible arcana
      */
     public static float getMaxArcana(@Nullable LivingEntity entity) {
-        return entity == null ? 0 : entity.getData(AttachmentRegistry.MAX_ARCANA);
+        return entity == null ? 0 : AttachmentRegistry.MAX_ARCANA.get(entity);
     }
     /**
      * Gets delay in ticks
@@ -41,14 +41,11 @@ public class Arcana {
      */
     public static void setAmount(@Nullable LivingEntity entity, float amount) {
     	if(entity == null) return;
-    	float previous = getAmount(entity);
-    	setAmount(entity, amount, previous);
+    	setAmount(entity, amount, getAmount(entity));
     }
     private static void setAmount(@Nullable LivingEntity entity, float amount, float previous) {
-    	float max = getMaxArcana(entity);
-    	amount = amount > max ? max : (amount < 0F ? 0F : amount);
-    	entity.setData(AttachmentRegistry.ARCANA, amount);
-    	if(previous != amount && entity instanceof ServerPlayer player) PacketDistributor.sendToPlayer(player, new ArcanaAmount(amount));
+        amount = Math.clamp(amount, 0F, getMaxArcana(entity));
+        if(previous != amount) AttachmentRegistry.ARCANA.set(entity, amount);
     }
     /**
      * Change the arcana amount of affected entity
@@ -56,7 +53,7 @@ public class Arcana {
      * @param amount - the amount to modify the current arcana amount by
      */
     public static void modifyAmount(@Nullable LivingEntity entity, float amount) {
-    	if(amount != 0F && (amount > 0F || !(entity != null && entity instanceof Player player && player.isCreative()))) {
+    	if(amount != 0F && (amount > 0F || !(entity instanceof Player player && player.isCreative()))) {
     		float previous = getAmount(entity);
     		setAmount(entity, previous + amount, previous);
     	}
@@ -75,9 +72,7 @@ public class Arcana {
      */
     public static void setMaxArcana(@Nullable LivingEntity entity, float max) {
     	if(entity == null) return;
-    	float previous = getMaxArcana(entity);
-        max = max < 0F ? 0F : max;
-        entity.setData(AttachmentRegistry.MAX_ARCANA, max);
-        if(previous != max && entity instanceof ServerPlayer player) PacketDistributor.sendToPlayer(player, new MaxArcana(max));
+        max = Math.max(max, 0F);
+        if(getMaxArcana(entity) != max) AttachmentRegistry.MAX_ARCANA.set(entity, max);
     }
 }

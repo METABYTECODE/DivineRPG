@@ -42,7 +42,7 @@ public class EntitySabear extends EntityDivineMonster {
         super.tick();
 
         if (this.isAlive()) {
-            boolean playerNearby = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(8.0D)).size() > 0;
+            boolean playerNearby = !this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(8.0D)).isEmpty();
             if (playerNearby) {
                 Player nearestPlayer = this.level().getNearestPlayer(this, 8.0D);
                 if (nearestPlayer != null && !nearestPlayer.isCreative() && !nearestPlayer.isSpectator()) {

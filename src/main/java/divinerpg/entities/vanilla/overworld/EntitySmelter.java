@@ -10,23 +10,18 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.item.*;
 
 public class EntitySmelter extends EntityDivineTameable implements IAttackTimer {
-    private static final EntityDataAccessor<Integer> ATTACK_TIMER = SynchedEntityData.defineId(EntitySmelter.class, EntityDataSerializers.INT);
     public EntitySmelter(EntityType<? extends TamableAnimal> type, Level worldIn) {
         super(type, worldIn, 1F);
     }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ATTACK_TIMER, 0);
-    }
+    public int attackTimer = 0;
     @Override
     public void tick() {
         super.tick();
-        if(getAttackTimer() > 0) entityData.set(ATTACK_TIMER, Integer.valueOf(getAttackTimer() - 1));
+        if(attackTimer > 0) attackTimer--;
     }
     @Override
     public int getAttackTimer() {
-        return entityData.get(ATTACK_TIMER).intValue();
+        return attackTimer;
     }
     @Override
     public boolean isFood(ItemStack item) {
@@ -39,11 +34,11 @@ public class EntitySmelter extends EntityDivineTameable implements IAttackTimer 
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean attack = super.doHurtTarget(entity);
-        if (attack) {
+        if(attack) {
             entity.setDeltaMovement(-Mth.sin(getXRot() * (float) Math.PI / 180.0F), 0.1D,
                     Mth.cos(getXRot() * (float) Math.PI / 180.0F));
             entity.igniteForSeconds(5);
-            entityData.set(ATTACK_TIMER, 10);
+            attackTimer = 10;
         }
         return attack;
     }

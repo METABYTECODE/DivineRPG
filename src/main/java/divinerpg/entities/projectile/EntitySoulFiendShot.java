@@ -16,38 +16,23 @@ public class EntitySoulFiendShot extends EntityShooterBullet {
     public EntitySoulFiendShot(EntityType<? extends ThrowableProjectile> type, Level world) {
         super(type, world);
     }
-
     public EntitySoulFiendShot(EntityType<? extends ThrowableProjectile> type, LivingEntity entity, Level world) {
         super(type, entity, world, BulletType.SOUL_FIEND_SHOT);
     }
-
-
     @Override
     public void onHit(HitResult result) {
-        if(tickCount != 1 || tickCount != 0) {
-        if (!this.level().isClientSide()) {
-            if (result.getLocation() != null) {
-                for (int i = 0; i < 3; i++) {
-                    EntityRegistry.SOUL_SPIDER.get().spawn((ServerLevel) level(), ItemStack.EMPTY, null, new BlockPos((int) result.getLocation().x, (int) result.getLocation().y, (int) result.getLocation().z), MobSpawnType.MOB_SUMMONED, true, false);
-                }
-                this.kill();
-            }
-        }
+        if(tickCount > 1 && !level().isClientSide() && result.getLocation() != null) {
+            for(int i = 0; i < 3; i++) EntityRegistry.SOUL_SPIDER.get().spawn((ServerLevel) level(), ItemStack.EMPTY, null, new BlockPos((int) result.getLocation().x, (int) result.getLocation().y, (int) result.getLocation().z), MobSpawnType.MOB_SUMMONED, true, false);
+            kill();
         }
     }
-
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide()) {
-        for (int cnt = 0; cnt < 8; ++cnt) {
-                level().addParticle(new ParticleColouredOption(ParticleRegistry.COLORED.get(), 000000), this.xo + (random.nextDouble() - random.nextDouble()) / 4, this.yo + (random.nextDouble() - random.nextDouble()) / 4, this.zo + (random.nextDouble() - random.nextDouble()) / 4, 0.2D, 0.2D, 0.2D);
-                level().addParticle(new ParticleColouredOption(ParticleRegistry.COLORED.get(), 255000), this.xo + (random.nextDouble() - random.nextDouble()) / 4, this.yo + (random.nextDouble() - random.nextDouble()) / 4, this.zo + (random.nextDouble() - random.nextDouble()) / 4, 0.2D, 0.2D, 0.2D);
-            }
+        if(level().isClientSide()) for(int cnt = 0; cnt < 8; ++cnt) {
+            level().addParticle(new ParticleColouredOption(ParticleRegistry.COLORED.get(), 000000), this.xo + (random.nextDouble() - random.nextDouble()) / 4, this.yo + (random.nextDouble() - random.nextDouble()) / 4, this.zo + (random.nextDouble() - random.nextDouble()) / 4, 0.2D, 0.2D, 0.2D);
+            level().addParticle(new ParticleColouredOption(ParticleRegistry.COLORED.get(), 255000), this.xo + (random.nextDouble() - random.nextDouble()) / 4, this.yo + (random.nextDouble() - random.nextDouble()) / 4, this.zo + (random.nextDouble() - random.nextDouble()) / 4, 0.2D, 0.2D, 0.2D);
         }
-        if (!this.level().isClientSide() && this.tickCount > 20) {
-            this.kill();
-        }
+        if(!level().isClientSide() && tickCount > 20) kill();
     }
 }

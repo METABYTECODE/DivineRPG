@@ -1,7 +1,14 @@
 package divinerpg.attachments;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
+import com.mojang.serialization.Codec;
+import divinerpg.attachments.base.ServerHandledAttachment;
+import divinerpg.entities.base.FactionEntity;
+import divinerpg.registries.AttachmentRegistry;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.UnknownNullability;
 
 import divinerpg.entities.base.FactionEntity.Faction;
@@ -9,53 +16,13 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
-public class Reputation implements INBTSerializable<CompoundTag> {
-	ArrayList<Faction> factions = new ArrayList<>();
-	ArrayList<Integer> reputation = new ArrayList<>();
-	public void transferTo(Reputation target) {
-		target.factions = factions;
-		target.reputation = reputation;
+public class Reputation extends ServerHandledAttachment<Integer> {
+	public final Supplier<Faction> faction;
+	public Reputation(String name, Supplier<Faction> faction) {
+		super(name, () -> faction.get().startingReputation, Codec.INT, ByteBufCodecs.INT);
+		this.faction = faction;
 	}
-	public void resetReputation(Faction faction) {
-		int i = factions.indexOf(faction);
-		if(i > -1) reputation.set(i, faction.startingReputation);
-	}
-	public void setReputation(Faction faction, int reputation) {
-		int i = factions.indexOf(faction);
-		if(i > -1) this.reputation.set(i, reputation);
-		else {
-			factions.add(faction);
-			this.reputation.add(reputation);
-		}
-	}
-	public void modifyReputation(Faction faction, int reputation) {
-		int i = factions.indexOf(faction);
-		if(i > -1) this.reputation.set(i, this.reputation.get(i) + reputation);
-		else {
-			factions.add(faction);
-			this.reputation.add(faction.startingReputation + reputation);
-		}
-	}
-	public int getReputation(Faction faction) {
-		int i = factions.indexOf(faction);
-		if(i > -1) return reputation.get(i);
-		return faction.startingReputation;
-	}
-	public CompoundTag saveTo(CompoundTag tag) {
-		for(int i = 0; i < factions.size(); i++) tag.putInt(factions.get(i).reputationIdentifier, reputation.get(i));
-		return tag;
-	}
-	public void loadFrom(CompoundTag tag) {
-		if(tag.contains(Faction.GROGLIN.reputationIdentifier)) setReputation(Faction.GROGLIN, tag.getInt(Faction.GROGLIN.reputationIdentifier));
-		if(tag.contains(Faction.GRUZZORLUG.reputationIdentifier)) setReputation(Faction.GRUZZORLUG, tag.getInt(Faction.GRUZZORLUG.reputationIdentifier));
-		if(tag.contains(Faction.ICEIKA_MERCHANT.reputationIdentifier)) setReputation(Faction.ICEIKA_MERCHANT, tag.getInt(Faction.ICEIKA_MERCHANT.reputationIdentifier));
-	}
-	@Override
-	public @UnknownNullability CompoundTag serializeNBT(Provider provider) {
-		return saveTo(new CompoundTag());
-	}
-	@Override
-	public void deserializeNBT(Provider provider, CompoundTag nbt) {
-		loadFrom(nbt);
+	public void modify(Entity e, int reputation) {
+		set(e, get(e) + reputation);
 	}
 }

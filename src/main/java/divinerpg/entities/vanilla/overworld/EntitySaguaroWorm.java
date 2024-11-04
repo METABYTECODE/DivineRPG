@@ -19,7 +19,6 @@ import net.minecraft.world.level.*;
 import net.neoforged.neoforge.common.Tags.Blocks;
 
 public class EntitySaguaroWorm extends EntityDivineMonster implements RangedAttackMob {
-    private static final EntityDataAccessor<Boolean> PROVOKED = SynchedEntityData.defineId(EntitySaguaroWorm.class, EntityDataSerializers.BOOLEAN);
 
     public EntitySaguaroWorm(EntityType<? extends EntitySaguaroWorm> type, Level worldIn) {
         super(type, worldIn);
@@ -38,17 +37,12 @@ public class EntitySaguaroWorm extends EntityDivineMonster implements RangedAtta
         return new WallClimberNavigation(this, worldIn);
     }
 
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(PROVOKED, false);
-    }
-
     public boolean getProvoked() {
-        return this.entityData.get(PROVOKED);
+        return AttachmentRegistry.ANGRY.get(this);
     }
 
     public void setProvoked(boolean provoked) {
-        entityData.set(PROVOKED, provoked);
+        AttachmentRegistry.ANGRY.set(this, provoked);
     }
 
     public void tick() {

@@ -25,9 +25,8 @@ public class EntityWorkshopTinkerer extends EntityDivineMerchant implements Fact
     }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-    	if(getFaction().getReputation(player) > 5) {
-        	return super.mobInteract(player, hand);
-    	} playSound(SoundEvents.VILLAGER_NO);
+    	if(getFaction().reputation.get(player) > 5) return super.mobInteract(player, hand);
+    	playSound(SoundEvents.VILLAGER_NO);
     	return InteractionResult.FAIL;
     }
     @Override

@@ -17,9 +17,6 @@ public class EntityBohemite extends EntityDivineMonster {
     public EntityBohemite(EntityType<? extends Monster> type, Level worldIn) {
     	super(type, worldIn);
     }
-    public static boolean canSpawnOn(EntityType<? extends Mob> typeIn, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn) {
-        return reason == MobSpawnType.SPAWNER || worldIn.getBlockState(pos.below()).isValidSpawn(worldIn, pos.below(), typeIn);
-    }
     @Override public boolean isAggressive() {return true;}
     @Override
     protected SoundEvent getAmbientSound() {

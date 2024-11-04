@@ -84,13 +84,13 @@ public class EntityEnderScrounge extends EntityDivineMonster implements NeutralM
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide()) {
-            if (level().getNearestPlayer(this, 3D) != null) {
+        if(!level().isClientSide()) {
+            if(level().getNearestPlayer(this, 3D) != null) {
                 Player player = level().getNearestPlayer(this, 3D);
-                if (!player.isCreative() && !player.isSpectator()) {
-                    if (random.nextInt(50) == 0) {
+                if(!player.isCreative() && !player.isSpectator()) {
+                    if(random.nextInt(50) == 0) {
                         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
-                        if (boots != null && !boots.isEmpty()) {
+                        if(boots != null && !boots.isEmpty()) {
                             ItemEntity item = new ItemEntity(level(), getX(), getY(), getZ(), boots);
                             level().addFreshEntity(item);
                             player.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.AIR));
@@ -104,53 +104,36 @@ public class EntityEnderScrounge extends EntityDivineMonster implements NeutralM
             }
         }
     }
-
     @Override
     public void aiStep() {
-        if (this.level().isClientSide()) {
-            for(int i = 0; i < 2; ++i) {
-                this.level().addParticle(ParticleTypes.PORTAL, this.getRandomX(0.5D), this.getRandomY() - 0.25D, this.getRandomZ(0.5D), (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 2.0D);
-            }
-        }
-
-        this.jumping = false;
-        if (!this.level().isClientSide()) {
-            this.updatePersistentAnger((ServerLevel)this.level(), true);
-        }
-
+        if(level().isClientSide()) for(int i = 0; i < 2; ++i) level().addParticle(ParticleTypes.PORTAL, this.getRandomX(0.5D), this.getRandomY() - 0.25D, this.getRandomZ(0.5D), (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 2.0D);
+        jumping = false;
+        if(!level().isClientSide()) updatePersistentAnger((ServerLevel)level(), true);
         super.aiStep();
     }
-
     @Override
     public boolean isSensitiveToWater() {
         return true;
     }
-
     @Override
     protected void customServerAiStep() {
-        if (this.level().isDay() && this.tickCount >= this.targetChangeTime + 600) {
+        if(level().isDay() && tickCount >= targetChangeTime + 600) {
             @SuppressWarnings("deprecation")
-			float f = this.getLightLevelDependentMagicValue();
-            if (f > 0.5F && this.level().canSeeSky(this.blockPosition()) && this.random.nextFloat() * 30.0F < (f - 0.4F) * 2.0F) {
-                this.setTarget((LivingEntity)null);
-                this.teleport();
+			float f = getLightLevelDependentMagicValue();
+            if(f > 0.5F && level().canSeeSky(blockPosition()) && random.nextFloat() * 30.0F < (f - 0.4F) * 2.0F) {
+                setTarget((LivingEntity)null);
+                teleport();
             }
-        }
-
-        super.customServerAiStep();
+        } super.customServerAiStep();
     }
-
     protected boolean teleport() {
-        if (!this.level().isClientSide() && this.isAlive()) {
-            double d0 = this.getX() + (this.random.nextDouble() - 0.5D) * 64.0D;
-            double d1 = this.getY() + (double)(this.random.nextInt(64) - 32);
-            double d2 = this.getZ() + (this.random.nextDouble() - 0.5D) * 64.0D;
-            return this.teleport(d0, d1, d2);
-        } else {
-            return false;
-        }
+        if(!level().isClientSide() && isAlive()) {
+            double d0 = getX() + (random.nextDouble() - 0.5D) * 64.0D;
+            double d1 = getY() + (random.nextInt(64) - 32);
+            double d2 = getZ() + (random.nextDouble() - 0.5D) * 64.0D;
+            return teleport(d0, d1, d2);
+        } else return false;
     }
-
     boolean teleportTowards(Entity p_32501_) {
         Vec3 vec3 = new Vec3(this.getX() - p_32501_.getX(), this.getY(0.5D) - p_32501_.getEyeY(), this.getZ() - p_32501_.getZ());
         vec3 = vec3.normalize();
@@ -159,51 +142,39 @@ public class EntityEnderScrounge extends EntityDivineMonster implements NeutralM
         double d3 = this.getZ() + (this.random.nextDouble() - 0.5D) * 8.0D - vec3.z * 16.0D;
         return this.teleport(d1, d2, d3);
     }
-
     private boolean teleport(double p_32544_, double p_32545_, double p_32546_) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_32544_, p_32545_, p_32546_);
-
-        while(blockpos$mutableblockpos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(blockpos$mutableblockpos).isCollisionShapeFullBlock(level(), blockpos$mutableblockpos)) {
-            blockpos$mutableblockpos.move(Direction.DOWN);
-        }
+        while(blockpos$mutableblockpos.getY() > level().getMinBuildHeight() && !level().getBlockState(blockpos$mutableblockpos).isCollisionShapeFullBlock(level(), blockpos$mutableblockpos)) blockpos$mutableblockpos.move(Direction.DOWN);
 
         BlockState blockstate = this.level().getBlockState(blockpos$mutableblockpos);
         boolean flag = blockstate.isCollisionShapeFullBlock(level(), blockpos$mutableblockpos);
         boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
-        if (flag && !flag1) {
+        if(flag && !flag1) {
             EntityTeleportEvent.EnderEntity event = EventHooks.onEnderTeleport(this, p_32544_, p_32545_, p_32546_);
-            if (event.isCanceled()) return false;
+            if(event.isCanceled()) return false;
             Vec3 vec3 = this.position();
             boolean flag2 = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
-            if (flag2) {
-                this.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
-                if (!this.isSilent()) {
-                    this.level().playSound((Player)null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
-                    this.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+            if(flag2) {
+                level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
+                if(!isSilent()) {
+                    level().playSound((Player)null, xo, yo, zo, SoundEvents.ENDERMAN_TELEPORT, getSoundSource(), 1.0F, 1.0F);
+                    playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
-            }
-
-            return flag2;
-        } else {
-            return false;
-        }
+            } return flag2;
+        } else return false;
     }
-    
     @Override
     protected SoundEvent getHurtSound(DamageSource s) {
         return SoundEvents.RABBIT_HURT;
     }
-
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.RABBIT_AMBIENT;
     }
-
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.RABBIT_DEATH;
     }
-
     @Override
     public boolean doHurtTarget(Entity e) {
     	playSound(SoundEvents.RABBIT_ATTACK, 1F, (random.nextFloat() - random.nextFloat()) * .2F + 1F);

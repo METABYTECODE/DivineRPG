@@ -37,8 +37,8 @@ public class EntityLadyLunaSparkler extends EntityParticleBullet {
 
     @Override
     public void onHitEntity(EntityHitResult pos) {
-        if (tickCount != 1 || tickCount != 0) {
-            if (pos.getEntity() != null) {
+        if(tickCount > 1) {
+            if(pos.getEntity() != null) {
                 Entity entity = pos.getEntity();
                 entity.hurt(DamageSources.source(level(), DamageSources.SPIKE), 12.0F);
             }

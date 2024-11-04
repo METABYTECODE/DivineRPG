@@ -2,6 +2,7 @@ package divinerpg.attachments;
 
 import divinerpg.compat.CuriosCompat;
 import divinerpg.events.VetheaInventorySwapEvent;
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -24,7 +25,7 @@ public class DimensionalInventory implements INBTSerializable<CompoundTag> {
 		} else {
 			overworldInventory = player.getInventory().save(new ListTag());
 			if(ModList.get().isLoaded("curios")) overworldCurios = CuriosCompat.saveInventory(player);
-		}
+		} AttachmentRegistry.DIMENSIONAL_INVENTORY.set(player, this);
 	}
 	public void loadInventory(Player player, String inv) {
 		if(inv == VetheaInventorySwapEvent.VETHEA_INVENTORY) {

@@ -22,7 +22,7 @@ public class EntityHeatSeekingProjectile extends DivineThrowable {
     }
 
     public void setPlayersOnly() {
-        this.onlyPlayers = true;
+        onlyPlayers = true;
     }
 
     @Override public boolean isNoGravity() {return true;}
@@ -30,28 +30,22 @@ public class EntityHeatSeekingProjectile extends DivineThrowable {
     @Override
     public void tick() {
         super.tick();
-        if (this.level().isClientSide())
-            return;
-        List<LivingEntity> mobs = this.level().getEntitiesOfClass(LivingEntity.class,
-                this.getBoundingBox().inflate(30, 30, 30));
-        boolean findNewTarget = this.target == null || (this.target != null && this.target.isDeadOrDying());
-        for (LivingEntity e : mobs) {
-            if (e != this.getOwner() && (!this.onlyPlayers || (this.onlyPlayers && e instanceof Player))) {
-                float targetDist = target == null ? 0 : this.distanceTo(target);
-                float compareDist = this.distanceTo(e);
-                if (findNewTarget
-                        && (target == null || (target != null && compareDist < targetDist)))
-                    target = e;
+        if(level().isClientSide()) return;
+        List<LivingEntity> mobs = level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(30, 30, 30));
+        boolean findNewTarget = target == null || target.isDeadOrDying();
+        for(LivingEntity e : mobs) {
+            if(e != getOwner() && (!onlyPlayers || e instanceof Player)) {
+                float targetDist = target == null ? 0 : distanceTo(target);
+                float compareDist = distanceTo(e);
+                if(findNewTarget && (target == null || compareDist < targetDist)) target = e;
             }
         }
-        if (target != null) {
-            Vec3 dir = new Vec3(target.xo - this.xo, (target.yo + target.getEyeHeight()) - this.yo,
-                    target.zo - this.zo).normalize();
+        if(target != null) {
+            Vec3 dir = new Vec3(target.xo - xo, (target.yo + target.getEyeHeight()) - yo, target.zo - zo).normalize();
             setDeltaMovement(dir.x / 1.25, dir.y / 1.25, dir.z / 1.25);
         }
-
-        if (this.tickCount > 50)
-            this.kill();
+        if(tickCount > 50) kill();
     }
     @Override
     protected void onHitEntity(EntityHitResult result) {

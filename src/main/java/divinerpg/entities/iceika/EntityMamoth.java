@@ -34,7 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 
 public class EntityMamoth extends Animal implements NeutralMob {
-	private static final EntityDataAccessor<Boolean> WANTS_TO_FLY = SynchedEntityData.defineId(EntityMamoth.class, EntityDataSerializers.BOOLEAN);
+	public boolean wantsToFly = false;
 	public static final Ingredient FOOD = Ingredient.of(BlockRegistry.brittleGrass.get());
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 	protected @Nullable Vec3 pathfindPos;
@@ -71,7 +71,7 @@ public class EntityMamoth extends Animal implements NeutralMob {
 		if(level() instanceof ServerLevel level) {
 			updatePersistentAnger(level, true);
 			if(isBaby()) {
-				if(getLastHurtByMob() != null || entityData.get(WANTS_TO_FLY)) {
+				if(getLastHurtByMob() != null || wantsToFly) {
 					if(onGround()) {
 						setDeltaMovement(getDeltaMovement().multiply(1.1, 1D, 1.1));
 						if(Math.pow(getDeltaMovement().x, 2) + Math.pow(getDeltaMovement().z, 2) > 8D) setDeltaMovement(getDeltaMovement().add(0D, .5, 0D));
@@ -102,16 +102,11 @@ public class EntityMamoth extends Animal implements NeutralMob {
 					}
 				}
 				if(random.nextInt(100) == 0) {
-					entityData.set(WANTS_TO_FLY, !entityData.get(WANTS_TO_FLY));
+					wantsToFly = !wantsToFly;
 					setLastHurtByMob(null);
 				}
 			} else if(isNoGravity()) setNoGravity(false);
 		}
-	}
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		super.defineSynchedData(builder);
-		builder.define(WANTS_TO_FLY, false);
 	}
 	@Override
 	public boolean doHurtTarget(Entity entity) {
@@ -148,12 +143,12 @@ public class EntityMamoth extends Animal implements NeutralMob {
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		readPersistentAngerSaveData(level(), tag);
-		if(tag.contains("wants_to_fly")) entityData.set(WANTS_TO_FLY, tag.getBoolean("wants_to_fly"));
+		if(tag.contains("wants_to_fly")) wantsToFly = tag.getBoolean("wants_to_fly");
 	}
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		addPersistentAngerSaveData(tag);
-		if(isBaby()) tag.putBoolean("wants_to_fly", entityData.get(WANTS_TO_FLY));
+		if(isBaby()) tag.putBoolean("wants_to_fly", wantsToFly);
 	}
 }

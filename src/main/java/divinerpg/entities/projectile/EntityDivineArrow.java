@@ -1,10 +1,10 @@
 package divinerpg.entities.projectile;
 
 import divinerpg.enums.ArrowType;
+import divinerpg.registries.AttachmentRegistry;
 import divinerpg.registries.ParticleRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.*;
@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 
 public class EntityDivineArrow extends AbstractArrow {
-    private static final EntityDataAccessor<Byte> ARROW_ID = SynchedEntityData.defineId(EntityDivineArrow.class, EntityDataSerializers.BYTE);
     public double damageMin;
     public double damageMax;
     private ArrowType arrowType;
@@ -81,10 +80,6 @@ public class EntityDivineArrow extends AbstractArrow {
             else level().explode(this, xo, yo, zo, 3, false, Level.ExplosionInteraction.TNT);
         }
     }
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ARROW_ID, (byte)0);
-    }
     @Override public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putByte("projectileId", getArrowId());
@@ -94,8 +89,8 @@ public class EntityDivineArrow extends AbstractArrow {
         setArrowId(compound.getByte("projectileId"));
         arrowType = ArrowType.getArrowFromId(getArrowId());
     }
-    private byte getArrowId() {return (entityData.get(ARROW_ID));}
-    private void setArrowId(byte projectileId) {entityData.set(ARROW_ID, projectileId);}
+    private byte getArrowId() {return AttachmentRegistry.VARIANT.get(this);}
+    private void setArrowId(byte projectileId) {AttachmentRegistry.VARIANT.set(this, projectileId);}
     public ArrowType getArrowType() {
         if(arrowType == null) arrowType = ArrowType.getArrowFromId(getArrowId());
         return arrowType;

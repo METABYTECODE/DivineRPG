@@ -8,12 +8,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 
 public class RobbinLayer extends RenderLayer<EntityRobbin, ModelRobbin> {
 	public RobbinLayer(RenderLayerParent<EntityRobbin, ModelRobbin> parent) {super(parent);}
 	@Override public void render(PoseStack stack, MultiBufferSource buffer, int packetLightIn, EntityRobbin robbin, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		int itemID = robbin.getItemID();
+		int itemID = Item.getId(robbin.getItemBySlot(EquipmentSlot.MAINHAND).getItem());
 		if(itemID != 0) {
 			stack.pushPose();
 			getParentModel().head.translateAndRotate(stack);

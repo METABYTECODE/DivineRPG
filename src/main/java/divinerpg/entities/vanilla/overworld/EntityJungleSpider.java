@@ -25,9 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 
 public class EntityJungleSpider extends EntityDivineMonster {
-
-    private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(EntityJungleSpider.class, EntityDataSerializers.BYTE);
-
+    public boolean climbing = false;
     public EntityJungleSpider(EntityType<? extends EntityJungleSpider> p_i48550_1_, Level p_i48550_2_) {
         super(p_i48550_1_, p_i48550_2_);
     }
@@ -50,11 +48,6 @@ public class EntityJungleSpider extends EntityDivineMonster {
 
     protected PathNavigation createNavigation(Level p_175447_1_) {
         return new WallClimberNavigation(this, p_175447_1_);
-    }
-
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_FLAGS_ID, (byte)0);
     }
 
     @Override public void tick() {
@@ -95,18 +88,11 @@ public class EntityJungleSpider extends EntityDivineMonster {
     }
 
     public boolean isClimbing() {
-        return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
+        return climbing;
     }
 
     public void setClimbing(boolean p_70839_1_) {
-        byte b0 = this.entityData.get(DATA_FLAGS_ID);
-        if (p_70839_1_) {
-            b0 = (byte)(b0 | 1);
-        } else {
-            b0 = (byte)(b0 & -2);
-        }
-
-        this.entityData.set(DATA_FLAGS_ID, b0);
+        climbing = p_70839_1_;
     }
 
     @Nullable

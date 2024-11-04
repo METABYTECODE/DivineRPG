@@ -15,15 +15,17 @@ public class VetheaInventorySwapEvent {
 	@SubscribeEvent
 	public void onClone(PlayerEvent.Clone event) {
 		Player original = event.getOriginal(), clone = event.getEntity();
-		if(original.hasData(AttachmentRegistry.REPUTATION)) clone.setData(AttachmentRegistry.REPUTATION, original.getData(AttachmentRegistry.REPUTATION));
-		if(original.hasData(AttachmentRegistry.DIMENSIONAL_INVENTORY)) clone.setData(AttachmentRegistry.DIMENSIONAL_INVENTORY, original.getData(AttachmentRegistry.DIMENSIONAL_INVENTORY));
-		if(original.hasData(AttachmentRegistry.MAX_ARCANA)) clone.setData(AttachmentRegistry.MAX_ARCANA, original.getData(AttachmentRegistry.MAX_ARCANA));
+		AttachmentRegistry.GROGLIN_REPUTATION.clone(original, clone);
+		AttachmentRegistry.GRUZZORLUG_REPUTATION.clone(original, clone);
+		AttachmentRegistry.ICEIKA_MERCHANT_REPUTATION.clone(original, clone);
+		AttachmentRegistry.DIMENSIONAL_INVENTORY.clone(original, clone);
+		AttachmentRegistry.MAX_ARCANA.clone(original, clone);
 	}
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onDeath(LivingDeathEvent event) {
 		if(!event.isCanceled() && event.getEntity() instanceof Player player) {
 			if(!CommonConfig.SAFER_VETHEA) {
-				DimensionalInventory d = player.getData(AttachmentRegistry.DIMENSIONAL_INVENTORY);
+				DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 				if(player.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
 					if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.saveInventory(player, VETHEA_INVENTORY);
 					else d.saveInventory(player, OVERWORLD_INVENTORY);
@@ -36,7 +38,7 @@ public class VetheaInventorySwapEvent {
 	public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player player = event.getEntity();
 		if(!CommonConfig.SAFER_VETHEA) {
-			DimensionalInventory d = player.getData(AttachmentRegistry.DIMENSIONAL_INVENTORY);
+			DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 			if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.loadInventory(player, VETHEA_INVENTORY);
 			else d.loadInventory(player, OVERWORLD_INVENTORY);
 			player.inventoryMenu.broadcastChanges();
@@ -47,7 +49,7 @@ public class VetheaInventorySwapEvent {
 		if(!event.isCanceled() && event.getEntity() instanceof Player player) {
 			if(!CommonConfig.SAFER_VETHEA) {
 				boolean from = player.level().dimension().equals(LevelRegistry.VETHEA), to = event.getDimension().equals(LevelRegistry.VETHEA);
-				DimensionalInventory d = player.getData(AttachmentRegistry.DIMENSIONAL_INVENTORY);
+				DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 				if(from ^ to) {
 					if(from) {
 						d.saveInventory(player, VETHEA_INVENTORY);

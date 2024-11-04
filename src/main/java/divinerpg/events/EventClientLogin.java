@@ -3,6 +3,7 @@ package divinerpg.events;
 import divinerpg.attachments.Arcana;
 import divinerpg.config.ClientConfig;
 import divinerpg.network.payload.*;
+import divinerpg.registries.AttachmentRegistry;
 import divinerpg.util.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,7 +19,11 @@ public class EventClientLogin {
         Player player = event.getEntity();
         if(!player.level().isClientSide()) {
         	//Weather update
-        	if(player instanceof ServerPlayer pl) PacketDistributor.sendToPlayer(pl, new Weather(Utils.ICEIKA_WEATHER), new MaxArcana(Arcana.getMaxArcana(pl)), new ArcanaAmount(Arcana.getAmount(pl)));
+        	if(player instanceof ServerPlayer pl) {
+                PacketDistributor.sendToPlayer(pl, new Weather(Utils.ICEIKA_WEATHER));
+                AttachmentRegistry.MAX_ARCANA.set(pl, Arcana.getMaxArcana(pl));
+                AttachmentRegistry.ARCANA.set(pl, Arcana.getAmount(pl));
+            }
             //Send welcome messages
             if(ClientConfig.WELCOME_MESSAGE) {
                 Component message;

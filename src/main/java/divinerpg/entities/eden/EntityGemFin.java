@@ -5,12 +5,10 @@ import divinerpg.util.LocalizeUtils;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.sounds.*;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -18,28 +16,20 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 public class EntityGemFin extends AbstractSchoolingFish {
-	private static final EntityDataAccessor<Byte> VARIANT = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.BYTE);
     private boolean hasBeenFed = false;
 
     public EntityGemFin(EntityType<? extends EntityGemFin> type, Level level) {
         super(type, level);
-        if(!level.isClientSide()) entityData.set(VARIANT, (byte) getRandom().nextInt(3));
+        if(!level.isClientSide()) AttachmentRegistry.VARIANT.set(this, (byte) getRandom().nextInt(3));
     }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		super.defineSynchedData(builder);
-    	builder.define(VARIANT, (byte)0);
-	}
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("HasBeenFed", isFed());
-        compound.putByte("Variant", entityData.get(VARIANT));
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if(compound.contains("HasBeenFed")) setFed(compound.getBoolean("HasBeenFed"));
-        entityData.set(VARIANT, compound.contains("Variant") ? compound.getByte("Variant") : (byte) getRandom().nextInt(3));
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -68,11 +58,6 @@ public class EntityGemFin extends AbstractSchoolingFish {
     public void saveToBucketTag(ItemStack stack) {
     	super.saveToBucketTag(stack);
     	CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, tag -> {tag.putByte("Variant", getVariant());});
-    }
-    @Override
-    public void loadFromBucketTag(CompoundTag tag) {
-    	super.loadFromBucketTag(tag);
-    	if(tag.contains("Variant")) entityData.set(VARIANT, tag.getByte("Variant"));
     }
     public ItemStack getBucketItemStack() {
         return new ItemStack(ItemRegistry.gem_fin_bucket.get());
@@ -103,6 +88,6 @@ public class EntityGemFin extends AbstractSchoolingFish {
     }
 
     public byte getVariant() {
-        return entityData.get(VARIANT);
+        return AttachmentRegistry.VARIANT.get(this);
     }
 }

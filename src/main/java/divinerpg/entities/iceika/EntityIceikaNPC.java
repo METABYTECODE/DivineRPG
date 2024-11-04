@@ -92,9 +92,8 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 	public void setUnimportant() {important = false;}
 	@Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if(getFaction().getReputation(player) > 5) {
-        	return super.mobInteract(player, hand);
-    	} playSound(SoundEvents.VILLAGER_NO);
+		if(getFaction().reputation.get(player) > 5) return super.mobInteract(player, hand);
+    	playSound(SoundEvents.VILLAGER_NO);
     	return InteractionResult.FAIL;
     }
 	@Override public void die(DamageSource source) {
@@ -114,7 +113,6 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 		return super.hurt(source, f);
 	}
 	@Override protected boolean shouldDespawnInPeaceful() {return false;}
-	@Override public boolean removeWhenFarAway(double d) {return false;}
 	@Override public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		if(tag.contains("Important")) important = tag.getBoolean("Important");
@@ -131,6 +129,6 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 	protected void rewardTradeXp(MerchantOffer offer) {
 		super.rewardTradeXp(offer);
 		Player player = getTradingPlayer();
-		if(player != null && offer.shouldRewardExp()) getFaction().modifyReputation(player, 1);
+		if(player != null && offer.shouldRewardExp()) getFaction().reputation.modify(player, 1);
 	}
 }

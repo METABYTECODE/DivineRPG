@@ -11,12 +11,9 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
 public class EntityDungeonConstructor extends EntityDivineMonster {
-    
-	private int angerLevel;
 	
 	public EntityDungeonConstructor(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        this.angerLevel = 0;
     }
 //	@Override
 //	public float getStepHeight() {
@@ -32,7 +29,7 @@ public class EntityDungeonConstructor extends EntityDivineMonster {
 
         if (!this.level().isClientSide() && this.isAlive()) {
             if (this.getTarget() != null) {
-                if (this.getTarget() instanceof Player && this.angerLevel < 3) {
+                if (this.getTarget() instanceof Player) {
                     this.moveDist = 0.0F;
                 }
             }

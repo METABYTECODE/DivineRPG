@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class EntityDesertCrawler extends EntityCrawler {
-    protected static final EntityDataAccessor<Boolean> HAS_SEEN = SynchedEntityData.defineId(EntityDesertCrawler.class, EntityDataSerializers.BOOLEAN);
     private boolean hasSeen;
     public EntityDesertCrawler(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -18,7 +17,6 @@ public class EntityDesertCrawler extends EntityCrawler {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(HAS_SEEN, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {

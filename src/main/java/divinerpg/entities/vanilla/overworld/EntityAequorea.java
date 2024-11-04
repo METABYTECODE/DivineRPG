@@ -1,10 +1,7 @@
 package divinerpg.entities.vanilla.overworld;
 
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.particles.*;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.*;
@@ -16,22 +13,22 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 
 public class EntityAequorea extends Squid {
-	private static final EntityDataAccessor<Byte> VARIANT = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.BYTE);
 	public EntityAequorea(EntityType<EntityAequorea> type, Level level) {
 		super(type, level);
-		if(!level.isClientSide()) entityData.set(VARIANT, (byte) getRandom().nextInt(6));
+        if(!level().isClientSide()) setData(AttachmentRegistry.VARIANT.attachment, (byte) getRandom().nextInt(6));
 	}
-	@Override
-    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
-		super.defineSynchedData(builder);
-    	builder.define(VARIANT, (byte)0);
-	}
-	@Override
+
+//    @Override
+//    public void onAddedToLevel() {
+//        super.onAddedToLevel();
+//        if(level().isClientSide()) AttachmentRegistry.VARIANT.requestAttachment(this, null);
+//    }
+
+    @Override
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new RandomMovementGoal(this));
 		goalSelector.addGoal(2, new StingAttack(this, getAttributeBaseValue(Attributes.MOVEMENT_SPEED), false));
@@ -40,23 +37,15 @@ public class EntityAequorea extends Squid {
 	    targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 	public byte getColor() {
-		return entityData.get(VARIANT);
+        if(AttachmentRegistry.VARIANT.has(this)) return AttachmentRegistry.VARIANT.get(this);
+        AttachmentRegistry.VARIANT.requestAttachment(this, null);
+        return 0;
 	}
 	@Override
 	protected ParticleOptions getInkParticle() {
 		return ParticleTypes.SPLASH;
 	}
-	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putByte("color_variant", entityData.get(VARIANT));
-	}
-	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		entityData.set(VARIANT, tag.contains("color_variant") ? tag.getByte("color_variant") : (byte) getRandom().nextInt(6));
-	}
-	class RandomMovementGoal extends Goal {
+	static class RandomMovementGoal extends Goal {
 	      private final EntityAequorea aequorea;
 
 	      public RandomMovementGoal(EntityAequorea entity) {
@@ -80,7 +69,7 @@ public class EntityAequorea extends Squid {
 	         }
 	      }
 	 }
-     class StingAttack extends Goal {
+     static class StingAttack extends Goal {
         protected final PathfinderMob mob;
         private final double speedModifier;
         private final boolean followingTargetEvenIfNotSeen;
@@ -92,8 +81,6 @@ public class EntityAequorea extends Squid {
         private int ticksUntilNextAttack;
 //        private final int attackInterval = 20;
         private long lastCanUseCheck;
-        private int failedPathFindingPenalty = 0;
-        private boolean canPenalize = false;
 
         public StingAttack(PathfinderMob aequorea, double speed, boolean followAtAllCosts) {
             this.mob = aequorea;
@@ -114,15 +101,15 @@ public class EntityAequorea extends Squid {
                 } else if (!livingentity.isAlive()) {
                     return false;
                 } else {
-                    if (canPenalize) {
-                        if (--this.ticksUntilNextPathRecalculation <= 0) {
-                            this.path = this.mob.getNavigation().createPath(livingentity, 0);
-                            this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
-                            return this.path != null;
-                        } else {
-                            return true;
-                        }
-                    }
+//                    if (canPenalize) {
+//                        if (--this.ticksUntilNextPathRecalculation <= 0) {
+//                            this.path = this.mob.getNavigation().createPath(livingentity, 0);
+//                            this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
+//                            return this.path != null;
+//                        } else {
+//                            return true;
+//                        }
+//                    }
                     this.path = this.mob.getNavigation().createPath(livingentity, 0);
                     if (this.path != null) {
                         return true;
@@ -158,7 +145,7 @@ public class EntityAequorea extends Squid {
         public void stop() {
             LivingEntity livingentity = this.mob.getTarget();
             if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
-                this.mob.setTarget((LivingEntity)null);
+                this.mob.setTarget(null);
             }
 
             this.mob.setAggressive(false);
@@ -175,18 +162,18 @@ public class EntityAequorea extends Squid {
                 this.pathedTargetY = livingentity.getY();
                 this.pathedTargetZ = livingentity.getZ();
                 this.ticksUntilNextPathRecalculation = 4 + this.mob.getRandom().nextInt(7);
-                if (this.canPenalize) {
-                    this.ticksUntilNextPathRecalculation += failedPathFindingPenalty;
-                    if (this.mob.getNavigation().getPath() != null) {
-                        net.minecraft.world.level.pathfinder.Node finalPathPoint = this.mob.getNavigation().getPath().getEndNode();
-                        if (finalPathPoint != null && livingentity.distanceToSqr(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1)
-                            failedPathFindingPenalty = 0;
-                        else
-                            failedPathFindingPenalty += 10;
-                    } else {
-                        failedPathFindingPenalty += 10;
-                    }
-                }
+//                if (this.canPenalize) {
+//                    this.ticksUntilNextPathRecalculation += failedPathFindingPenalty;
+//                    if (this.mob.getNavigation().getPath() != null) {
+//                        net.minecraft.world.level.pathfinder.Node finalPathPoint = this.mob.getNavigation().getPath().getEndNode();
+//                        if (finalPathPoint != null && livingentity.distanceToSqr(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1)
+//                            failedPathFindingPenalty = 0;
+//                        else
+//                            failedPathFindingPenalty += 10;
+//                    } else {
+//                        failedPathFindingPenalty += 10;
+//                    }
+//                }
                 if (d0 > 1024.0D) {
                     this.ticksUntilNextPathRecalculation += 10;
                 } else if (d0 > 256.0D) {
@@ -219,7 +206,7 @@ public class EntityAequorea extends Squid {
 
 
         protected double getAttackReachSqr(LivingEntity p_179512_1_) {
-            return (double)(this.mob.getBbWidth() * 2.0F * this.mob.getBbWidth() * 2.0F + p_179512_1_.getBbWidth());
+            return this.mob.getBbWidth() * 2.0F * this.mob.getBbWidth() * 2.0F + p_179512_1_.getBbWidth();
         }
     }
 

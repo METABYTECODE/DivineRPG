@@ -10,38 +10,31 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.*;
 
 public class EntityWildwoodLog extends DivineThrowable {
-
 	public EntityWildwoodLog(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 	}
-
 	public EntityWildwoodLog(EntityType<? extends ThrowableProjectile> type, LivingEntity entity, Level world) {
 		super(type, entity, world);
 	}
-
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
-		if (tickCount != 1 || tickCount != 0) {
-			if (result.getEntity() != null) {
-				result.getEntity().hurt(result.getEntity().level().damageSources().thrown(this, this.getOwner()), 8.0F);
-			}
-			if (!this.level().isClientSide()) {
-				level().addFreshEntity(new ItemEntity(level(), this.xo, this.yo, this.zo, new ItemStack(getBlock())));
-				this.kill();
+		if(tickCount > 1) {
+			if(result.getEntity() != null) result.getEntity().hurt(result.getEntity().level().damageSources().thrown(this, getOwner()), 8.0F);
+			if(!level().isClientSide()) {
+				level().addFreshEntity(new ItemEntity(level(), xo, yo, zo, new ItemStack(getBlock())));
+				kill();
 			}
 		}
 	}
-
 	@Override
 	protected void onHitBlock(BlockHitResult p_230299_1_) {
-		if(tickCount != 1 || tickCount != 0) {
-			if (!this.level().isClientSide()) {
-				level().addFreshEntity(new ItemEntity(level(), this.xo, this.yo, this.zo, new ItemStack(getBlock())));
-				this.kill();
+		if(tickCount > 1) {
+			if(!level().isClientSide()) {
+				level().addFreshEntity(new ItemEntity(level(), xo, yo, zo, new ItemStack(getBlock())));
+				kill();
 			}
 		}
 	}
-
 	public static Block getBlock() {
 		return BlockRegistry.wildwoodLog.get();
 	}

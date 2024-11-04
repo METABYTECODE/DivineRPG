@@ -1,7 +1,6 @@
 package divinerpg.entities.vanilla.overworld;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -15,15 +14,8 @@ import net.neoforged.neoforge.common.Tags;
 import javax.annotation.Nullable;
 
 public class EntityPumpkinSpider extends Spider {
-	private static final EntityDataAccessor<Boolean> PROVOKED = SynchedEntityData.defineId(EntityPumpkinSpider.class, EntityDataSerializers.BOOLEAN);
-
 	public EntityPumpkinSpider(EntityType<? extends Spider> type, Level worldIn) {
 		super(type, worldIn);
-	}
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		super.defineSynchedData(builder);
-		builder.define(PROVOKED, false);
 		setRot(0, 0);
 		setYBodyRot(0);
 	}
@@ -50,7 +42,7 @@ public class EntityPumpkinSpider extends Spider {
 	public boolean hurt(DamageSource source, float amount) {
 		Entity entity = source.getDirectEntity();
 		if(!(entity instanceof LivingEntity)) entity = source.getEntity();
-		if(entity instanceof LivingEntity && entity.distanceTo(this) <= 25D) setProvoked((LivingEntity) entity);
+		if(entity instanceof LivingEntity l && !l.level().isClientSide()) setProvoked(l);
 		return super.hurt(source, amount);
 	}
 	@Nullable
@@ -58,18 +50,16 @@ public class EntityPumpkinSpider extends Spider {
 		return data;
 	}
 	public boolean getProvoked() {
-		return entityData.get(PROVOKED);
+		return AttachmentRegistry.ANGRY.get(this);
 	}
 	public void setProvoked(LivingEntity entity) {
-		if(entity == null || (!hasLineOfSight(entity) && entity.distanceTo(this) > 25D || !entity.isAlive())) calmDown();
-		else {
-			if(entity instanceof Player player) {
-				if(player.isCreative() || player.isSpectator()) {
-					calmDown();
-					return;
-				}
-			}
-			if(!level().isClientSide()) entityData.set(PROVOKED, true);
+		if(entity == null || (!hasLineOfSight(entity) && entity.distanceTo(this) > 25D) || !entity.isAlive()) {
+			if(getProvoked()) calmDown();
+		} else {
+			if(entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
+				if(getProvoked()) calmDown();
+				return;
+			} AttachmentRegistry.ANGRY.set(this, true);
 			setTarget(entity);
 		}
 	}
@@ -78,17 +68,7 @@ public class EntityPumpkinSpider extends Spider {
 		setRot(0, 0);
 		setYBodyRot(0);
 		setTarget(null);
-		entityData.set(PROVOKED, false);
-	}
-	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		entityData.set(PROVOKED, tag.getBoolean("Provoked"));
-	}
-	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putBoolean("Provoked", getProvoked());
+		AttachmentRegistry.ANGRY.set(this, false);
 	}
 	@Override
 	public boolean checkSpawnRules(LevelAccessor level, MobSpawnType type) {

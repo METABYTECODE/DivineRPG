@@ -9,7 +9,6 @@ import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.common.Tags;
 
 public class EntityEnderSpider extends EnderMan {
-
     public EntityEnderSpider(EntityType<? extends EnderMan> type, Level worldIn) {
         super(type, worldIn);
     }
@@ -17,7 +16,6 @@ public class EntityEnderSpider extends EnderMan {
     protected SoundEvent getAmbientSound() {
         return SoundRegistry.HELL_SPIDER.get();
     }
-
     @Override
     public boolean checkSpawnRules(LevelAccessor level, MobSpawnType type) {
         return !(level.getBiome(blockPosition()).is(Tags.Biomes.IS_MUSHROOM) || level.getBiome(blockPosition()).is(Biomes.DEEP_DARK));

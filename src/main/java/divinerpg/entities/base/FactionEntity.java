@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.annotation.Nullable;
 
+import divinerpg.attachments.Reputation;
+import divinerpg.attachments.base.ServerHandledAttachment;
 import divinerpg.registries.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -15,20 +17,20 @@ public interface FactionEntity {
 	public Faction getFaction();
 	public default boolean modifyReputationOnHurt(DamageSource source, float f) {
 		if(source.getDirectEntity() != null && source.getDirectEntity() instanceof Player player) {
-			getFaction().modifyReputation(player, -1);
+			getFaction().reputation.modify(player, -1);
 			return true;
 		} if(source.getEntity() != null && source.getEntity() instanceof Player player) {
-			getFaction().modifyReputation(player, -1);
+			getFaction().reputation.modify(player, -1);
 			return true;
 		} return false;
 	}
 	public default void modifyReputationOnDeath(DamageSource source) {
 		if(source.getDirectEntity() != null && source.getDirectEntity() instanceof Player player) {
-			getFaction().modifyReputation(player, -10);
-			for(Faction opposer : getFaction().enemies) opposer.modifyReputation(player, 2);
+			getFaction().reputation.modify(player, -10);
+			for(Faction opposer : getFaction().enemies) opposer.reputation.modify(player, 2);
 		} else if(source.getEntity() != null && source.getEntity() instanceof Player player) {
-			getFaction().modifyReputation(player, -10);
-			for(Faction opposer : getFaction().enemies) opposer.modifyReputation(player, 2);
+			getFaction().reputation.modify(player, -10);
+			for(Faction opposer : getFaction().enemies) opposer.reputation.modify(player, 2);
 		}
 	}
 	public static class Faction {
@@ -48,15 +50,15 @@ public interface FactionEntity {
 			return !from.level().getEntities(from, searchArea, (entity) -> (entity instanceof LivingEntity ent && faction.isAgressiveTowards(ent) && !(entity instanceof Player player && player.isSpectator()))).isEmpty();
 		}
 		public static final Faction
-			GROGLIN = new Faction(true, 0, "groglin_reputation") {
+			GROGLIN = new Faction(true, 0, AttachmentRegistry.GROGLIN_REPUTATION) {
 			public boolean isAgressiveTowards(LivingEntity entity) {
 				return entity.hasEffect(MobEffectRegistry.GROGLIN_BOUNTY) || super.isAgressiveTowards(entity);
 			};},
-			GRUZZORLUG = new Faction(true, 0, "gruzzorlug_reputation") {
+			GRUZZORLUG = new Faction(true, 0, AttachmentRegistry.GRUZZORLUG_REPUTATION) {
 			public boolean isAgressiveTowards(LivingEntity entity) {
 				return entity.hasEffect(MobEffectRegistry.GRUZZORLUG_TARGET) || super.isAgressiveTowards(entity);
 			};},
-			ICEIKA_MERCHANT = new Faction(false, 20, "iceika_merchant_reputation").addEnemy(GROGLIN).addEnemy(GRUZZORLUG);
+			ICEIKA_MERCHANT = new Faction(false, 20, AttachmentRegistry.ICEIKA_MERCHANT_REPUTATION).addEnemy(GROGLIN).addEnemy(GRUZZORLUG);
 		static {
 			ArrayList<EntityType<?>> iceikaNature = new ArrayList<>();
 			iceikaNature.add(EntityType.COD);
@@ -86,14 +88,14 @@ public interface FactionEntity {
 		}
 		public final ArrayList<Faction> enemies = new ArrayList<>(), allies = new ArrayList<>();
 		public final ArrayList<EntityType<?>> nonFactionEnemies, nonFactionAllies = new ArrayList<>();
-		public final String reputationIdentifier;
+		public final Reputation reputation;
 		public final boolean isAutoAggressive;
 		public final int startingReputation;
-		public Faction(boolean isAutoAgressive, int startingReputation, String reputationIdentifier) {
+		public Faction(boolean isAutoAgressive, int startingReputation, Reputation reputation) {
 			isAutoAggressive = isAutoAgressive;
 			this.startingReputation = startingReputation;
-			this.reputationIdentifier = reputationIdentifier;
 			nonFactionEnemies = isAutoAgressive ? null : new ArrayList<>();
+			this.reputation = reputation;
 		}
 		public Faction addEnemy(Faction faction) {
 			enemies.add(faction);
@@ -127,25 +129,9 @@ public interface FactionEntity {
 			EntityType<?> type = entity.getType();
 			if(nonFactionAllies.contains(type)) return false;
 			if(!isAutoAggressive && nonFactionEnemies.contains(type)) return true;
-			if(entity instanceof Player player && !player.isCreative() && !player.isSpectator() && getReputation(player) < (isAutoAggressive ? 50 : -10)) return true;
+			if(entity instanceof Player player && !player.isCreative() && !player.isSpectator() && reputation.get(player) < (isAutoAggressive ? 50 : -10)) return true;
 			if(entity instanceof FactionEntity fac) return isAgressiveTowards(fac.getFaction());
 			return isAutoAggressive;
-		}
-		public void modifyReputation(Player player, int amount) {
-			player.getData(AttachmentRegistry.REPUTATION).modifyReputation(this, amount);
-		}
-		public void setReputation(Player player, int amount) {
-			player.getData(AttachmentRegistry.REPUTATION).setReputation(this, amount);
-		}
-		public int getReputation(Player player) {
-			return player.getData(AttachmentRegistry.REPUTATION).getReputation(this);
-		}
-		public static Faction getFation(String reputationidentifier) {
-			return reputationidentifier.equals(GROGLIN.reputationIdentifier) ? GROGLIN : (reputationidentifier.equals(GRUZZORLUG.reputationIdentifier) ? GRUZZORLUG : ICEIKA_MERCHANT);
-		}
-		@Override
-		public String toString() {
-			return reputationIdentifier;
 		}
 	}
 }

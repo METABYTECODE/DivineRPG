@@ -1,6 +1,7 @@
 package divinerpg.entities.projectile;
 
 import com.google.common.collect.Maps;
+import divinerpg.registries.AttachmentRegistry;
 import divinerpg.registries.ParticleRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.*;
@@ -15,7 +16,6 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityFrostCloud extends Entity {
-    private static final EntityDataAccessor<Float> RADIUS = SynchedEntityData.defineId(EntityFrostCloud.class, EntityDataSerializers.FLOAT);
     private final Map<Entity, Integer> reapplicationDelayMap;
     private int duration, reapplicationDelay;
     private float radiusPerTick;
@@ -40,10 +40,6 @@ public class EntityFrostCloud extends Entity {
     public float getPickRadius() {
         return 3F;
     }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-    	builder.define(RADIUS, Float.valueOf(3F));
-    }
     public int getDuration(){
         return duration;
     }
@@ -53,13 +49,11 @@ public class EntityFrostCloud extends Entity {
         return owner;
     }
     public float getRadius() {
-        return entityData.get(RADIUS).floatValue();
+        return AttachmentRegistry.RADIUS.getOrDefault(this, 3F);
     }
-    @Override
-    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-        if(RADIUS.equals(key)) setRadius(getRadius());
-        super.onSyncedDataUpdated(key);
-    }
+
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+
     @Override
     public void tick() {
         super.tick();
@@ -112,7 +106,7 @@ public class EntityFrostCloud extends Entity {
     }
     public void setRadius(float radiusIn) {
         setPos(xo, yo, zo);
-        if(!level().isClientSide()) entityData.set(RADIUS, radiusIn);
+        if(!level().isClientSide()) AttachmentRegistry.RADIUS.set(this, radiusIn);
     }
     public void setRadiusPerTick(float radiusPerTickIn) {
         radiusPerTick = radiusPerTickIn;

@@ -1,5 +1,6 @@
 package divinerpg.entities.base;
 
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.*;
@@ -27,10 +28,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
-    private static final EntityDataAccessor<Integer> DATA_COLLAR_COLOR = SynchedEntityData.defineId(EntityDivineTameable.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(EntityDivineTameable.class, EntityDataSerializers.INT);
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-    @Nullable private UUID persistentAngerTarget;
 	protected final float healthIncrease;
     protected EntityDivineTameable(EntityType<? extends TamableAnimal> type, Level worldIn, float healthIncrease) {
         super(type, worldIn);
@@ -72,11 +70,6 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
             attribute.setBaseValue(attribute.getValue() * healthIncrease);
         }
     }
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_COLLAR_COLOR, DyeColor.RED.getId());
-        builder.define(DATA_REMAINING_ANGER_TIME, 0);
-    }
     @Override public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("CollarColor", (byte)getCollarColor().getId());
@@ -91,8 +84,8 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
         super.aiStep();
         if(!level().isClientSide()) updatePersistentAnger((ServerLevel)level(), true);
     }
-    public DyeColor getCollarColor() {return DyeColor.byId(entityData.get(DATA_COLLAR_COLOR));}
-    public void setCollarColor(DyeColor color) {entityData.set(DATA_COLLAR_COLOR, color.getId());}
+    public DyeColor getCollarColor() {return DyeColor.byId(AttachmentRegistry.COLOR.get(this));}
+    public void setCollarColor(DyeColor color) {AttachmentRegistry.COLOR.set(this, color.getId());}
     @Override public boolean isFood(ItemStack item) {return isMeat(item);}
     protected boolean isTamingFood(ItemStack item) {return isMeat(item);}
     @Override public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -148,11 +141,11 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
         } else return false;
     }
     @Override public boolean canBeLeashed() {return !isAngry() && super.canBeLeashed();}
-    @Override public int getRemainingPersistentAngerTime() {return entityData.get(DATA_REMAINING_ANGER_TIME);}
-    @Override public void setRemainingPersistentAngerTime(int p_30404_) {entityData.set(DATA_REMAINING_ANGER_TIME, p_30404_);}
+    @Override public int getRemainingPersistentAngerTime() {return AttachmentRegistry.ANGER_TIME.get(this);}
+    @Override public void setRemainingPersistentAngerTime(int i) {AttachmentRegistry.ANGER_TIME.set(this, i);}
     @Override public void startPersistentAngerTimer() {setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));}
-    @Override @Nullable public UUID getPersistentAngerTarget() {return persistentAngerTarget;}
-    @Override public void setPersistentAngerTarget(@Nullable UUID p_30400_) {persistentAngerTarget = p_30400_;}
+    @Override @Nullable public UUID getPersistentAngerTarget() {return UUID.fromString(AttachmentRegistry.ANGRY_AT.get(this));}
+    @Override public void setPersistentAngerTarget(@Nullable UUID id) {AttachmentRegistry.ANGRY_AT.set(this, id.toString());}
 	@Override public AgeableMob getBreedOffspring(ServerLevel s, AgeableMob a) {return null;}
     @Override public boolean canMate(Animal animal) {return false;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return !isTame();}

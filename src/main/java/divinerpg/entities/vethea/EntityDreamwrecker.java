@@ -25,7 +25,7 @@ public class EntityDreamwrecker extends EntityDivineMonster {
         }
 
         Entity attackTarget = this.getTarget();
-        if(attackTarget != null && attackTarget instanceof Player && !((Player)attackTarget).isCreative() && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)) {
+        if(attackTarget instanceof Player && !((Player)attackTarget).isCreative() && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)) {
             double distanceToTarget = this.distanceToSqr(attackTarget);
             if(distanceToTarget < 100 && attackTarget.getY() - this.getY() <= 10) {
                 attackTarget.setDeltaMovement(Math.signum(this.xo - attackTarget.xo) * 0.029, attackTarget.getDeltaMovement().y, Math.signum(this.zo - attackTarget.zo) * 0.029);

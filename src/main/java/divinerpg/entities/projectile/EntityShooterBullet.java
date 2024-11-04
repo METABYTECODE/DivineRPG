@@ -17,7 +17,6 @@ import net.minecraft.world.phys.*;
 import java.util.Random;
 
 public class EntityShooterBullet extends ThrowableProjectile {
-    private static final EntityDataAccessor<Byte> BULLET_ID = SynchedEntityData.defineId(EntityShooterBullet.class, EntityDataSerializers.BYTE);
     public BulletType bulletType;
     public int bounces;
     public int color = new Random().nextInt(25);
@@ -40,6 +39,10 @@ public class EntityShooterBullet extends ThrowableProjectile {
         //TODO: to add a different check (gravity int in bulletType or something)
         if(getBulletType().getBulletDamageType() == BulletType.BulletDamageType.NONE) return true;
         return super.isNoGravity();
+    }
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
     }
     @Override public void tick() {
         if(tickCount > 200) discard();
@@ -103,9 +106,6 @@ public class EntityShooterBullet extends ThrowableProjectile {
             level().broadcastEntityEvent(this, (byte)3);
         }
     }
-    @Override public void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(BULLET_ID, (byte)0);
-    }
     @Override public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putByte("projectileId", getBulletId());
@@ -115,8 +115,8 @@ public class EntityShooterBullet extends ThrowableProjectile {
         setBulletId(compound.getByte("projectileId"));
         bulletType = BulletType.getBulletFromOrdinal(getBulletId());
     }
-    private byte getBulletId() {return entityData.get(BULLET_ID);}
-    private void setBulletId(byte projectileId) {entityData.set(BULLET_ID, projectileId);}
+    private byte getBulletId() {return AttachmentRegistry.VARIANT.get(this);}
+    private void setBulletId(byte projectileId) {AttachmentRegistry.VARIANT.set(this, projectileId);}
     public BulletType getBulletType() {
         if(bulletType == null) bulletType = BulletType.getBulletFromOrdinal(getBulletId());
         return bulletType;

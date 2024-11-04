@@ -28,9 +28,4 @@ public class EntityCrawler extends EntityDivineMonster {
     	super.playStepSound(p_20135_, p_20136_);
     	if(getType() == EntityRegistry.CAVE_CRAWLER.get()) playSound(CAVE_CRAWLER_STEP.get(), 1F, 1F);
     }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
-        super.defineSynchedData(builder);
-    }
 }

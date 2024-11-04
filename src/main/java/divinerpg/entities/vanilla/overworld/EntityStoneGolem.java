@@ -11,23 +11,18 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 
 public class EntityStoneGolem extends EntityDivineTameable implements IAttackTimer {
-    private static final EntityDataAccessor<Integer> ATTACK_TIMER = SynchedEntityData.defineId(EntityStoneGolem.class, EntityDataSerializers.INT);
+    public int attackTimer = 0;
     public EntityStoneGolem(EntityType<? extends TamableAnimal> type, Level worldIn) {
         super(type, worldIn, 1F);
     }
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ATTACK_TIMER, Integer.valueOf(0));
-    }
-    @Override
     public void tick() {
         super.tick();
-        if(getAttackTimer() > 0) entityData.set(ATTACK_TIMER, Integer.valueOf(getAttackTimer() - 1));
+        if(attackTimer > 0) attackTimer--;
     }
     @Override
     public int getAttackTimer() {
-        return entityData.get(ATTACK_TIMER).intValue();
+        return attackTimer;
     }
     @Override
     public boolean isFood(ItemStack item) {
@@ -42,9 +37,8 @@ public class EntityStoneGolem extends EntityDivineTameable implements IAttackTim
         boolean attack = super.doHurtTarget(entity);
         if(attack) {
             entity.setDeltaMovement(-Mth.sin(getXRot() * (float) Math.PI / 180F), .1, Mth.cos(getXRot() * (float) Math.PI / 180F));
-            entityData.set(ATTACK_TIMER, Integer.valueOf(10));
-        }
-        return attack;
+            attackTimer = 10;
+        } return attack;
     }
 
 }

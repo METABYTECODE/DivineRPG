@@ -14,18 +14,11 @@ import net.minecraft.world.level.*;
 import javax.annotation.Nullable;
 
 public class EntityGlinthop extends EntityDivineTameable {
-    private static final EntityDataAccessor<Boolean> TAMED_AND_ANGRY = SynchedEntityData.defineId(EntityGlinthop.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> SPECIAL = SynchedEntityData.defineId(EntityGlinthop.class, EntityDataSerializers.BOOLEAN);
     public EntityGlinthop(EntityType<? extends TamableAnimal> type, Level worldIn) {super(type, worldIn, 1.5F);}
     @Nullable
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyInstance, MobSpawnType type, @Nullable SpawnGroupData data) {
-        if(random.nextInt(50) == 1) entityData.set(SPECIAL, true);
+        if(random.nextInt(50) == 1) AttachmentRegistry.SPECIAL.set(this, true);
         return super.finalizeSpawn(level, difficultyInstance, type, data);
-    }
-    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(TAMED_AND_ANGRY, false);
-        builder.define(SPECIAL, false);
     }
     @Override public void die(DamageSource source) {
         super.die(source);
@@ -33,9 +26,9 @@ public class EntityGlinthop extends EntityDivineTameable {
     }
     @Override public void setTarget(LivingEntity e) {
     	super.setTarget(e);
-    	if(isTame()) entityData.set(TAMED_AND_ANGRY, e != null);
+    	if(isTame()) AttachmentRegistry.ANGRY.set(this, e != null);
     }
-    public boolean isSpecialAlt() {return this.entityData.get(SPECIAL);}
+    public boolean isSpecialAlt() {return AttachmentRegistry.SPECIAL.get(this);}
     @Nullable @Override public LivingEntity getTarget() {
         LivingEntity entity = super.getTarget();
         if(entity != null && ((isTame() && distanceToSqr(entity) < 144) || !isTame())) return entity;
@@ -51,13 +44,4 @@ public class EntityGlinthop extends EntityDivineTameable {
     @Override protected SoundEvent getAmbientSound() {return SoundRegistry.GLINTHOP.get();}
     @Override protected SoundEvent getHurtSound(DamageSource source) {return SoundRegistry.GLINTHOP_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return SoundRegistry.GLINTHOP_HURT.get();}
-    @Override public void addAdditionalSaveData(CompoundTag tag) {
-    	super.addAdditionalSaveData(tag);
-    	boolean special = entityData.get(SPECIAL);
-    	if(special) tag.putBoolean("Special", true);
-    }
-    @Override public void readAdditionalSaveData(CompoundTag tag) {
-    	super.readAdditionalSaveData(tag);
-    	if(tag.contains("Special")) entityData.set(SPECIAL, tag.getBoolean("Special"));
-    }
 }

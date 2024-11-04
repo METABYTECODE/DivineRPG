@@ -1,6 +1,7 @@
 package divinerpg.entities.arcana;
 
 import divinerpg.entities.base.EntityDivineTameable;
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.*;
@@ -14,17 +15,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityParatiku extends EntityDivineTameable {
-    private static final EntityDataAccessor<Byte> HANGING = SynchedEntityData.defineId(EntityParatiku.class, EntityDataSerializers.BYTE);
     private static final TargetingConditions RESTING_TARGETING = TargetingConditions.forCombat().range(4.0D)/*.allowSameTeam()*/;
     //private BlockPos spawnPosition;
     public EntityParatiku(EntityType<? extends TamableAnimal> type, Level worldIn) {
         super(type, worldIn, 1F);
         setIsParatikuHanging(true);
-    }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(HANGING, (byte) 0);
     }
     @Override public boolean isPushable() {return false;}
     @Override protected void doPush(Entity ent) {}
@@ -37,16 +32,10 @@ public class EntityParatiku extends EntityDivineTameable {
     @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.BAT_HURT;}
     @Override protected SoundEvent getDeathSound() {return SoundEvents.BAT_DEATH;}
     public boolean getIsParatikuHanging() {
-        return (this.entityData.get(HANGING).byteValue() & 1) != 0;
+        return AttachmentRegistry.HANGING.get(this);
     }
     public void setIsParatikuHanging(boolean isHanging) {
-        byte b0 = this.entityData.get(HANGING).byteValue();
-
-        if (isHanging) {
-            this.entityData.set(HANGING, Byte.valueOf((byte) (b0 | 1)));
-        } else {
-            this.entityData.set(HANGING, Byte.valueOf((byte) (b0 & -2)));
-        }
+        AttachmentRegistry.HANGING.set(this, isHanging);
     }
     @Override
     public void tick() {
@@ -99,17 +88,5 @@ public class EntityParatiku extends EntityDivineTameable {
             if(!level().isClientSide() && getIsParatikuHanging()) setIsParatikuHanging(false);
             return super.hurt(source, amount);
         }
-    }
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        entityData.set(HANGING, Byte.valueOf(compound.getByte("ParatikuFlags")));
-    }
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        if(getOwnerUUID() == null) compound.putString("Owner", "");
-        else compound.putString("Owner", getOwnerUUID().toString());
-        compound.putByte("ParatikuFlags", entityData.get(HANGING).byteValue());
     }
 }

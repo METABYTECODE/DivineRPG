@@ -23,9 +23,7 @@ public class EntityCymesoid extends EntityDivineMonster {
         super.tick();
         Player player = this.level().getNearestPlayer(this, 64.0D);
 
-        if (player == null || player.isCreative())
-            return;
-        else {
+        if(player != null && !player.isCreative())  {
             Vec3 playerLook = player.getLookAngle().normalize();
             Vec3 positionQuotient = new Vec3(this.getX() - player.getX(), this.getBoundingBox().minY + this.getEyeHeight() / 2.0F - (player.getY() + player.getEyeHeight()), this.getZ() - player.getZ());
             double distance = positionQuotient.length();
