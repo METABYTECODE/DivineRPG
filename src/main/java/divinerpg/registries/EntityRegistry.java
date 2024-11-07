@@ -60,6 +60,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -105,41 +106,41 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityWildwoodLog>>			 WILDWOOD_LOG = registerProjectile(EntityWildwoodLog::new,                          "wildwood_log");
 
     //Bosses
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityAncientEntity>>      ANCIENT_ENTITY 	 = registerEntity(EntityAncientEntity::new, 	"ancient_entity", 	    4, 6.5F, 6, 0x3f1e0c, 0xc46c33);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityTheWatcher>>	     THE_WATCHER 		 = registerEntity(EntityTheWatcher::new, 	    "the_watcher", 		    3.875F, 4.875F, 3, 0x2e0f0a, 0x79574d);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityKingOfScorchers>>    KING_OF_SCORCHERS 	 = registerEntity(EntityKingOfScorchers::new,   "king_of_scorchers",      2, 2.5F, 1, 0xad1702, 0xff761c);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityKitra>>              KITRA               = registerEntity(EntityKitra::new,             "kitra",                  3, 2, 1.125F, 0x7a8383, 0xb6f0f0, MobCategory.WATER_CREATURE);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityAncientEntity>>       ANCIENT_ENTITY 	 = registerEntity(EntityAncientEntity::new, 	"ancient_entity", 	    4, 6.5F, 6, 0x3f1e0c, 0xc46c33);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityTheWatcher>>	         THE_WATCHER 		 = registerEntity(EntityTheWatcher::new, 	    "the_watcher", 		    3.875F, 4.875F, 3, 0x2e0f0a, 0x79574d);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityKingOfScorchers>>     KING_OF_SCORCHERS 	 = registerEntity(EntityKingOfScorchers::new,   "king_of_scorchers",      2, 2.5F, 1, 0xad1702, 0xff761c);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityKitra>>               KITRA               = registerEntity(EntityKitra::new,             "kitra",                  3, 2, 1.125F, 0x7a8383, 0xb6f0f0, MobCategory.WATER_CREATURE);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityAyeraco>>		     AYERACO			 = registerEntity(EntityAyeraco::new,		    "ayeraco",			    2, 1.2F, .65625F);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDramix>>		     DRAMIX 			 = registerEntity(EntityDramix::new, 		    "dramix", 			    .85F,2.5625F, 2.25F, 0x07282c, 0x08b287);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityDramix>>		         DRAMIX 			 = registerEntity(EntityDramix::new, 		    "dramix", 			    .85F,2.5625F, 2.25F, 0x07282c, 0x08b287);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityParasecta>>		     PARASECTA 			 = registerEntity(EntityParasecta::new, 		"parasecta", 	        	1.3F, 2, 1.8125F, 0x142634, 0x89b6da);
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySunstorm>>		     SUNSTORM 			 = registerEntity(EntitySunstorm::new, 		    "sunstorm", 		        1.7F, 3.4375F, 2.875F, 0xa23c34, 0xfee16a);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTermasect>>		     TERMASECT 			 = registerEntity(EntityTermasect::new, 		"termasect", 		        5.9F, 8, 7, 0x222f42, 0x6286bb);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityEternalArcher>>      ETERNAL_ARCHER 	 = registerEntity(EntityEternalArcher::new,  	"eternal_archer",       	3, 5, 4.5F, 0x016481, 0x43eef9);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityExperiencedCori>>    EXPERIENCED_CORI 	 = registerEntity(EntityExperiencedCori::new,   "experienced_cori",       4, 7.1875F, 4.0625F, 0x888888, 0x0e1991);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityVamacheron>>	     VAMACHERON 		 = registerEntity(EntityVamacheron::new, 	    "vamacheron", 		    1.45F,2.25F, 2.1875F, 0x1a0d1e, 0xff6b48);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityEternalArcher>>       ETERNAL_ARCHER 	 = registerEntity(EntityEternalArcher::new,  	"eternal_archer",       	3, 5, 4.5F, 0x016481, 0x43eef9);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityExperiencedCori>>     EXPERIENCED_CORI 	 = registerEntity(EntityExperiencedCori::new,   "experienced_cori",       4, 7.1875F, 4.0625F, 0x888888, 0x0e1991);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityVamacheron>>	         VAMACHERON 		 = registerEntity(EntityVamacheron::new, 	    "vamacheron", 		    1.45F,2.25F, 2.1875F, 0x1a0d1e, 0xff6b48);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityKarot>>			     KAROT 				 = registerEntity(EntityKarot::new, 			"karot", 			        3,4.1875F, 3.4375F, 0x121413, 0xa21717);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemon>>      TWILIGHT_DEMON 	 = registerEntity(EntityTwilightDemon::new,  	"twilight_demon", 	    2, 4, 3.5F, 0x160202, 0x672a24);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDensos>>		     DENSOS 			 = registerEntity(EntityDensos::new, 		    "densos", 			    1, 2.5F, 2, 0xf00000, 0x370809);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityReyvor>>		     REYVOR 			 = registerEntity(EntityReyvor::new, 		    "reyvor", 			    1, 2.5F, 2, 0xe07327, 0x301a04);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemon>>       TWILIGHT_DEMON 	 = registerEntity(EntityTwilightDemon::new,  	"twilight_demon", 	    2, 4, 3.5F, 0x160202, 0x672a24);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityDensos>>		         DENSOS 			 = registerEntity(EntityDensos::new, 		    "densos", 			    1, 2.5F, 2, 0xf00000, 0x370809);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityReyvor>>		         REYVOR 			 = registerEntity(EntityReyvor::new, 		    "reyvor", 			    1, 2.5F, 2, 0xe07327, 0x301a04);
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySoulFiend>>		     SOUL_FIEND 		 = registerEntity(EntitySoulFiend::new, 		"soul_fiend", 	    	.8F, 2, 1.725F, 0x180101, 0xac0c0c);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityHiveQueen>>		     HIVE_QUEEN 		 = registerEntity(EntityHiveQueen::new, 		"hive_queen", 		    1.5F, .75F, .3125F, 0xe9c195, 0x79a60c);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityKaros>>			     KAROS 				 = registerEntity(EntityKaros::new, 			"karos", 			        1, 2.6875F, 2.4375F, 0xffee41, 0xe57e24);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityLadyLuna>>		     LADY_LUNA 			 = registerEntity(EntityLadyLuna::new, 		    "lady_luna", 		        1, 3.25F, 2.90625F, 0x1c0064, 0x6eadff);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityQuadro>>		     QUADRO 			 = registerEntity(EntityQuadro::new, 		    "quadro", 		    	1.2F, 2.2F, 2, 0x1b005e, 0x8d00b1);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityRaglok>>		     RAGLOK 			 = registerEntity(EntityRaglok::new, 		    "raglok", 		    	3, 5.25F, 5, 0x2e0600, 0xf42e00);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityQuadro>>		         QUADRO 			 = registerEntity(EntityQuadro::new, 		    "quadro", 		    	1.2F, 2.2F, 2, 0x1b005e, 0x8d00b1);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityRaglok>>		         RAGLOK 			 = registerEntity(EntityRaglok::new, 		    "raglok", 		    	3, 5.25F, 5, 0x2e0600, 0xf42e00);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityWreck>>			     WRECK 				 = registerEntity(EntityWreck::new, 			"wreck", 			        1.5F, 2, 1.6875F, 0xf1f1f1, 0x311313);
 
     //Overworld
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityLivestockMerchant>>  LIVESTOCK_MERCHANT  = registerEntity(EntityLivestockMerchant::new, "livestock_merchant", 	.8F, 2, 1.74F, 0x213c56, 0xa27d6a, MobCategory.CREATURE);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityLivestockMerchant>>   LIVESTOCK_MERCHANT  = registerEntity(EntityLivestockMerchant::new, "livestock_merchant", 	.8F, 2, 1.74F, 0x213c56, 0xa27d6a, MobCategory.CREATURE);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityJackOMan>>			 JACK_O_MAN 		 = registerEntity(EntityJackOMan::new, 			"jack_o_man", 			.8F, 2, 1.25F, 0x3d2322, 0xe3901d, MobCategory.CREATURE);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityCyclops>>			 CYCLOPS 			 = registerEntity(EntityCyclops::new, 			"cyclops", 				1.2F, 4, 3.5F, 0x352a1f, 0x877e47);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityKobblin>>			 KOBBLIN 			 = registerEntity(EntityKobblin::new, 			"kobblin", 				.75F,1, .9F, 0x79553a, 0x73b349);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityPumpkinSpider>>		 PUMPKIN_SPIDER 	 = registerEntity(EntityPumpkinSpider::new, 	"pumpkin_spider", 		1.4F,1, .65F, 0xffffff, 0xffffff);
 
     //Jungle
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityJungleBat>>			 JUNGLE_BAT 		 = registerEntity(EntityJungleBat::new, 		"jungle_bat", 			.7F, 1, .7F, 0x1f360b, 0x6d9856, MobCategory.AMBIENT);
+    public static final DeferredHolder<EntityType<?>, EntityType<Bat>>      			     JUNGLE_BAT 		 = registerEntity(Bat::new, 		            "jungle_bat", 			.28F, .4F, .2F, 0xffffff, 0xffffff, MobCategory.AMBIENT);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityJungleSpider>>		 JUNGLE_SPIDER 		 = registerEntity(EntityJungleSpider::new, 		"jungle_spider", 		    1.4F, .9F, .65F, 0x176b07, 0x0026ff);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityJungleDramcryx>>	 JUNGLE_DRAMCRYX 	 = registerEntity(EntityJungleDramcryx::new, 	"jungle_dramcryx", 		1, 1.4375F, 1.0625F, 0xffffff, 0xffffff);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityJungleDramcryx>>	     JUNGLE_DRAMCRYX 	 = registerEntity(EntityJungleDramcryx::new, 	"jungle_dramcryx", 		1, 1.4375F, 1.0625F, 0xffffff, 0xffffff);
 
     //Desert
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySaguaroWorm>> 		 SAGUARO_WORM 		 = registerEntity(EntitySaguaroWorm::new, 		"saguaro_worm", 	    	1, 3, 2.6F, 0x42651e, 0xd5d67d);
@@ -852,7 +853,7 @@ public class EntityRegistry {
         event.registerEntityRenderer(GLACON.get(),			 (Context context) -> new RenderDivineMob<>(context, "glacon", new ModelGlacon(context), .8F));
         event.registerEntityRenderer(HUSK.get(),			 (Context context) -> new RenderDivineMob<>(context, "husk", new ModelHusk(context), .4F));
         event.registerEntityRenderer(JACK_O_MAN.get(),		 RenderJackOMan::new);
-        event.registerEntityRenderer(JUNGLE_BAT.get(),		 (Context context) -> new RenderDivineBat<>(context, "jungle_bat", .2F));
+        event.registerEntityRenderer(JUNGLE_BAT.get(),		 (Context context) -> new RenderDivineBat<>(context, "jungle_bat", .15F, .4F));
         event.registerEntityRenderer(JUNGLE_DRAMCRYX.get(),	 (Context context) -> new RenderDivineMob<>(context, "jungle_dramcryx", new ModelJungleDramcryx<>(context), .64F, 1.5F));
         event.registerEntityRenderer(JUNGLE_SPIDER.get(),	 (Context context) -> new RenderDivineMob<>(context, "jungle_spider", new ModelJungleSpider(context), .8F));
         event.registerEntityRenderer(KING_CRAB.get(),		 (Context context) -> new RenderDivineMob<>(context, "king_crab", new ModelKingCrab(context), 1.3F, 1.2F));
