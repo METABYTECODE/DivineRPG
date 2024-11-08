@@ -60,8 +60,8 @@ public class DivineRPG {
         bus.register(MenuTypeRegistry.class);
         bus.register(LevelRegistry.class);
         bus.register(ParticleRegistry.class);
-        container.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, DivineRPG.MODID + "/divinerpg-common.toml");
-        container.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, DivineRPG.MODID + "/divinerpg-client.toml");
+        container.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, DivineRPG.MODID + "/common.toml");
+        container.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, DivineRPG.MODID + "/client.toml");
 
     }
 
