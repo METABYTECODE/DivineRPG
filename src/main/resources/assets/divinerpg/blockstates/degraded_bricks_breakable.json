@@ -1,7 +1,12 @@
 {
   "variants": {
-    "": {
-      "model": "divinerpg:block/degraded_bricks"
-    }
+    "": [
+      {
+        "model": "divinerpg:block/degraded_bricks"
+      },
+      {
+        "model": "divinerpg:block/degraded_bricks_mirrored"
+      }
+    ]
   }
 }
