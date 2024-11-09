@@ -63,6 +63,7 @@ public abstract class EntityDivineMerchant extends Villager {
     @Override
     protected void stopTrading() {
         super.stopTrading();
+        resetSpecialPrices();
     }
 
     private void resetSpecialPrices() {
@@ -72,7 +73,7 @@ public abstract class EntityDivineMerchant extends Villager {
     }
 
     private boolean canTrade(Player player) {
-        return player.isAlive() && !player.isSleeping() && !this.isTrading();
+        return player.isAlive() && !player.isSleeping();
     }
 
     @Override
