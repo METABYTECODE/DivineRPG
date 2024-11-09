@@ -30,7 +30,7 @@ public class AttachmentRegistry {
 	The benefit of the SingleSidedAttachments is that they provide a very simple way of controlling and overseeing sided data access.
 	 */
 	public static final SingleSidedAttachment<DimensionalInventory> DIMENSIONAL_INVENTORY = registerSingleSided("dimensional_inventory", DimensionalInventory::new, false);
-	public static final SingleSidedAttachment<String> ANGRY_AT = registerSingleSided("angry_at", () -> null, Codec.STRING, false);
+	public static final SingleSidedAttachment<String> ANGRY_AT = registerSingleSided("angry_at", () -> "", Codec.STRING, false);
 	public static final SingleSidedAttachment<Integer> ANGER_TIME = registerSingleSided("anger_time", () -> 0, Codec.INT, false);
 	public static final SingleSidedAttachment<Float> RADIUS = registerSingleSided("radius", () -> 0F, Codec.FLOAT, false);
 

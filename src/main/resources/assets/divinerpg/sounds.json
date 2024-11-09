@@ -1069,21 +1069,11 @@
       "divinerpg:to_replace/wildfire_hurt"
     ]
   },
-  "merchant_1": {
+  "merchant": {
     "category": "neutral",
     "sounds": [
-      "divinerpg:mobs/base/merchant_1"
-    ]
-  },
-  "merchant_2": {
-    "category": "neutral",
-    "sounds": [
-      "divinerpg:mobs/base/merchant_2"
-    ]
-  },
-  "merchant_3": {
-    "category": "neutral",
-    "sounds": [
+      "divinerpg:mobs/base/merchant_1",
+      "divinerpg:mobs/base/merchant_2",
       "divinerpg:mobs/base/merchant_3"
     ]
   },

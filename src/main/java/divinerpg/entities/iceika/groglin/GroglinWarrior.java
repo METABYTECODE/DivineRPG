@@ -4,6 +4,9 @@ import divinerpg.entities.ai.FollowLeaderGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.BlockRegistry;
 import divinerpg.registries.ItemRegistry;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +16,10 @@ import net.minecraft.world.level.Level;
 public class GroglinWarrior extends Groglin {
 	public GroglinWarrior(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 2);
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.icicle_bane.get()));
 	}
 	@Override protected void registerGoals() {
 		super.registerGoals();

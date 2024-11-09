@@ -23,6 +23,6 @@ public class Reputation extends ServerHandledAttachment<Integer> {
 		this.faction = faction;
 	}
 	public void modify(Entity e, int reputation) {
-		set(e, get(e) + reputation);
+		setSilent(e, get(e) + reputation);
 	}
 }

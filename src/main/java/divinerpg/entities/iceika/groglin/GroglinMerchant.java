@@ -3,6 +3,9 @@ package divinerpg.entities.iceika.groglin;
 import divinerpg.entities.ai.AvoidFactionGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.*;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -15,7 +18,10 @@ import net.minecraft.world.level.Level;
 public class GroglinMerchant extends Groglin {
 	public GroglinMerchant(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 12);
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.blue_armor_pouch.get()));
 	}
 	@Override protected void registerGoals() {
 		goalSelector.addGoal(0, new FloatGoal(this));

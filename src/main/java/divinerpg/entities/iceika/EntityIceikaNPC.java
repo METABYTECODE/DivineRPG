@@ -34,25 +34,7 @@ import javax.annotation.Nullable;
 
 public abstract class EntityIceikaNPC extends EntityDivineMerchant implements FactionEntity {
 	public static final TagKey<Structure> WHALE_SKULL = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "whale_skull"));
-	public static Item getItem(int i) {
-		return switch(i) {
-		case 1 -> ItemRegistry.oxdrite_pickaxe.get();//gruzzorlug miner
-		case 2 -> ItemRegistry.icicle_bane.get();//groglin warrior
-		case 3 -> ItemRegistry.icicle_bow.get();//groglin hunter
-		case 4 -> ItemRegistry.frozen_maul.get();//gruzzorlug knight
-		case 5 -> ItemRegistry.frost_sword.get();//gruzzorlug swordsman
-		case 6 -> ItemRegistry.frostking_sword.get();//gruzzorlug general
-		case 7 -> ItemRegistry.frost_cannon.get();//gruzzorlug cannoneer
-		case 8 -> ItemRegistry.fractite_cannon.get();//gruzzorlug commander
-		case 9 -> ItemRegistry.glacier_sword.get();//groglin chieftain
-		case 10 -> ItemRegistry.serenade_of_ice.get();//groglin sharlatan
-		case 11 -> ItemRegistry.sabear_sabre.get();//groglin ranger
-		case 12 -> ItemRegistry.blue_armor_pouch.get();//groglin merchant
-		default -> null;
-		};
-	}
-    protected static final EntityDataAccessor<Integer> ITEM = SynchedEntityData.defineId(EntityIceikaNPC.class, EntityDataSerializers.INT);
-    protected boolean important = false;
+	protected boolean important = false;
 	public EntityIceikaNPC(EntityType<? extends EntityDivineMerchant> type, Level worldIn, VillagerProfession profession) {
         super(type, worldIn, profession);
         setPathfindingMalus(PathType.POWDER_SNOW, -1);
@@ -74,14 +56,6 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 		nav.setCanPassDoors(true);
 		return nav;
 	}
-	@Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ITEM, 0);
-    }
-	@Override protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
-		super.populateDefaultEquipmentSlots(random, difficulty);
-		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(getItem(entityData.get(ITEM))));
-	}
 	@Nullable
 	@Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType type, @Nullable SpawnGroupData data) {
 		RandomSource random = level.getRandom();
@@ -92,7 +66,7 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 	public void setUnimportant() {important = false;}
 	@Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if(getFaction().reputation.get(player) > 5) return super.mobInteract(player, hand);
+		if(getFaction().getReputation(player) > 5) return super.mobInteract(player, hand);
     	playSound(SoundEvents.VILLAGER_NO);
     	return InteractionResult.FAIL;
     }
@@ -101,15 +75,17 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 		super.die(source);
 	}
 	@Override public void modifyReputationOnDeath(DamageSource source) {
-		if(important && level() instanceof ServerLevel) {
-			if(source.getDirectEntity() != null && source.getDirectEntity() instanceof LivingEntity entity)
-				entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
-			if(source.getEntity() != null && source.getEntity() instanceof LivingEntity entity)
-				entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
-		} FactionEntity.super.modifyReputationOnDeath(source);
+		if(level() instanceof ServerLevel) {
+			if(important) {
+				if(source.getDirectEntity() != null && source.getDirectEntity() instanceof LivingEntity entity)
+					entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
+				if(source.getEntity() != null && source.getEntity() instanceof LivingEntity entity)
+					entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
+			} FactionEntity.super.modifyReputationOnDeath(source);
+		}
 	}
 	@Override public boolean hurt(DamageSource source, float f) {
-		modifyReputationOnHurt(source, f);
+		if(level() instanceof ServerLevel) modifyReputationOnHurt(source, f);
 		return super.hurt(source, f);
 	}
 	@Override protected boolean shouldDespawnInPeaceful() {return false;}

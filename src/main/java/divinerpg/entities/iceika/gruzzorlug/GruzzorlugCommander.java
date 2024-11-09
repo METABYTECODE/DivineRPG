@@ -5,6 +5,9 @@ import divinerpg.entities.projectile.EntityShooterBullet;
 import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -16,8 +19,11 @@ import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 public class GruzzorlugCommander extends Gruzzorlug implements RangedAttackMob {
 	public GruzzorlugCommander(EntityType<? extends Gruzzorlug> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 8);
 		important = true;
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.fractite_cannon.get()));
 	}
 	@Override protected void registerGoals() {
 		super.registerGoals();

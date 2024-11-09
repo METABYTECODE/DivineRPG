@@ -2,6 +2,9 @@ package divinerpg.entities.iceika.groglin;
 
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.*;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -11,7 +14,10 @@ import net.minecraft.world.level.Level;
 public class GroglinRanger extends Groglin {
 	public GroglinRanger(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 11);
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.sabear_sabre.get()));
 	}
 	@Override protected void updateTrades() {
 		MerchantOffers merchantoffers = getOffers();

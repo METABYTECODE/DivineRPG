@@ -5,7 +5,6 @@ import java.util.*;
 import javax.annotation.Nullable;
 
 import divinerpg.attachments.Reputation;
-import divinerpg.attachments.base.ServerHandledAttachment;
 import divinerpg.registries.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -132,6 +131,10 @@ public interface FactionEntity {
 			if(entity instanceof Player player && !player.isCreative() && !player.isSpectator() && reputation.get(player) < (isAutoAggressive ? 50 : -10)) return true;
 			if(entity instanceof FactionEntity fac) return isAgressiveTowards(fac.getFaction());
 			return isAutoAggressive;
+		}
+		public int getReputation(LivingEntity e) {
+			if(e.level().isClientSide() && !reputation.has(e)) reputation.requestAttachment(e, null);
+			return reputation.get(e);
 		}
 	}
 }

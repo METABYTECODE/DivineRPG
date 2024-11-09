@@ -6,6 +6,9 @@ import divinerpg.entities.projectile.EntityShooterBullet;
 import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.*;
@@ -18,8 +21,13 @@ import net.minecraft.world.level.Level;
 public class GruzzorlugCannoneer extends Gruzzorlug implements RangedAttackMob {
 	public GruzzorlugCannoneer(EntityType<? extends Gruzzorlug> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 7);
 	}
+
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.frost_cannon.get()));
+	}
+
 	@Override protected void registerGoals() {
 		super.registerGoals();
         goalSelector.addGoal(0, new AggressiveRangedAttackGoal(20));

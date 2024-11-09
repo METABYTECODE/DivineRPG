@@ -88,6 +88,7 @@ public class EntityGemFin extends AbstractSchoolingFish {
     }
 
     public byte getVariant() {
+        if(level().isClientSide() && !AttachmentRegistry.VARIANT.has(this)) AttachmentRegistry.VARIANT.requestAttachment(this, null);
         return AttachmentRegistry.VARIANT.get(this);
     }
 }

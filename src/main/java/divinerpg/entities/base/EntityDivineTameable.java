@@ -144,8 +144,13 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
     @Override public int getRemainingPersistentAngerTime() {return AttachmentRegistry.ANGER_TIME.get(this);}
     @Override public void setRemainingPersistentAngerTime(int i) {AttachmentRegistry.ANGER_TIME.set(this, i);}
     @Override public void startPersistentAngerTimer() {setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));}
-    @Override @Nullable public UUID getPersistentAngerTarget() {return UUID.fromString(AttachmentRegistry.ANGRY_AT.get(this));}
-    @Override public void setPersistentAngerTarget(@Nullable UUID id) {AttachmentRegistry.ANGRY_AT.set(this, id.toString());}
+    @Override @Nullable public UUID getPersistentAngerTarget() {
+        if(AttachmentRegistry.ANGRY_AT.has(this)) {
+            String s = AttachmentRegistry.ANGRY_AT.get(this);
+            if(s != null && !s.isEmpty()) return UUID.fromString(s);
+        } return null;
+    }
+    @Override public void setPersistentAngerTarget(@Nullable UUID id) {AttachmentRegistry.ANGRY_AT.set(this, id == null ? "" : id.toString());}
 	@Override public AgeableMob getBreedOffspring(ServerLevel s, AgeableMob a) {return null;}
     @Override public boolean canMate(Animal animal) {return false;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return !isTame();}

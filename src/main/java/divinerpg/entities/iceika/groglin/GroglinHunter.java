@@ -7,6 +7,9 @@ import divinerpg.enums.ArrowType;
 import divinerpg.registries.EntityRegistry;
 import divinerpg.registries.ItemRegistry;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
@@ -18,7 +21,10 @@ import net.minecraft.world.level.Level;
 public class GroglinHunter extends Groglin implements RangedAttackMob {
 	public GroglinHunter(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 3);
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.icicle_bow.get()));
 	}
 	@Override protected void registerGoals() {
 		super.registerGoals();

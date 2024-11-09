@@ -1,20 +1,22 @@
 package divinerpg.entities.base;
 
-import divinerpg.DivineRPG;
-import net.minecraft.core.Holder;
+import divinerpg.registries.SoundRegistry;
+import net.minecraft.core.*;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.npc.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.MapItem;
-import net.minecraft.world.item.trading.ItemCost;
-import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.trading.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -22,38 +24,42 @@ import net.minecraft.world.level.saveddata.maps.*;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.Optional;
-import java.util.Random;
 import javax.annotation.Nullable;
 
-public abstract class EntityDivineMerchant extends Villager {
+public abstract class EntityDivineMerchant extends AbstractVillager {
     VillagerProfession profession;
-
     public EntityDivineMerchant(EntityType<? extends EntityDivineMerchant> type, Level level, VillagerProfession profession) {
         super(type, level);
         ((GroundPathNavigation) getNavigation()).setCanOpenDoors(true);
         this.profession = profession;
     }
-
+    @Override
+    protected void rewardTradeXp(MerchantOffer offer) {
+        int i = 3 + this.random.nextInt(4);
+        if(offer.shouldRewardExp()) level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), i));
+    }
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.isAlive() && !this.isSleeping() && !player.isSecondaryUseActive()) {
-            if (!this.level().isClientSide) {
+        if(!(player.getItemInHand(hand).getItem() instanceof SpawnEggItem) && this.isAlive() && !this.isSleeping() && !player.isSecondaryUseActive()) {
+            if(!level().isClientSide) {
                 boolean hasOffers = !getOffers().isEmpty(); // Check if there are offers
-
-                if (hand == InteractionHand.MAIN_HAND) {
+                if(hand == InteractionHand.MAIN_HAND) {
                     player.awardStat(Stats.TALKED_TO_VILLAGER); // Award stat for talking to the villager
-                    if (hasOffers && canTrade(player)) { // Check if trading can start
+                    if(hasOffers && canTrade(player)) { // Check if trading can start
                         setTradingPlayer(player); // Set the trading player
-                        openTradingScreen(player, Component.translatable("entity.divinerpg." + profession.name()), getVillagerData().getLevel()); // Open the trading screen
+                        openTradingScreen(player, Component.translatable("entity.divinerpg." + profession.name()), 0); // Open the trading screen
                     }
                 }
             }
-            return InteractionResult.sidedSuccess(this.level().isClientSide); // Return success based on the client side
+            return InteractionResult.sidedSuccess(level().isClientSide()); // Return success based on the client side
         } else {
             return super.mobInteract(player, hand); // Call the superclass method for other interactions
         }
     }
-
+    @Override
+    public @org.jetbrains.annotations.Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+        return null;
+    }
     @Override
     public boolean canRestock() { return true; }
     @Override
@@ -65,17 +71,12 @@ public abstract class EntityDivineMerchant extends Villager {
         super.stopTrading();
         resetSpecialPrices();
     }
-
     private void resetSpecialPrices() {
-        for (MerchantOffer merchantoffer : this.getOffers()) {
-            merchantoffer.resetSpecialPriceDiff();
-        }
+        if(level() instanceof ServerLevel) for(MerchantOffer merchantoffer : getOffers()) merchantoffer.resetSpecialPriceDiff();
     }
-
     private boolean canTrade(Player player) {
         return player.isAlive() && !player.isSleeping();
     }
-
     @Override
     public void setTradingPlayer(@Nullable Player player) {
         if (this.getTradingPlayer() != player) {
@@ -84,12 +85,23 @@ public abstract class EntityDivineMerchant extends Villager {
             }
         }
     }
-
     public abstract String[] getChatMessages();
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundRegistry.MERCHANT.get();
+    }
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.MERCHANT_HURT.get();
+    }
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.MERCHANT_HURT.get();
+    }
 
     public static class DivineTrades implements VillagerTrades.ItemListing {
         protected ItemStack input1, input2;
-        private ItemStack output;
+        private final ItemStack output;
         protected int xp, stock;
 
         public DivineTrades(ItemStack input1, ItemStack input2, ItemStack output, int stock, int xp) {
@@ -132,14 +144,17 @@ public abstract class EntityDivineMerchant extends Villager {
 
         @Nullable
         @Override
-        public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-            ItemStack itemstack = MapItem.create(trader.level(), trader.blockPosition().getX(), trader.blockPosition().getZ(), (byte)2, true, true);
-
-            if (input2 != null) {
-                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), itemstack, stock, xp, 0f);
-            } else {
-                return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), itemstack, stock, xp, 0f);
-            }
+        public MerchantOffer getOffer(Entity entity, RandomSource rand) {
+            if(entity.level() instanceof ServerLevel serverlevel) {
+                BlockPos blockpos = serverlevel.findNearestMapStructure(destination, entity.blockPosition(), 100, true);
+                if(blockpos != null) {
+                    ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte)2, true, true);
+                    MapItem.renderBiomePreviewMap(serverlevel, itemstack);
+                    MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", this.destinationType);
+                    itemstack.set(DataComponents.ITEM_NAME, Component.translatable(this.displayName));
+                    return new MerchantOffer(new ItemCost(input1.getItem(), input1.getCount()), Optional.of(new ItemCost(input2.getItem(), input2.getCount())), itemstack, 1, xp, 0F);
+                }
+            } return null;
         }
     }
 

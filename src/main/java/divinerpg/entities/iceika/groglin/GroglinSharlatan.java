@@ -2,6 +2,9 @@ package divinerpg.entities.iceika.groglin;
 
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.*;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,8 +19,11 @@ import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 public class GroglinSharlatan extends Groglin implements RangedAttackMob {
 	public GroglinSharlatan(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		entityData.set(ITEM, 10);
 		important = true;
+	}
+	@Override
+	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+		setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ItemRegistry.serenade_of_ice.get()));
 	}
 	@Override protected void registerGoals() {
 		super.registerGoals();

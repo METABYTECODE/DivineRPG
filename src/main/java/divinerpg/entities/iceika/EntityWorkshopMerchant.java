@@ -4,9 +4,11 @@ import divinerpg.entities.ai.AvoidFactionGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.entities.base.FactionEntity;
 import divinerpg.registries.*;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -69,5 +71,15 @@ public class EntityWorkshopMerchant extends EntityDivineMerchant implements Fact
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(BlockRegistry.yellowCandyCane.get(), 4), random.nextInt(7), 5)
         };
         this.addOffersFromItemListings(merchantoffers, tradetrades, 5);
+    }
+    @Override
+    public void die(DamageSource cause) {
+        if(level() instanceof ServerLevel) modifyReputationOnDeath(cause);
+        super.die(cause);
+    }
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(level() instanceof ServerLevel) modifyReputationOnHurt(source, amount);
+        return super.hurt(source, amount);
     }
 }
