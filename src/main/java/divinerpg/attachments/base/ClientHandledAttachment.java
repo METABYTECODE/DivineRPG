@@ -7,14 +7,12 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import java.io.IOException;
 import java.util.function.Supplier;
 
 public class ClientHandledAttachment<T> extends SynchedAttachement<T> {
@@ -46,11 +44,6 @@ public class ClientHandledAttachment<T> extends SynchedAttachement<T> {
     @Override
     public void update(Entity e, T data) {
         PacketDistributor.sendToServer(new AttachmentPayload(data, e.getId()));
-    }
-    @Override
-    public void setSilent(Entity e, T data) {
-        try(Level level = e.level()) {if(!level.isClientSide()) throw new UnsupportedOperationException("Client handled Data only!");} catch(IOException ignored) {}
-        super.setSilent(e, data);
     }
     public static class Serializable<B extends Tag, S extends INBTSerializable<B>>  extends ClientHandledAttachment<S> {
         public Serializable(String name, Supplier<S> defaultValue, StreamCodec<ByteBuf, S> streamCodec) {

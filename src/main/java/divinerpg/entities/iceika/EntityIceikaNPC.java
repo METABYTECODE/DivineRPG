@@ -3,11 +3,9 @@ package divinerpg.entities.iceika;
 import divinerpg.DivineRPG;
 import divinerpg.entities.ai.FactionTargetGoal;
 import divinerpg.entities.base.*;
-import divinerpg.registries.ItemRegistry;
+import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -23,7 +21,6 @@ import net.minecraft.world.entity.ai.navigation.*;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,7 +31,6 @@ import javax.annotation.Nullable;
 
 public abstract class EntityIceikaNPC extends EntityDivineMerchant implements FactionEntity {
 	public static final TagKey<Structure> WHALE_SKULL = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "whale_skull"));
-	protected boolean important = false;
 	public EntityIceikaNPC(EntityType<? extends EntityDivineMerchant> type, Level worldIn, VillagerProfession profession) {
         super(type, worldIn, profession);
         setPathfindingMalus(PathType.POWDER_SNOW, -1);
@@ -63,7 +59,6 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
 		populateDefaultEquipmentEnchantments(level, random, difficulty);
 		return data;
 	}
-	public void setUnimportant() {important = false;}
 	@Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if(getFaction().getReputation(player) > 5) return super.mobInteract(player, hand);
@@ -71,32 +66,25 @@ public abstract class EntityIceikaNPC extends EntityDivineMerchant implements Fa
     	return InteractionResult.FAIL;
     }
 	@Override public void die(DamageSource source) {
-		modifyReputationOnDeath(source);
+		if(level() instanceof ServerLevel) modifyReputationOnDeath(source);
 		super.die(source);
 	}
 	@Override public void modifyReputationOnDeath(DamageSource source) {
-		if(level() instanceof ServerLevel) {
-			if(important) {
-				if(source.getDirectEntity() != null && source.getDirectEntity() instanceof LivingEntity entity)
-					entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
-				if(source.getEntity() != null && source.getEntity() instanceof LivingEntity entity)
-					entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
-			} FactionEntity.super.modifyReputationOnDeath(source);
-		}
+		if(isImportant()) {
+			if(source.getDirectEntity() != null && source.getDirectEntity() instanceof LivingEntity entity)
+				entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
+			if(source.getEntity() != null && source.getEntity() instanceof LivingEntity entity)
+				entity.addEffect(new MobEffectInstance(getTargetEffect(), -1, 0, false, false, true));
+		} FactionEntity.super.modifyReputationOnDeath(source);
+	}
+	public boolean isImportant() {
+		return AttachmentRegistry.IMPORTANT.get(this);
 	}
 	@Override public boolean hurt(DamageSource source, float f) {
 		if(level() instanceof ServerLevel) modifyReputationOnHurt(source, f);
 		return super.hurt(source, f);
 	}
 	@Override protected boolean shouldDespawnInPeaceful() {return false;}
-	@Override public void readAdditionalSaveData(CompoundTag tag) {
-		super.readAdditionalSaveData(tag);
-		if(tag.contains("Important")) important = tag.getBoolean("Important");
-	}
-	@Override public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.putBoolean("Important", important);
-	}
 	@Override
 	public String[] getChatMessages() {
 		return new String[0];

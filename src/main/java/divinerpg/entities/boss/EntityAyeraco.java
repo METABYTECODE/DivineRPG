@@ -51,6 +51,11 @@ public class EntityAyeraco extends EntityDivineBoss {
 		assignGroup(group);
 	}
     @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.VARIANT.requestAttachment(this, null);
+    }
+    @Override
     protected BodyRotationControl createBodyControl() {
         return new AyeracoBodyRotationControl(this);
 	}

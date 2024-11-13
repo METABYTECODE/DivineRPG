@@ -16,6 +16,11 @@ public abstract class EntityPeacefulUntilAttacked extends EntityDivineMonster {
         super(type, worldIn);
     }
     @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.ANGRY.requestAttachment(this, null);
+    }
+    @Override
     public void setTarget(@Nullable LivingEntity livingBase) {
     	super.setTarget(livingBase);
         setAngryAt(livingBase);
@@ -27,11 +32,11 @@ public abstract class EntityPeacefulUntilAttacked extends EntityDivineMonster {
     }
     protected void setAngryAt(@Nullable LivingEntity livingBase) {
         if(livingBase == null) {
-            AttachmentRegistry.ANGRY_AT.set(this, null);
+//            AttachmentRegistry.ANGRY_AT.set(this, AttachmentRegistry.zero);
             AttachmentRegistry.ANGER_TIME.set(this, 0);
             AttachmentRegistry.ANGRY.set(this, false);
         } else {
-            AttachmentRegistry.ANGRY_AT.set(this, livingBase.getUUID().toString());
+//            AttachmentRegistry.ANGRY_AT.set(this, livingBase.getUUID());
             AttachmentRegistry.ANGER_TIME.set(this, 400 + random.nextInt(400));
             AttachmentRegistry.ANGRY.set(this, true);
         }

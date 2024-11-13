@@ -20,7 +20,12 @@ public class EntityGemFin extends AbstractSchoolingFish {
 
     public EntityGemFin(EntityType<? extends EntityGemFin> type, Level level) {
         super(type, level);
-        if(!level.isClientSide()) AttachmentRegistry.VARIANT.set(this, (byte) getRandom().nextInt(3));
+        if(!level.isClientSide()) AttachmentRegistry.VARIANT.setSilent(this, (byte) getRandom().nextInt(3));
+    }
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.VARIANT.requestAttachment(this, null);
     }
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -88,7 +93,6 @@ public class EntityGemFin extends AbstractSchoolingFish {
     }
 
     public byte getVariant() {
-        if(level().isClientSide() && !AttachmentRegistry.VARIANT.has(this)) AttachmentRegistry.VARIANT.requestAttachment(this, null);
         return AttachmentRegistry.VARIANT.get(this);
     }
 }

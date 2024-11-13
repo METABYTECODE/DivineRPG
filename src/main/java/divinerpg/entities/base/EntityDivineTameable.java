@@ -2,8 +2,6 @@ package divinerpg.entities.base;
 
 import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
@@ -70,19 +68,17 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
             attribute.setBaseValue(attribute.getValue() * healthIncrease);
         }
     }
-    @Override public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("CollarColor", (byte)getCollarColor().getId());
-        addPersistentAngerSaveData(tag);
-    }
-    @Override public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if(tag.contains("CollarColor", 99)) setCollarColor(DyeColor.byId(tag.getInt("CollarColor")));
-        readPersistentAngerSaveData(level(), tag);
-    }
     @Override public void aiStep() {
         super.aiStep();
         if(!level().isClientSide()) updatePersistentAnger((ServerLevel)level(), true);
+    }
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) {
+            AttachmentRegistry.COLOR.requestAttachment(this, null);
+            AttachmentRegistry.ANGRY.requestAttachment(this, null);
+        }
     }
     public DyeColor getCollarColor() {return DyeColor.byId(AttachmentRegistry.COLOR.get(this));}
     public void setCollarColor(DyeColor color) {AttachmentRegistry.COLOR.set(this, color.getId());}
@@ -132,12 +128,12 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
     }
     @Override public boolean wantsToAttack(LivingEntity entity, LivingEntity entity1) {
         if(!(entity instanceof Creeper) && !(entity instanceof Ghast)) {
-            if(entity instanceof EntityDivineTameable) {
-                EntityDivineTameable pet = (EntityDivineTameable)entity;
-                return !pet.isTame() || pet.getOwner() != entity1;
-            } else if(entity instanceof Player && entity1 instanceof Player && !((Player)entity1).canHarmPlayer((Player)entity)) return false;
-            else if(entity instanceof AbstractHorse && ((AbstractHorse)entity).isTamed()) return false;
-            else return !(entity instanceof TamableAnimal) || !((TamableAnimal)entity).isTame();
+            return switch (entity) {
+                case EntityDivineTameable pet -> !pet.isTame() || pet.getOwner() != entity1;
+                case Player player when entity1 instanceof Player && !((Player) entity1).canHarmPlayer(player) -> false;
+                case AbstractHorse abstractHorse when abstractHorse.isTamed() -> false;
+                default -> !(entity instanceof TamableAnimal) || !((TamableAnimal) entity).isTame();
+            };
         } else return false;
     }
     @Override public boolean canBeLeashed() {return !isAngry() && super.canBeLeashed();}
@@ -145,12 +141,17 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
     @Override public void setRemainingPersistentAngerTime(int i) {AttachmentRegistry.ANGER_TIME.set(this, i);}
     @Override public void startPersistentAngerTimer() {setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));}
     @Override @Nullable public UUID getPersistentAngerTarget() {
-        if(AttachmentRegistry.ANGRY_AT.has(this)) {
-            String s = AttachmentRegistry.ANGRY_AT.get(this);
-            if(s != null && !s.isEmpty()) return UUID.fromString(s);
-        } return null;
+        if(AttachmentRegistry.ANGRY.get(this)) return AttachmentRegistry.ANGRY_AT.get(this);
+        return null;
     }
-    @Override public void setPersistentAngerTarget(@Nullable UUID id) {AttachmentRegistry.ANGRY_AT.set(this, id == null ? "" : id.toString());}
+    @Override
+    public boolean isAngry() {
+        return AttachmentRegistry.ANGRY.get(this);
+    }
+    @Override public void setPersistentAngerTarget(@Nullable UUID id) {
+        AttachmentRegistry.ANGRY_AT.set(this, id == null ? AttachmentRegistry.zero : id);
+        AttachmentRegistry.ANGRY.set(this, id != null);
+    }
 	@Override public AgeableMob getBreedOffspring(ServerLevel s, AgeableMob a) {return null;}
     @Override public boolean canMate(Animal animal) {return false;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return !isTame();}

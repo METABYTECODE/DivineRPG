@@ -23,7 +23,11 @@ public class EntitySaguaroWorm extends EntityDivineMonster implements RangedAtta
     public EntitySaguaroWorm(EntityType<? extends EntitySaguaroWorm> type, Level worldIn) {
         super(type, worldIn);
     }
-
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.ANGRY.requestAttachment(this, null);
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(4, new RangedAttackGoal(this, this.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue(), 3, (float)getAttribute(Attributes.FOLLOW_RANGE).getBaseValue()));

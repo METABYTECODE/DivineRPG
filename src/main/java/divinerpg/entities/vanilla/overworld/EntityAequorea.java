@@ -19,14 +19,14 @@ import java.util.EnumSet;
 public class EntityAequorea extends Squid {
 	public EntityAequorea(EntityType<EntityAequorea> type, Level level) {
 		super(type, level);
-        if(!level().isClientSide()) setData(AttachmentRegistry.VARIANT.attachment, (byte) getRandom().nextInt(6));
+        if(!level.isClientSide()) setData(AttachmentRegistry.VARIANT.attachment, (byte) getRandom().nextInt(6));
 	}
 
-//    @Override
-//    public void onAddedToLevel() {
-//        super.onAddedToLevel();
-//        if(level().isClientSide()) AttachmentRegistry.VARIANT.requestAttachment(this, null);
-//    }
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.VARIANT.requestAttachment(this, null);
+    }
 
     @Override
 	protected void registerGoals() {
@@ -37,9 +37,7 @@ public class EntityAequorea extends Squid {
 	    targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 	public byte getColor() {
-        if(AttachmentRegistry.VARIANT.has(this)) return AttachmentRegistry.VARIANT.get(this);
-        AttachmentRegistry.VARIANT.requestAttachment(this, null);
-        return 0;
+        return AttachmentRegistry.VARIANT.get(this);
 	}
 	@Override
 	protected ParticleOptions getInkParticle() {

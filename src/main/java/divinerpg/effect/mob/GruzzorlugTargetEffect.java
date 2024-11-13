@@ -2,6 +2,7 @@ package divinerpg.effect.mob;
 
 import divinerpg.entities.base.FactionEntity.Faction;
 import divinerpg.entities.iceika.gruzzorlug.Gruzzorlug;
+import divinerpg.registries.AttachmentRegistry;
 import divinerpg.registries.EntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -22,12 +23,12 @@ public class GruzzorlugTargetEffect extends MobEffect {
 			BlockPos structure = level.findNearestMapStructure(Gruzzorlug.RAID_TARGETS, entity.blockPosition(), 4, false);
 			if(structure != null && entity.distanceToSqr(structure.getX(), entity.getBlockY(), structure.getZ()) < 128D) {
 				BlockPos pos = getNearbySpawnPos(level, entity.getRandom(), entity.blockPosition());
-				EntityRegistry.GRUZZORLUG_COMMANDER.get().spawn(level, null, null, pos, MobSpawnType.REINFORCEMENT, false, false).setUnimportant();
+				AttachmentRegistry.IMPORTANT.set(EntityRegistry.GRUZZORLUG_COMMANDER.get().spawn(level, null, null, pos, MobSpawnType.REINFORCEMENT, false, false), false);
 				EntityType<?> ent = EntityRegistry.GRUZZORLUG_CANNONEER.get();
 				ent.spawn(level, adjustHeight(level, pos.offset(3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT);
 				ent.spawn(level, adjustHeight(level, pos.offset(0, 0, 3).mutable()), MobSpawnType.REINFORCEMENT);
 				ent.spawn(level, adjustHeight(level, pos.offset(0, 0, -3).mutable()), MobSpawnType.REINFORCEMENT);
-				EntityRegistry.GRUZZORLUG_GENERAL.get().spawn(level, null, null, adjustHeight(level, pos.offset(-3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT, false, false).setUnimportant();
+				AttachmentRegistry.IMPORTANT.set(EntityRegistry.GRUZZORLUG_GENERAL.get().spawn(level, null, null, adjustHeight(level, pos.offset(-3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT, false, false), false);
 				EntityRegistry.GRUZZORLUG_KNIGHT.get().spawn(level, adjustHeight(level, pos.offset(-6, 0, 0).mutable()), MobSpawnType.REINFORCEMENT);
 				ent = EntityRegistry.GRUZZORLUG_SWORDSMAN.get();
 				ent.spawn(level, adjustHeight(level, pos.offset(-3, 0, 3).mutable()), MobSpawnType.REINFORCEMENT);

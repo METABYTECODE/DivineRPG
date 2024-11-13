@@ -19,7 +19,7 @@ import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 public class GruzzorlugCommander extends Gruzzorlug implements RangedAttackMob {
 	public GruzzorlugCommander(EntityType<? extends Gruzzorlug> type, Level worldIn) {
 		super(type, worldIn);
-		important = true;
+		if(!worldIn.isClientSide()) setData(AttachmentRegistry.IMPORTANT.attachment, true);
 	}
 	@Override
 	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {

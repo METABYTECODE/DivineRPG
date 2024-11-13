@@ -20,6 +20,11 @@ public class EntityPumpkinSpider extends Spider {
 		setYBodyRot(0);
 	}
 	@Override
+	public void onAddedToLevel() {
+		super.onAddedToLevel();
+		if(level().isClientSide()) AttachmentRegistry.ANGRY.requestAttachment(this, null);
+	}
+	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new FloatGoal(this));
 		goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));

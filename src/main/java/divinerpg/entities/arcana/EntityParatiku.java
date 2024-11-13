@@ -35,7 +35,7 @@ public class EntityParatiku extends EntityDivineTameable {
         return AttachmentRegistry.HANGING.get(this);
     }
     public void setIsParatikuHanging(boolean isHanging) {
-        AttachmentRegistry.HANGING.set(this, isHanging);
+        AttachmentRegistry.HANGING.setSilent(this, isHanging);
     }
     @Override
     public void tick() {

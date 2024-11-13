@@ -16,8 +16,12 @@ public class EntityRotatick extends EntityDivineMonster {
         super(type, level);
         if(!level().isClientSide() && random.nextInt(10) == 1) setData(AttachmentRegistry.SPECIAL.attachment, true);
     }
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.SPECIAL.requestAttachment(this, null);
+    }
     public boolean isSpecialAlt() {
-        if(level().isClientSide() && !AttachmentRegistry.SPECIAL.has(this)) AttachmentRegistry.SPECIAL.requestAttachment(this, null);
         return AttachmentRegistry.SPECIAL.get(this);
     }
     @Override

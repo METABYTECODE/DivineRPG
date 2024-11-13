@@ -49,11 +49,6 @@ public class ServerHandledAttachment<T> extends SynchedAttachement<T> {
 //        DivineRPG.LOGGER.info("Sending entity data packet for entity[" + e.getId() + "] and data: " + data);
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(e, new AttachmentPayload(data, e.getId()));
     }
-    @Override
-    public void setSilent(Entity e, T data) {
-        try(Level level = e.level()) {if(level.isClientSide()) throw new UnsupportedOperationException("Server handled Data only!");} catch(IOException ignored) {}
-        super.setSilent(e, data);
-    }
     public static class Serializable<B extends Tag, S extends INBTSerializable<B>>  extends ServerHandledAttachment<S> {
         public Serializable(String name, Supplier<S> defaultValue, StreamCodec<ByteBuf, S> streamCodec) {
             super(name, AttachmentRegistry.ATTACHMENT_TYPES.register(name, () -> AttachmentType.serializable(defaultValue).build()), streamCodec);

@@ -2,6 +2,7 @@ package divinerpg.effect.mob;
 
 import divinerpg.entities.base.FactionEntity.Faction;
 import divinerpg.entities.iceika.groglin.Groglin;
+import divinerpg.registries.AttachmentRegistry;
 import divinerpg.registries.EntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -22,12 +23,12 @@ public class GroglinBountyEffect extends MobEffect {
 			BlockPos structure = level.findNearestMapStructure(Groglin.RAID_TARGETS, entity.blockPosition(), 4, false);
 			if(structure != null && entity.distanceToSqr(structure.getX(), entity.getBlockY(), structure.getZ()) < 128D) {
 				BlockPos pos = getNearbySpawnPos(level, entity.getRandom(), entity.blockPosition());
-				EntityRegistry.GROGLIN_SHARLATAN.get().spawn(level, null, null, pos, MobSpawnType.REINFORCEMENT, false, false).setUnimportant();
+				AttachmentRegistry.IMPORTANT.set(EntityRegistry.GROGLIN_SHARLATAN.get().spawn(level, null, null, pos, MobSpawnType.REINFORCEMENT, false, false), false);
 				EntityType<?> ent = EntityRegistry.GROGLIN_HUNTER.get();
 				ent.spawn(level, adjustHeight(level, pos.offset(3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT);
 				ent.spawn(level, adjustHeight(level, pos.offset(0, 0, 3).mutable()), MobSpawnType.REINFORCEMENT);
 				ent.spawn(level, adjustHeight(level, pos.offset(0, 0, -3).mutable()), MobSpawnType.REINFORCEMENT);
-				EntityRegistry.GROGLIN_CHIEFTAIN.get().spawn(level, null, null, adjustHeight(level, pos.offset(-3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT, false, false).setUnimportant();
+				AttachmentRegistry.IMPORTANT.set(EntityRegistry.GROGLIN_CHIEFTAIN.get().spawn(level, null, null, adjustHeight(level, pos.offset(-3, 0, 0).mutable()), MobSpawnType.REINFORCEMENT, false, false), false);
 				EntityRegistry.GROGLIN_WARRIOR.get().spawn(level, adjustHeight(level, pos.offset(-6, 0, 0).mutable()), MobSpawnType.REINFORCEMENT);
 				ent = EntityRegistry.GROGLIN_RANGER.get();
 				ent.spawn(level, adjustHeight(level, pos.offset(-3, 0, 3).mutable()), MobSpawnType.REINFORCEMENT);

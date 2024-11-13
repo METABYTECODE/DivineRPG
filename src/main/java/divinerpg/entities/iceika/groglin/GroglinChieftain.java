@@ -15,7 +15,7 @@ import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 public class GroglinChieftain extends Groglin {
 	public GroglinChieftain(EntityType<? extends Groglin> type, Level worldIn) {
 		super(type, worldIn);
-		important = true;
+		if(!worldIn.isClientSide()) setData(AttachmentRegistry.IMPORTANT.attachment, true);
 	}
 	@Override
 	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
