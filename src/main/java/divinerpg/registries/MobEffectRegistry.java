@@ -18,6 +18,7 @@ public class MobEffectRegistry {
 		GRUZZORLUG_TARGET = EFFECTS.register("gruzzorlug_target", GruzzorlugTargetEffect::new),
 		GROGLIN_BOUNTY = EFFECTS.register("groglin_bounty", GroglinBountyEffect::new),
 		FREEZE_REDUCTION = EFFECTS.register("freeze_reduction", FreezeReductionEffect::new),
+		ENDER_ATTACHMENT = EFFECTS.register("ender_attachment", EnderAttachmentEffect::new),
 		WARMTH = EFFECTS.register("warmth", WarmthEffect::new);
 	
 	//Armor

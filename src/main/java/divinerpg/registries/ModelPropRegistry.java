@@ -2,7 +2,7 @@ package divinerpg.registries;
 
 import divinerpg.DivineRPG;
 import divinerpg.items.arcana.ItemMeriksMissile;
-import divinerpg.items.base.ItemModBow;
+import divinerpg.items.base.ItemBow;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -13,30 +13,30 @@ public class ModelPropRegistry {
 
     public static void init() {
         DivineRPG.LOGGER.info("[DivineRPG] Attached model properties");
-        registerBow((ItemModBow) ItemRegistry.apalachia_bow.get(),
-        (ItemModBow) ItemRegistry.soulfire_bow.get(),
-        (ItemModBow) ItemRegistry.eden_bow.get(),
-        (ItemModBow) ItemRegistry.ender_bow.get(),
-        (ItemModBow) ItemRegistry.halite_bow.get(),
-        (ItemModBow) ItemRegistry.hunter_bow.get(),
-        (ItemModBow) ItemRegistry.icicle_bow.get(),
-        (ItemModBow) ItemRegistry.inferno_bow.get(),
-        (ItemModBow) ItemRegistry.mortum_bow.get(),
-        (ItemModBow) ItemRegistry.shadow_bow.get(),
-        (ItemModBow) ItemRegistry.skythern_bow.get(),
-        (ItemModBow) ItemRegistry.snowstorm_bow.get(),
-        (ItemModBow) ItemRegistry.twilight_bow.get(),
-        (ItemModBow) ItemRegistry.wildwood_bow.get(),
-        (ItemModBow) ItemRegistry.amthirmis_bow.get(),
-        (ItemModBow) ItemRegistry.arksiane_bow.get(),
-        (ItemModBow) ItemRegistry.cermile_bow.get(),
-        (ItemModBow) ItemRegistry.darven_bow.get(),
-        (ItemModBow) ItemRegistry.everfright.get(),
-        (ItemModBow) ItemRegistry.heliosis_bow.get(),
-        (ItemModBow) ItemRegistry.karos_bow.get(),
-        (ItemModBow) ItemRegistry.pardimal_bow.get(),
-        (ItemModBow) ItemRegistry.quadrotic_bow.get(),
-        (ItemModBow) ItemRegistry.teaker_bow.get());
+        registerBow((ItemBow) ItemRegistry.apalachia_bow.get(),
+        (ItemBow) ItemRegistry.soulfire_bow.get(),
+        (ItemBow) ItemRegistry.eden_bow.get(),
+        (ItemBow) ItemRegistry.ender_bow.get(),
+        (ItemBow) ItemRegistry.halite_bow.get(),
+        (ItemBow) ItemRegistry.hunter_bow.get(),
+        (ItemBow) ItemRegistry.icicle_bow.get(),
+        (ItemBow) ItemRegistry.inferno_bow.get(),
+        (ItemBow) ItemRegistry.mortum_bow.get(),
+        (ItemBow) ItemRegistry.shadow_bow.get(),
+        (ItemBow) ItemRegistry.skythern_bow.get(),
+        (ItemBow) ItemRegistry.snowstorm_bow.get(),
+        (ItemBow) ItemRegistry.twilight_bow.get(),
+        (ItemBow) ItemRegistry.wildwood_bow.get(),
+        (ItemBow) ItemRegistry.amthirmis_bow.get(),
+        (ItemBow) ItemRegistry.arksiane_bow.get(),
+        (ItemBow) ItemRegistry.cermile_bow.get(),
+        (ItemBow) ItemRegistry.darven_bow.get(),
+        (ItemBow) ItemRegistry.everfright.get(),
+        (ItemBow) ItemRegistry.heliosis_bow.get(),
+        (ItemBow) ItemRegistry.karos_bow.get(),
+        (ItemBow) ItemRegistry.pardimal_bow.get(),
+        (ItemBow) ItemRegistry.quadrotic_bow.get(),
+        (ItemBow) ItemRegistry.teaker_bow.get());
         registerMerik((ItemMeriksMissile) ItemRegistry.meriks_missile.get());
 
         registerShield(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "blocking"),
@@ -53,8 +53,8 @@ public class ModelPropRegistry {
         ItemRegistry.halite_shield.get());
     }
 
-    public static void registerBow(ItemModBow... item){
-        for (ItemModBow bow : item) {
+    public static void registerBow(ItemBow... item){
+        for (ItemBow bow : item) {
 
             ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pull"), (stack, level, entity, i) -> {
                 if (entity == null) {

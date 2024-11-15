@@ -6,6 +6,8 @@ import divinerpg.items.base.*;
 import divinerpg.items.iceika.*;
 import divinerpg.items.twilight.*;
 import divinerpg.items.vanilla.*;
+import divinerpg.items.vanilla.arrows.*;
+import divinerpg.items.vanilla.bows.*;
 import divinerpg.items.vethea.*;
 import divinerpg.util.*;
 import net.minecraft.core.Direction;
@@ -15,7 +17,6 @@ import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.*;
 
 import java.util.function.Supplier;
@@ -395,32 +396,39 @@ public class ItemRegistry {
             serenade_of_infusion = registerItem("serenade_of_infusion", ItemSerenadeOfInfusion::new),
 
             //Arrows
-            eden_arrow = registerItem("eden_arrow"),
-            wildwood_arrow = registerItem("wildwood_arrow"),
-            fury_arrow = registerItem("fury_arrow"),
+            eden_arrow = registerItem("eden_arrow", EdenArrowItem::new),
+            ender_arrow = registerItem("ender_arrow", EnderArrowItem::new),
+            fury_arrow = registerItem("fury_arrow", FuryArrowItem::new),
+            hunter_arrow = registerItem("hunter_arrow", HunterArrowItem::new),
+            icicle_arrow = registerItem("icicle_arrow", IcicleArrowItem::new),
+            inferno_arrow = registerItem("inferno_arrow", InfernoArrowItem::new),
+            shadow_arrow = registerItem("shadow_arrow", ShadowArrowItem::new),
+            snowstorm_arrow = registerItem("snowstorm_arrow", SnowstormArrowItem::new),
+            soulfire_arrow = registerItem("soulfire_arrow", SoulfireArrowItem::new),
+            wildwood_arrow = registerItem("wildwood_arrow", WildwoodArrowItem::new),
 
             //Vethean Arrows
-            teaker_arrow = registerItemVethean("teaker_arrow"),
-            darven_arrow = registerItemVethean("darven_arrow"),
-            pardimal_arrow = registerItemVethean("pardimal_arrow"),
-            karos_arrow = registerItemVethean("karos_arrow"),
-            ever_arrow = registerItemVethean("ever_arrow"),
+            teaker_arrow = registerItemVethean("teaker_arrow", TeakerArrowItem::new),
+            darven_arrow = registerItemVethean("darven_arrow", DarvenArrowItem::new),
+            pardimal_arrow = registerItemVethean("pardimal_arrow", PardimalArrowItem::new),
+            karos_arrow = registerItemVethean("karos_arrow", KarosArrowItem::new),
+            ever_arrow = registerItemVethean("ever_arrow", EverArrowItem::new),
 
             //Bows
-            hunter_bow = registerItem("hunter_bow", () -> new ItemModBow(ArrowType.HUNTER_ARROW, 1125)),
-            shadow_bow = registerItem("shadow_bow", () -> new ItemModBow(ArrowType.SHADOW_ARROW, 1225, 36000)),
-            icicle_bow = registerItem("icicle_bow", () -> new ItemModBow(ArrowType.ICICLE_ARROW, 1456, 24000)),
-            inferno_bow = registerItem("inferno_bow", () -> new ItemModBow(ArrowType.INFERNO_ARROW, ItemModBow.DEFAULT_MAX_USE_DURATION, new Properties().durability(0).fireResistant())),
-            soulfire_bow = registerItem("soulfire_bow", () -> new ItemModBow(ArrowType.SOULFIRE_ARROW, 0)),
-            snowstorm_bow = registerItem("snowstorm_bow", () -> new ItemModBow(ArrowType.SNOWSTORM_ARROW, 0)),
-            ender_bow = registerItem("ender_bow", () -> new ItemModBow(RarityList.ENDER, ArrowType.ENDER_ARROW, 0)),
-            eden_bow = registerItem("eden_bow", () -> new ItemModBow(RarityList.EDEN, ArrowType.EDEN_ARROW, 1517)),
-            wildwood_bow = registerItem("wildwood_bow", () -> new ItemModBow(RarityList.WILDWOOD, ArrowType.LESSER_WILDWOOD_ARROW, 1624, 36000)),
-            apalachia_bow = registerItem("apalachia_bow", () -> new ItemModBow(RarityList.APALACHIA, ArrowType.GREATER_WILDWOOD_ARROW, 1778)),
-            skythern_bow = registerItem("skythern_bow", () -> new ItemModBow(RarityList.SKYTHERN, ArrowType.GREATER_WILDWOOD_ARROW, 1879, 36000)),
-            mortum_bow = registerItem("mortum_bow", () -> new ItemModBow(RarityList.MORTUM, ArrowType.FURY_ARROW, 1990)),
-            halite_bow = registerItem("halite_bow", () -> new ItemModBow(RarityList.HALITE, ArrowType.FURY_ARROW, 2114, 36000)),
-            twilight_bow = registerItem("twilight_bow", () -> new ItemModBow(ArrowType.FURY_ARROW, 2376, 14400)),
+            hunter_bow = registerItem("hunter_bow", HunterBow::new),
+            shadow_bow = registerItem("shadow_bow", ShadowBow::new),
+            icicle_bow = registerItem("icicle_bow", IcicleBow::new),
+            inferno_bow = registerItem("inferno_bow", InfernoBow::new),
+            soulfire_bow = registerItem("soulfire_bow", () -> new ItemBow(new Properties(), 0, 72000, 1.5F, soulfire_arrow, 0xDD)),
+            snowstorm_bow = registerItem("snowstorm_bow", () -> new ItemBow(new Properties(), 0, 72000, 1.7F, snowstorm_arrow, null)),
+            ender_bow = registerItem("ender_bow", EnderBow::new),
+            eden_bow = registerItem("eden_bow", () -> new ItemBow(new Properties(), 1517, 72000, 1.3F, null, 15360539)),
+            wildwood_bow = registerItem("wildwood_bow", () -> new ItemBow(new Properties(), 1624, 36000, 1.4F, null, 1484773)),
+            apalachia_bow = registerItem("apalachia_bow", () -> new ItemBow(new Properties(), 1778, 72000, 1.5F, null, 13318614)),
+            skythern_bow = registerItem("skythern_bow", () -> new ItemBow(new Properties(), 1879, 36000, 1.6F, null, 11445945)),
+            mortum_bow = registerItem("mortum_bow", () -> new ItemBow(new Properties(), 1990, 72000, 1.7F, null, 7302520)),
+            halite_bow = registerItem("halite_bow", () -> new ItemBow(new Properties(), 2114, 36000, 1.8F, null, 6471301)),
+            twilight_bow = registerItem("twilight_bow", () -> new ItemBow(new Properties(), 2376, 14400, 1.9F, null, 0xAA0000)),
 
             //Anchors
             crab_anchor = registerItem("crab_anchor", () -> new ItemAnchor(ToolStats.CRAB_ANCHOR, BulletType.CRAB_ANCHOR_SHOT)),
@@ -611,16 +619,16 @@ public class ItemRegistry {
             everbright = registerItemVethean("everbright", () -> new ItemModSword(ToolStats.EVERBRIGHT)),
 
             //Vethean Bows
-            teaker_bow = registerItemVethean("teaker_bow", () -> new ItemModBow(ArrowType.TEAKER_ARROW, 0)),
-            amthirmis_bow = registerItemVethean("amthirmis_bow", () -> new ItemModBow(ArrowType.AMTHIRMIS_ARROW, 0)),
-            darven_bow = registerItemVethean("darven_bow", () -> new ItemModBow(ArrowType.DARVEN_ARROW, 0)),
-            cermile_bow = registerItemVethean("cermile_bow", () -> new ItemModBow(ArrowType.CERMILE_ARROW, 0)),
-            pardimal_bow = registerItemVethean("pardimal_bow", () -> new ItemModBow(ArrowType.PARDIMAL_ARROW, 0)),
-            quadrotic_bow = registerItemVethean("quadrotic_bow", () -> new ItemModBow(ArrowType.QUADROTIC_ARROW, 0)),
-            karos_bow = registerItemVethean("karos_bow", () -> new ItemModBow(ArrowType.KAROS_ARROW, 0)),
-            heliosis_bow = registerItemVethean("heliosis_bow", () -> new ItemModBow(ArrowType.HELIOSIS_ARROW, 0)),
-            arksiane_bow = registerItemVethean("arksiane_bow", () -> new ItemModBow(ArrowType.ARKSIANE_ARROW, 0)),
-            everfright = registerItemVethean("everfright", () -> new ItemModBow(ArrowType.EVERFRIGHT, 0)),
+            teaker_bow = registerItemVethean("teaker_bow", () -> new VetheanBow(new Properties(), 0, 72000, 0.9F, null, 0x330000)),
+            amthirmis_bow = registerItemVethean("amthirmis_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1F, null, 0x440000)),
+            darven_bow = registerItemVethean("darven_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.1F, null, 0x550000)),
+            cermile_bow = registerItemVethean("cermile_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.2F, null, 0x660000)),
+            pardimal_bow = registerItemVethean("pardimal_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.3F, null, 0x770000)),
+            quadrotic_bow = registerItemVethean("quadrotic_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.4F, null, 0x880000)),
+            karos_bow = registerItemVethean("karos_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.5F, null, 0x990000)),
+            heliosis_bow = registerItemVethean("heliosis_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.6F, null, 0xAA0000)),
+            arksiane_bow = registerItemVethean("arksiane_bow", () -> new VetheanBow(new Properties(), 0, 72000, 1.7F, null, 0xBB0000)),
+            everfright = registerItemVethean("everfright", () -> new VetheanBow(new Properties(), 0, 72000, 1.8F, null, 0xCC0000)),
 
             //Vethean Staffs
             teaker_staff = registerItemVethean("teaker_staff", () -> new ItemStaff(BulletType.TEAKER_STAFF_SHOT, 10, 0)),

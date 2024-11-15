@@ -1,15 +1,15 @@
 package divinerpg.entities.vethea;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntityDivineArrow;
-import divinerpg.enums.ArrowType;
+import divinerpg.entities.projectile.arrows.KarosArrow;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class EntityZone extends EntityDivineMonster {
@@ -34,15 +34,15 @@ public class EntityZone extends EntityDivineMonster {
         }
     }
 
-    private void shootEntity(LivingEntity target) {if (isAlive() && getTarget() != null && !level().isClientSide) {
-        EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), this.level(), ArrowType.KAROS_ARROW, this, target, 1.6f, 1.2F);
-        double d0 = getTarget().getX() - this.getX();
-        double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
-        double d2 = getTarget().getZ() - this.getZ();
-        double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-        projectile.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, 0.8F);
-        this.level().addFreshEntity(projectile);
-    }
+    private void shootEntity(LivingEntity target) {
+        if(isAlive() && getTarget() != null) {
+            KarosArrow abstractarrow = new KarosArrow(level(), this, new ItemStack(ItemRegistry.karos_arrow.get()), new ItemStack(ItemRegistry.karos_bow.get()));
+            abstractarrow.powerMultiplier = 2.5F;
+            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+            level().addFreshEntity(abstractarrow);
+        }
     }
 
     @Override

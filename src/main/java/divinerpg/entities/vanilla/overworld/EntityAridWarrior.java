@@ -1,12 +1,10 @@
 package divinerpg.entities.vanilla.overworld;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntityDivineArrow;
-import divinerpg.enums.ArrowType;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -14,7 +12,9 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
 import javax.annotation.Nullable;
 
@@ -37,14 +37,17 @@ public class EntityAridWarrior extends EntityDivineMonster implements RangedAtta
         return data;
     }
     @Override public void performRangedAttack(LivingEntity target, float distanceFactor) {
-        if(isAlive() && getTarget() != null && !level().isClientSide) {
-            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.ARID_WARRIOR_ARROW, this, target, 1.6F, .8F);
-            double d0 = getTarget().getX() - getX();
-            double d1 = getTarget().getY(.3333333333333333) - projectile.getY();
-            double d2 = getTarget().getZ() - getZ();
-            double d3 = Mth.sqrt((float)(d0 * d0 + d2 * d2));
-            projectile.shoot(d0, d1 + d3 * .2, d2, 1.6F, .8F);
-            level().addFreshEntity(projectile);
+        if(isAlive() && getTarget() != null) {
+            ItemStack weapon = getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, (item) -> item instanceof BowItem));
+            ItemStack itemstack1 = getProjectile(weapon);
+            AbstractArrow abstractarrow = ProjectileUtil.getMobArrow(this, itemstack1, distanceFactor, weapon);
+            abstractarrow.setBaseDamage(1.5);
+            Item var7 = weapon.getItem();
+            if(var7 instanceof ProjectileWeaponItem weaponItem) abstractarrow = weaponItem.customArrow(abstractarrow, itemstack1, weapon);
+            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+            level().addFreshEntity(abstractarrow);
         }
     }
     @Override protected SoundEvent getAmbientSound() {return SoundRegistry.ARID_WARRIOR.get();}

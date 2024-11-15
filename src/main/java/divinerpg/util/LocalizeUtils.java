@@ -32,12 +32,18 @@ public class LocalizeUtils {
             ShotsHoming = "shots.homing",
             ShotsSky = "shots.sky",
             ShotsSplit = "shots.split",
+            ShotsBlinding = "shots.blind",
+            ShotsBurning = "shots.burn",
             SlowMobs = "effect.slows",
             Summoned = "summon",
             SummonedDamage = "summon.damage",
             SummonedDespawn = "summon.despawn",
             SummonedHealth = "summon.health",
-            WeakenedWithoutArcana = "weakened_without_arcana";
+            WeakenedWithoutArcana = "weakened_without_arcana",
+            LessDrag = "less_drag",
+            HitEnder = "hit_ender",
+            TeleportAttached = "effect.teleport",
+            Cool = "cool";
     /**
      * Indicates what ammunition is required.
      *
@@ -76,6 +82,10 @@ public class LocalizeUtils {
      */
     public static Component burn(int seconds) {return i18n(ChatFormatting.DARK_RED, BurnMobs, seconds);}
     /**
+     * Indicates that the weapon shoots flaming arrows.
+     */
+    public static Component burningShots() {return i18n(ChatFormatting.RED, ShotsBurning);}
+    /**
      * Indicates the efficiency of the tools.
      *
      * @param eff - efficiency
@@ -91,7 +101,7 @@ public class LocalizeUtils {
      * @param string - lang key
      */
     public static Component getClientSideTranslation(String string, final Object... argument) {return Component.translatable(string, argument);}
-    /**
+    /*
      * Indicates the harvest level of the tools.
      *
      * @param lvl - harvest level
@@ -163,6 +173,28 @@ public class LocalizeUtils {
      * @param seconds - effect duration
      */
     public static Component slow(int seconds) {return i18n(ChatFormatting.DARK_AQUA, SlowMobs, seconds);}
+    /**
+     * Indicates how long the weapon shoots blinding projectiles.
+     *
+     * @param seconds - effect duration
+     */
+    public static Component blind(int seconds) {return i18n(ChatFormatting.BLACK, ShotsBlinding, seconds);}
+    /**
+     * Indicates wether mobs get cooled.
+     */
+    public static Component cool() {return i18n(ChatFormatting.AQUA, Cool);}
+    /**
+     * Indicates that the object experiences less drag
+     */
+    public static Component lessDrag() {return i18n(ChatFormatting.DARK_GRAY, LessDrag);}
+    /**
+     * Indicates wether ender creatures can be hit.
+     */
+    public static Component hitEnder() {return i18n(ChatFormatting.DARK_PURPLE, HitEnder);}
+    /**
+     * Indicates that the weapon teleports the shooter to where the projectile hit.
+     */
+    public static Component teleportAttached() {return i18n(ChatFormatting.LIGHT_PURPLE, TeleportAttached);}
     /**
      * Indicates that the projectiles are splitting upon hitting something.
      */

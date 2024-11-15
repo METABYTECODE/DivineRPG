@@ -1,8 +1,7 @@
 package divinerpg.blocks.vethea;
 
 import com.mojang.serialization.MapCodec;
-import divinerpg.entities.projectile.*;
-import divinerpg.enums.*;
+import divinerpg.entities.projectile.arrows.KarosArrow;
 import divinerpg.registries.*;
 import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.*;
@@ -67,8 +66,8 @@ public class BlockKarosDispenser extends BaseEntityBlock {
         double var7 = pos.getY();
         double var9 = pos.getZ();
         Direction direction = world.getBlockState(pos).getValue(FACING);
-        EntityDivineArrow var11 = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), world, ArrowType.KAROS_ARROW, var5 + 0.5D + direction.getStepX(), var7 + 0.5D, var9 + 0.5D + direction.getStepZ());
-        var11.damageMin = var11.damageMax = 12;
+        KarosArrow var11 = new KarosArrow(world, var5 + 0.5D + direction.getStepX(), var7 + 0.5D, var9 + 0.5D + direction.getStepZ(), new ItemStack(ItemRegistry.karos_arrow.get()), null);
+        var11.powerMultiplier = 1.7143F;
         double var12 = world.random.nextDouble() * 0.1D + 0.9D;
         var11.setDeltaMovement((double)direction.getStepX() * var12, 0, (double)direction.getStepZ() * var12);
         var11.setDeltaMovement(var11.getDeltaMovement().x, var11.getDeltaMovement().y + 0, var11.getDeltaMovement().z);

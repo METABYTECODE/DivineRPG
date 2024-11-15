@@ -1,13 +1,13 @@
 package divinerpg.entities.iceika;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntityDivineArrow;
-import divinerpg.enums.ArrowType;
+import divinerpg.entities.projectile.arrows.IcicleArrow;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.*;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -42,13 +42,13 @@ public class EntityPaleArcher extends EntityDivineMonster implements RangedAttac
         return data;
     }
     @Override public void performRangedAttack(LivingEntity target, float distanceFactor) {
-        EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.PALE_ARCHER_ARROW, this, target, 1.6F, 1.2F);
-        double d0 = target.getX() - getX();
-        double d1 = target.getY(.3333333333333333) - projectile.getY();
-        double d2 = target.getZ() - getZ();
-        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        projectile.shoot(d0, d1 + d3 * (double).2F, d2, 1.6F, (float)(14 - level().getDifficulty().getId() * 4));
-        level().addFreshEntity(projectile);
+        if(isAlive() && getTarget() != null && !level().isClientSide) {
+            IcicleArrow abstractarrow = new IcicleArrow(level(), this, new ItemStack(ItemRegistry.icicle_arrow.get()), getItemInHand(InteractionHand.MAIN_HAND));
+            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+            level().addFreshEntity(abstractarrow);
+        }
     }
     @Override public int getMaxSpawnClusterSize() {return 3;}
     @Override public boolean isMaxGroupSizeReached(int i) {return i > 3;}

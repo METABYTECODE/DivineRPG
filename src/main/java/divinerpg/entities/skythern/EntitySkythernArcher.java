@@ -1,16 +1,15 @@
 package divinerpg.entities.skythern;
 
 import divinerpg.entities.base.*;
-import divinerpg.entities.projectile.*;
-import divinerpg.enums.*;
+import divinerpg.entities.projectile.arrows.WildwoodArrow;
 import divinerpg.registries.*;
 import net.minecraft.core.*;
 import net.minecraft.sounds.*;
-import net.minecraft.util.*;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 
 public class EntitySkythernArcher extends EntityDivineMonster implements RangedAttackMob {
@@ -31,14 +30,13 @@ public class EntitySkythernArcher extends EntityDivineMonster implements RangedA
 
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
-        if (isAlive() && getTarget() != null && !level().isClientSide) {
-            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.SKYTHERN_ARCHER_ARROW, this, target, 1.6F, 1.2F);
-            double d0 = getTarget().getX() - this.getX();
-            double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
-            double d2 = getTarget().getZ() - this.getZ();
-            double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-            projectile.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, 1.2F);
-            this.level().addFreshEntity(projectile);
+        if(isAlive() && getTarget() != null) {
+            WildwoodArrow abstractarrow = new WildwoodArrow(level(), this, new ItemStack(ItemRegistry.wildwood_arrow.get()), new ItemStack(ItemRegistry.skythern_bow.get()));
+            abstractarrow.powerMultiplier = 1.4F;
+            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+            level().addFreshEntity(abstractarrow);
         }
     }
 

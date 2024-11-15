@@ -9,19 +9,14 @@ import divinerpg.client.models.iceika.*;
 import divinerpg.client.models.twilight.*;
 import divinerpg.client.models.vanilla.*;
 import divinerpg.client.models.vethea.*;
-import divinerpg.client.renders.base.RenderDivineBat;
-import divinerpg.client.renders.base.RenderDivineMob;
+import divinerpg.client.renders.base.*;
 import divinerpg.client.renders.entity.boss.*;
-import divinerpg.client.renders.entity.iceika.RenderGroglin;
-import divinerpg.client.renders.entity.iceika.RenderGruzzorlug;
-import divinerpg.client.renders.entity.iceika.RenderPaleArcher;
-import divinerpg.client.renders.entity.iceika.RenderRobbin;
+import divinerpg.client.renders.entity.iceika.*;
 import divinerpg.client.renders.entity.projectile.*;
 import divinerpg.client.renders.entity.twilight.*;
 import divinerpg.client.renders.entity.vanilla.*;
 import divinerpg.client.renders.entity.vethea.RenderGalroid;
 import divinerpg.client.renders.tiles.RenderNightmareBed;
-import divinerpg.entities.ai.TurtleEatAequorea;
 import divinerpg.entities.apalachia.*;
 import divinerpg.entities.arcana.*;
 import divinerpg.entities.base.EntityDivineWaterMob;
@@ -32,49 +27,31 @@ import divinerpg.entities.iceika.groglin.*;
 import divinerpg.entities.iceika.gruzzorlug.*;
 import divinerpg.entities.mortum.*;
 import divinerpg.entities.projectile.*;
+import divinerpg.entities.projectile.arrows.*;
 import divinerpg.entities.skythern.*;
-import divinerpg.entities.vanilla.end.EntityEnderScrounge;
-import divinerpg.entities.vanilla.end.EntityEnderSpider;
-import divinerpg.entities.vanilla.end.EntityEnderTriplets;
-import divinerpg.entities.vanilla.end.EntityEnderWatcher;
-import divinerpg.entities.vanilla.nether.EntityHellPig;
-import divinerpg.entities.vanilla.nether.EntityHellSpider;
-import divinerpg.entities.vanilla.nether.EntityScorcher;
-import divinerpg.entities.vanilla.nether.EntityWildfire;
+import divinerpg.entities.vanilla.end.*;
+import divinerpg.entities.vanilla.nether.*;
 import divinerpg.entities.vanilla.overworld.*;
 import divinerpg.entities.vethea.*;
 import divinerpg.entities.wildwood.*;
 import divinerpg.enums.EntityStats;
-import net.minecraft.client.model.BatModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.SpiderModel;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.*;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.EntityType.EntityFactory;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ambient.Bat;
-import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.*;
 import net.minecraft.world.item.Item;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.*;
 
 import static divinerpg.DivineRPG.MODID;
 import static divinerpg.util.ClientUtils.*;
@@ -87,7 +64,6 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	 BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new,            "bouncing_projectile");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDisk>>					 DISK = registerProjectile(EntityDisk::new,                                         "disk");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDissimentShot>>			 DISSIMENT_SHOT = registerProjectile(EntityDissimentShot::new,                      "dissiment_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDivineArrow>>			 ARROW_SHOT = registerArrowProjectile(EntityDivineArrow::new,                       "arrow_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityEnderTripletsFireball>>  ENDER_TRIPLETS_FIREBALL = registerFireballProjectile(EntityEnderTripletsFireball::new, "ender_triplets_fireball");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFirefly>>				 FIREFLY = registerProjectile(EntityFirefly::new,                                   "firefly");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFractiteShot>>			 FRACTITE_SHOT = registerFireballProjectile(EntityFractiteShot::new,                "fractite_shot");
@@ -104,6 +80,25 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySoulFiendShot>>			 SOUL_FIEND_SHOT = registerProjectile(EntitySoulFiendShot::new,                     "soul_fiend_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemonShot>>		 TWILIGHT_DEMON_SHOT = registerProjectile(EntityTwilightDemonShot::new,             "twilight_demon_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityWildwoodLog>>			 WILDWOOD_LOG = registerProjectile(EntityWildwoodLog::new,                          "wildwood_log");
+
+    //Arrows
+    public static final DeferredHolder<EntityType<?>, EntityType<EdenArrow>> EDEN_ARROW = registerArrowProjectile(EdenArrow::new, "eden_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<EnderArrow>> ENDER_ARROW = registerArrowProjectile(EnderArrow::new, "ender_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<FuryArrow>> FURY_ARROW = registerArrowProjectile(FuryArrow::new, "fury_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<HunterArrow>> HUNTER_ARROW = registerArrowProjectile(HunterArrow::new, "hunter_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<IcicleArrow>> ICICLE_ARROW = registerArrowProjectile(IcicleArrow::new, "icicle_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<InfernoArrow>> INFERNO_ARROW = registerArrowProjectile(InfernoArrow::new, "inferno_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<ShadowArrow>> SHADOW_ARROW = registerArrowProjectile(ShadowArrow::new, "shadow_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowstormArrow>> SNOWSTORM_ARROW = registerArrowProjectile(SnowstormArrow::new, "snowstorm_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<SoulfireArrow>> SOULFIRE_ARROW = registerArrowProjectile(SoulfireArrow::new, "soulfire_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<WildwoodArrow>> WILDWOOD_ARROW = registerArrowProjectile(WildwoodArrow::new, "wildwood_arrow");
+
+    //Vethean Arrows
+    public static final DeferredHolder<EntityType<?>, EntityType<TeakerArrow>> TEAKER_ARROW = registerArrowProjectile(TeakerArrow::new, "teaker_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<DarvenArrow>> DARVEN_ARROW = registerArrowProjectile(DarvenArrow::new, "darven_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<PardimalArrow>> PARDIMAL_ARROW = registerArrowProjectile(PardimalArrow::new, "pardimal_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<KarosArrow>> KAROS_ARROW = registerArrowProjectile(KarosArrow::new, "karos_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<EverArrow>> EVER_ARROW = registerArrowProjectile(EverArrow::new, "ever_arrow");
 
     //Bosses
     public static final DeferredHolder<EntityType<?>, EntityType<EntityAncientEntity>>       ANCIENT_ENTITY 	 = registerEntity(EntityAncientEntity::new, 	"ancient_entity", 	    4, 6.5F, 6, 0x3f1e0c, 0xc46c33);
@@ -791,7 +786,6 @@ public class EntityRegistry {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         DivineRPG.LOGGER.info("[DivineRPG] Registered entity renders");
         //Projectiles
-        event.registerEntityRenderer(ARROW_SHOT.get(),              RenderDivineArrow::new);
         event.registerEntityRenderer(BOUNCING_PROJECTILE.get(), 	RenderShooterBullet::new);
         event.registerEntityRenderer(DISK.get(),                    RenderShooterBullet::new);
         event.registerEntityRenderer(DISSIMENT_SHOT.get(), 			(Context context) -> new RenderDivineProjectile<>(context, "dissiment_shot"));
@@ -811,6 +805,25 @@ public class EntityRegistry {
         event.registerEntityRenderer(SOUL_FIEND_SHOT.get(),         RenderDivineProjectile::new);
         event.registerEntityRenderer(TWILIGHT_DEMON_SHOT.get(), 	(Context context) -> new RenderDivineProjectile<>(context, "twilight_demon_shot"));
         event.registerEntityRenderer(WILDWOOD_LOG.get(),            RenderWildwoodLog::new);
+
+        //Arrows
+        event.registerEntityRenderer(EDEN_ARROW.get(), (context) -> new RenderDivineArrow(context, "eden_arrow"));
+        event.registerEntityRenderer(ENDER_ARROW.get(), (context) -> new RenderDivineArrow(context, "ender_arrow"));
+        event.registerEntityRenderer(FURY_ARROW.get(), (context) -> new RenderDivineArrow(context, "fury_arrow"));
+        event.registerEntityRenderer(HUNTER_ARROW.get(), (context) -> new RenderDivineArrow(context, "hunter_arrow"));
+        event.registerEntityRenderer(ICICLE_ARROW.get(), (context) -> new RenderDivineArrow(context, "icicle_arrow"));
+        event.registerEntityRenderer(INFERNO_ARROW.get(), (context) -> new RenderDivineArrow(context, "inferno_arrow"));
+        event.registerEntityRenderer(SHADOW_ARROW.get(), (context) -> new RenderDivineArrow(context, "shadow_arrow"));
+        event.registerEntityRenderer(SNOWSTORM_ARROW.get(), (context) -> new RenderDivineArrow(context, "snowstorm_arrow"));
+        event.registerEntityRenderer(SOULFIRE_ARROW.get(), (context) -> new RenderDivineArrow(context, "soulfire_arrow"));
+        event.registerEntityRenderer(WILDWOOD_ARROW.get(), (context) -> new RenderDivineArrow(context, "wildwood_arrow"));
+
+        //Vethean Arrows
+        event.registerEntityRenderer(TEAKER_ARROW.get(), (context) -> new RenderDivineArrow(context, "teaker_arrow"));
+        event.registerEntityRenderer(DARVEN_ARROW.get(), (context) -> new RenderDivineArrow(context, "darven_arrow"));
+        event.registerEntityRenderer(PARDIMAL_ARROW.get(), (context) -> new RenderDivineArrow(context, "pardimal_arrow"));
+        event.registerEntityRenderer(KAROS_ARROW.get(), (context) -> new RenderDivineArrow(context, "karos_arrow"));
+        event.registerEntityRenderer(EVER_ARROW.get(), (context) -> new RenderDivineArrow(context, "ever_arrow"));
 
         //Boss
         event.registerEntityRenderer(ANCIENT_ENTITY.get(), 	(Context context) -> new RenderDivineMob<>(context, "ancient_entity", 	new ModelAncientEntity(context), 6, 6));

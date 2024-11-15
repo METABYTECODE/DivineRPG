@@ -1,8 +1,8 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineBoss;
-import divinerpg.entities.projectile.EntityDivineArrow;
-import divinerpg.enums.ArrowType;
+import divinerpg.entities.projectile.arrows.InfernoArrow;
+import divinerpg.entities.projectile.arrows.PardimalArrow;
 import divinerpg.registries.*;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.sounds.*;
@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -147,23 +148,23 @@ public class EntityQuadro extends EntityDivineBoss implements RangedAttackMob {
                 switch (ability) {
                     case RANGED_FAST:
                         if ((this.rangedAttackCounter % 5) == 0) {
-                            double tx = getTarget().getX() - this.getX();
-                            double ty = getTarget().getBoundingBox().minY - this.getY();
-                            double tz = getTarget().getZ() - this.getZ();
-                            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.KAROS_ARROW, this, target, 2.6F, 3.0F);
-                            projectile.shoot(tx, ty, tz, 2.6f, 3.0F);
-                            this.level().addFreshEntity(projectile);
+                            PardimalArrow abstractarrow = new PardimalArrow(level(), this, new ItemStack(ItemRegistry.pardimal_arrow.get()), new ItemStack(ItemRegistry.pardimal_bow.get()));
+                            abstractarrow.powerMultiplier = 1.2F;
+                            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+                            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+                            level().addFreshEntity(abstractarrow);
                         }
                         this.rangedAttackCounter++;
                         break;
                     case RANGED_SLOW:
                         if ((this.rangedAttackCounter % 15) == 0) {
-                            double tx = getTarget().getX() - this.getX();
-                            double ty = getTarget().getBoundingBox().minY - this.getY();
-                            double tz = getTarget().getZ() - this.getZ();
-                            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.KAROS_ARROW, this, target, 2.6F, 0.8F);
-                            projectile.shoot(tx, ty, tz, 2.6f, 0.8F);
-                            this.level().addFreshEntity(projectile);
+                            PardimalArrow abstractarrow = new PardimalArrow(level(), this, new ItemStack(ItemRegistry.pardimal_arrow.get()), new ItemStack(ItemRegistry.pardimal_bow.get()));
+                            abstractarrow.powerMultiplier = 1.2F;
+                            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+                            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+                            level().addFreshEntity(abstractarrow);
                         }
                         this.rangedAttackCounter++;
                         break;

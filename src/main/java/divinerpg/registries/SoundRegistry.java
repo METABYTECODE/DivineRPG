@@ -211,7 +211,7 @@ public class SoundRegistry {
         VEREK_HURT = registerSound("verek_hurt"),
         VERMENOUS = registerSound("vermenous"),
         VERMENOUS_HURT = registerSound("vermenous_hurt"),
-        VETHEA_BOW = registerSound("vethea_bow"),//TODO: implement sound
+        VETHEA_BOW = registerSound("vethea_bow"),
         VETHEA_TELEPORT = registerSound("vethea_teleport"),//TODO: implement sound
         VHRAAK = registerSound("vhraak"),
         VHRAAK_HURT = registerSound("vhraak_hurt"),

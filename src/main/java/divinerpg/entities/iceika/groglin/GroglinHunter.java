@@ -2,11 +2,9 @@ package divinerpg.entities.iceika.groglin;
 
 import divinerpg.entities.ai.FollowLeaderGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
-import divinerpg.entities.projectile.EntityDivineArrow;
-import divinerpg.enums.ArrowType;
-import divinerpg.registries.EntityRegistry;
+import divinerpg.entities.projectile.arrows.IcicleArrow;
 import divinerpg.registries.ItemRegistry;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -32,12 +30,13 @@ public class GroglinHunter extends Groglin implements RangedAttackMob {
 		goalSelector.addGoal(4, new FollowLeaderGoal(this, GroglinSharlatan.class, 1, 4, (float)getAttributeValue(Attributes.FOLLOW_RANGE)));
 	}
 	@Override public void performRangedAttack(LivingEntity target, float f) {
-		if(isAlive() && getTarget() != null) {
-            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.PALE_ARCHER_ARROW, this, target, 1.6F, 1.2F);
-            double d0 = getTarget().getX() - getX(), d1 = getTarget().getY(.3333333333333333) - projectile.getY(), d2 = getTarget().getZ() - getZ(), d3 = Mth.sqrt((float)(d0 * d0 + d2 * d2));
-            projectile.shoot(d0, d1 + d3 * .18, d2, 1.6F, 1.2F);
-            level().addFreshEntity(projectile);
-        }
+		if(isAlive() && getTarget() != null && !level().isClientSide) {
+			IcicleArrow abstractarrow = new IcicleArrow(level(), this, new ItemStack(ItemRegistry.icicle_arrow.get()), getItemBySlot(EquipmentSlot.MAINHAND));
+			double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+			abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+			playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+			level().addFreshEntity(abstractarrow);
+		}
 	}
 	@Override
 	protected void updateTrades() {

@@ -1,18 +1,18 @@
 package divinerpg.entities.mortum;
 
 import divinerpg.entities.base.*;
-import divinerpg.entities.projectile.*;
-import divinerpg.enums.*;
+import divinerpg.entities.projectile.arrows.FuryArrow;
 import divinerpg.registries.*;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 
 public class EntityTwilightArcher extends EntityDivineMonster implements RangedAttackMob {
@@ -35,14 +35,13 @@ public class EntityTwilightArcher extends EntityDivineMonster implements RangedA
 
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
-        if (isAlive() && getTarget() != null && !level().isClientSide) {
-            EntityDivineArrow projectile = new EntityDivineArrow(EntityRegistry.ARROW_SHOT.get(), level(), ArrowType.TWILIGHT_ARCHER_ARROW, this, target, 1.6F, 1.2F);
-            double d0 = getTarget().getX() - this.getX();
-            double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
-            double d2 = getTarget().getZ() - this.getZ();
-            double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-            projectile.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, 1.2F);
-            this.level().addFreshEntity(projectile);
+        if(isAlive() && getTarget() != null) {
+            FuryArrow abstractarrow = new FuryArrow(level(), this, new ItemStack(ItemRegistry.fury_arrow.get()), new ItemStack(ItemRegistry.mortum_bow.get()));
+            abstractarrow.powerMultiplier = 1.231F;
+            double d0 = target.getX() - getX(), d1 = target.getY(0.3333333333333333) - abstractarrow.getY(), d2 = target.getZ() - getZ(), d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            abstractarrow.shoot(d0, d1 + d3 * 0.2, d2, 1.6F, 14F - (level().getDifficulty().getId() << 2));
+            playSound(SoundEvents.SKELETON_SHOOT, 1F, 1F / (getRandom().nextFloat() * .4F + .8F));
+            level().addFreshEntity(abstractarrow);
         }
     }
 
