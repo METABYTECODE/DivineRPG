@@ -31,7 +31,8 @@ public class ItemSerenadeStriker extends ItemMod {
             bolt.moveTo(pos.getLocation());
             level.addFreshEntity(bolt);
             angle += Math.PI / 8;
-        } player.getCooldowns().addCooldown(this, cooldown);
+        } if(!player.isCreative()) stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+        player.getCooldowns().addCooldown(this, cooldown);
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.success(stack);
     }

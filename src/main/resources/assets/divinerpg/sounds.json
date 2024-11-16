@@ -494,13 +494,13 @@
   "helio": {
     "category": "hostile",
     "sounds": [
-      "divinerpg:to_replace/helio"
+      "divinerpg:maybe_replace/helio"
     ]
   },
   "helio_hurt": {
     "category": "hostile",
     "sounds": [
-      "divinerpg:to_replace/helio_hurt"
+      "divinerpg:maybe_replace/helio_hurt"
     ]
   },
   "hell_spider": {

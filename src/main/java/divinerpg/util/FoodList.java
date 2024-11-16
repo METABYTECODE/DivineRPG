@@ -32,6 +32,7 @@ public class FoodList {
 
     //Arcana
         HITCHAK = (new FoodProperties.Builder()).nutrition(4).saturationModifier(.4F).build(),
+        LAMONA = (new FoodProperties.Builder()).nutrition(4).saturationModifier(.4F).build(),
         PINFLY = (new FoodProperties.Builder()).nutrition(4).saturationModifier(.3F)
                 .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30, 2), 1).build(),
         WEAK_ARCANA_POTION = (new FoodProperties.Builder()).alwaysEdible().build(),

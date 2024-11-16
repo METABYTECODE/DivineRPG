@@ -139,7 +139,6 @@ public class ItemRegistry {
             dungeon_tokens = registerItem("dungeon_tokens"),
             aquamarine = registerItem("aquamarine", ItemAquamarine::new),
             firestock = registerItem("firestock"),
-            lamona = registerItem("lamona"),
             marsine = registerItem("marsine"),
             veilo = registerItem("veilo"),
             orb_of_light = registerItem("orb_of_light"),
@@ -211,6 +210,7 @@ public class ItemRegistry {
             snow_cones = registerItem("snow_cones", () -> new ItemModFood(FoodList.SNOW_CONES)),
             winterberry = registerItem("winterberry", ItemWinterberry::new),
             hitchak = registerItem("hitchak", () -> new ItemModFood(FoodList.HITCHAK)),
+            lamona = registerItem("lamona", () -> new ItemModFood(FoodList.LAMONA)),
             pinfly = registerItem("pinfly", () -> new ItemModFood(FoodList.PINFLY)),
             raw_empowered_meat = registerItem("raw_empowered_meat", () -> new ItemModFood(FoodList.RAW_EMPOWERED_MEAT)),
             empowered_meat = registerItem("empowered_meat", () -> new ItemModFood(FoodList.EMPOWERED_MEAT)),
@@ -396,23 +396,16 @@ public class ItemRegistry {
             serenade_of_infusion = registerItem("serenade_of_infusion", ItemSerenadeOfInfusion::new),
 
             //Arrows
-            eden_arrow = registerItem("eden_arrow", EdenArrowItem::new),
-            ender_arrow = registerItem("ender_arrow", EnderArrowItem::new),
-            fury_arrow = registerItem("fury_arrow", FuryArrowItem::new),
             hunter_arrow = registerItem("hunter_arrow", HunterArrowItem::new),
+            shadow_arrow = registerItem("shadow_arrow", ShadowArrowItem::new),
             icicle_arrow = registerItem("icicle_arrow", IcicleArrowItem::new),
             inferno_arrow = registerItem("inferno_arrow", InfernoArrowItem::new),
-            shadow_arrow = registerItem("shadow_arrow", ShadowArrowItem::new),
-            snowstorm_arrow = registerItem("snowstorm_arrow", SnowstormArrowItem::new),
             soulfire_arrow = registerItem("soulfire_arrow", SoulfireArrowItem::new),
+            snowstorm_arrow = registerItem("snowstorm_arrow", SnowstormArrowItem::new),
+            ender_arrow = registerItem("ender_arrow", EnderArrowItem::new),
+            eden_arrow = registerItem("eden_arrow", EdenArrowItem::new),
             wildwood_arrow = registerItem("wildwood_arrow", WildwoodArrowItem::new),
-
-            //Vethean Arrows
-            teaker_arrow = registerItemVethean("teaker_arrow", TeakerArrowItem::new),
-            darven_arrow = registerItemVethean("darven_arrow", DarvenArrowItem::new),
-            pardimal_arrow = registerItemVethean("pardimal_arrow", PardimalArrowItem::new),
-            karos_arrow = registerItemVethean("karos_arrow", KarosArrowItem::new),
-            ever_arrow = registerItemVethean("ever_arrow", EverArrowItem::new),
+            fury_arrow = registerItem("fury_arrow", FuryArrowItem::new),
 
             //Bows
             hunter_bow = registerItem("hunter_bow", HunterBow::new),
@@ -617,6 +610,13 @@ public class ItemRegistry {
             heliosis_claw = registerItemVethean("heliosis_claw", () -> new ItemModSword(ToolStats.HELIOSIS_CLAW)),
             arksiane_claw = registerItemVethean("arksiane_claw", () -> new ItemModSword(ToolStats.ARKSIANE_CLAW)),
             everbright = registerItemVethean("everbright", () -> new ItemModSword(ToolStats.EVERBRIGHT)),
+
+            //Vethean Arrows
+            teaker_arrow = registerItemVethean("teaker_arrow", TeakerArrowItem::new),
+            darven_arrow = registerItemVethean("darven_arrow", DarvenArrowItem::new),
+            pardimal_arrow = registerItemVethean("pardimal_arrow", PardimalArrowItem::new),
+            karos_arrow = registerItemVethean("karos_arrow", KarosArrowItem::new),
+            ever_arrow = registerItemVethean("ever_arrow", EverArrowItem::new),
 
             //Vethean Bows
             teaker_bow = registerItemVethean("teaker_bow", () -> new VetheanBow(new Properties(), 0, 72000, 0.9F, null, 0x330000)),
