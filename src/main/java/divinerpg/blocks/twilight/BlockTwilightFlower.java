@@ -1,6 +1,7 @@
 package divinerpg.blocks.twilight;
 
 import net.minecraft.core.*;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.*;
@@ -14,8 +15,7 @@ import java.util.function.Supplier;
 import com.mojang.serialization.MapCodec;
 
 public class BlockTwilightFlower extends BushBlock {
-    private Supplier<Block> grassSupplier;
-//    private AABB size;
+    private final Supplier<Block> grassSupplier;
 
     public BlockTwilightFlower(Supplier<Block> grassSupplier, MapColor color) {
         this(grassSupplier, 0.4, 1, color);
@@ -54,22 +54,16 @@ public class BlockTwilightFlower extends BushBlock {
 //                rightCorner);
     }
 
-//    @Override
-//    public BlockState getPlant(BlockGetter world, BlockPos pos) {
-//        BlockState state = world.getBlockState(pos);
-//        if (state.getBlock() != this)
-//            return defaultBlockState();
-//        return state;
-//    }
-
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-        BlockState soil = worldIn.getBlockState(pos);
-        return worldIn.getBlockState(pos.below()).getBlock() != this && soil.getBlock() == grassSupplier.get();
+        return allowsBlock(worldIn.getBlockState(pos));
     }
     @Override
     public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, Direction facing, BlockState plant) {
-    	return state.getBlock() == grassSupplier.get() ? TriState.TRUE : TriState.FALSE;
+    	return allowsBlock(state) ? TriState.TRUE : TriState.FALSE;
+    }
+    public boolean allowsBlock(BlockState state) {
+        return state.is(grassSupplier.get()) || state.is(BlockTags.DIRT) || state.is(Blocks.FARMLAND);
     }
 
     protected static final VoxelShape SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
@@ -85,11 +79,6 @@ public class BlockTwilightFlower extends BushBlock {
     public Block getGrass(){
         return this.grassSupplier.get();
     }
-
-//    @Override
-//    public PlantType getPlantType(BlockGetter world, BlockPos pos) {
-//        return PlantType.PLAINS;
-//    }
 
     @Override
     public int getFlammability(BlockState state, BlockGetter getter, BlockPos pos, Direction face) {

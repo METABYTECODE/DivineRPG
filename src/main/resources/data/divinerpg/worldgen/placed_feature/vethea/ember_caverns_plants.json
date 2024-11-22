@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "divinerpg:surface_placement",
-			"surface": "highest_ground",
+			"surface": "lowest_ground",
 			"mode": "random_section",
 			"min_height": -64,
 			"max_height": 50,
