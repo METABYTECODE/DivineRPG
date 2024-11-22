@@ -48,7 +48,7 @@ public class AttachmentRegistry {
 
 	//Server handled
 	public static final ServerHandledAttachment<Float> ARCANA = registerServerHandled("arcana", () -> 0F, Codec.FLOAT, ByteBufCodecs.FLOAT);
-	public static final ServerHandledAttachment<Float> MAX_ARCANA = registerServerHandled("max_arcana", () -> CommonConfig.ARCANA_MAX, Codec.FLOAT, ByteBufCodecs.FLOAT);
+	public static final ServerHandledAttachment<Float> MAX_ARCANA = registerServerHandled("max_arcana", () -> CommonConfig.Values.ARCANA_MAX, Codec.FLOAT, ByteBufCodecs.FLOAT);
 
 	public static final ServerHandledAttachment<Boolean> ANGRY = registerServerHandled("angry", () -> false, Codec.BOOL, ByteBufCodecs.BOOL);
 	public static final Reputation GROGLIN_REPUTATION = new Reputation("groglin_reputation", () -> Faction.GROGLIN);

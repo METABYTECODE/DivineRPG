@@ -81,11 +81,12 @@ public class ItemModRanged extends ItemMod {
     @Override public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         InteractionResultHolder<ItemStack> ammo = tryFindAmmo(player);
-        if(ammo.getResult() == InteractionResult.SUCCESS && Arcana.getAmount(player) <= arcanaConsumedUse) {
+        if(ammo.getResult() == InteractionResult.SUCCESS && Arcana.getAmount(player) >= arcanaConsumedUse) {
             doPreUsageEffects(world, player);
-            if(!world.isClientSide) spawnEntity(world, player, stack, bulletType, entityType);
-            Arcana.modifyAmount(player, -arcanaConsumedUse);
-            ItemStack ammoStack = ammo.getObject();
+            if(!world.isClientSide) {
+                spawnEntity(world, player, stack, bulletType, entityType);
+                Arcana.modifyAmount(player, -arcanaConsumedUse);
+            } ItemStack ammoStack = ammo.getObject();
             if(ammoStack != null) ammoStack.shrink(1);
             if(!player.isCreative()) stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             player.getCooldowns().addCooldown(this, cooldown);

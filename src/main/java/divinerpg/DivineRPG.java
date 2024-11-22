@@ -8,7 +8,6 @@ import divinerpg.network.Payloads;
 import divinerpg.registries.*;
 import divinerpg.util.Utils;
 import divinerpg.util.vanilla.*;
-import divinerpg.world.ConfiguredFeatureKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -53,6 +52,7 @@ public class DivineRPG {
         bus.addListener(this::setup);
         bus.addListener(this::post);
         bus.addListener(this::client);
+        bus.addListener(ArcanaRenderer::registerGUI);
         bus.addListener(SpawnEvents::registerSpawnPlacements);
         bus.addListener(CreativeTabRegistry::creativeTab);
         bus.register(Payloads.class);
@@ -79,7 +79,6 @@ public class DivineRPG {
     private void client(final FMLClientSetupEvent event) {
         ModelPropRegistry.init();
         BlockEntityRegistry.renderTiles();
-        NeoForge.EVENT_BUS.register(new ArcanaRenderer());
         NeoForge.EVENT_BUS.register(new EventClientLogin());
         Utils.loadHatInformation();
     }

@@ -1,5 +1,6 @@
 package divinerpg.events;
 
+import divinerpg.DivineRPG;
 import divinerpg.attachments.Arcana;
 import divinerpg.config.ClientConfig;
 import divinerpg.network.payload.*;
@@ -20,12 +21,13 @@ public class EventClientLogin {
         if(!player.level().isClientSide()) {
         	//Weather update
         	if(player instanceof ServerPlayer pl) {
+                DivineRPG.LOGGER.info("Sending weather and arcana info to player");
                 PacketDistributor.sendToPlayer(pl, new Weather(Utils.ICEIKA_WEATHER));
                 AttachmentRegistry.MAX_ARCANA.set(pl, Arcana.getMaxArcana(pl));
                 AttachmentRegistry.ARCANA.set(pl, Arcana.getAmount(pl));
             }
             //Send welcome messages
-            if(ClientConfig.WELCOME_MESSAGE) {
+            if(ClientConfig.Values.WELCOME_MESSAGE) {
                 Component message;
                 if(Utils.isDeveloperName(player.getUUID())) {
                     message = LocalizeUtils.clientMessage(ChatFormatting.DARK_RED, "player.developer", player.getDisplayName());

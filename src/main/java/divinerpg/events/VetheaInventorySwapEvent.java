@@ -24,7 +24,7 @@ public class VetheaInventorySwapEvent {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onDeath(LivingDeathEvent event) {
 		if(!event.isCanceled() && event.getEntity() instanceof Player player) {
-			if(!CommonConfig.SAFER_VETHEA) {
+			if(!CommonConfig.Values.SAFER_VETHEA) {
 				DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 				if(player.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
 					if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.saveInventory(player, VETHEA_INVENTORY);
@@ -37,7 +37,7 @@ public class VetheaInventorySwapEvent {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player player = event.getEntity();
-		if(!CommonConfig.SAFER_VETHEA) {
+		if(!CommonConfig.Values.SAFER_VETHEA) {
 			DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 			if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.loadInventory(player, VETHEA_INVENTORY);
 			else d.loadInventory(player, OVERWORLD_INVENTORY);
@@ -47,7 +47,7 @@ public class VetheaInventorySwapEvent {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onDimensionChange(EntityTravelToDimensionEvent event) {
 		if(!event.isCanceled() && event.getEntity() instanceof Player player) {
-			if(!CommonConfig.SAFER_VETHEA) {
+			if(!CommonConfig.Values.SAFER_VETHEA) {
 				boolean from = player.level().dimension().equals(LevelRegistry.VETHEA), to = event.getDimension().equals(LevelRegistry.VETHEA);
 				DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 				if(from ^ to) {

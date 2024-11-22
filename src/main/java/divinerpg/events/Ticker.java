@@ -34,7 +34,7 @@ public class Ticker {
     public void playerTick(PlayerTickEvent.Pre event){
         Player player = event.getEntity();
         Level level = player.level();
-        Arcana.regen(player);
+        if(!level.isClientSide()) Arcana.regen(player);
         if(level.dimension() == LevelRegistry.ICEIKA && !player.isCreative() && !player.isSpectator()) {
         	if(Utils.ICEIKA_WEATHER == 1 && level.isRaining() && player.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && player.getRandom().nextFloat() < .1F && level.canSeeSky(player.blockPosition())) player.hurt(level.damageSources().generic(), 1F);
         	if(!level.isClientSide() && !player.hasEffect(MobEffectRegistry.WARMTH) && !player.getItemBySlot(EquipmentSlot.CHEST).getTagEnchantments().keySet().contains(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(EnchantmentRegistry.INSULATION)) && level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(player.blockPosition()) < 8) {

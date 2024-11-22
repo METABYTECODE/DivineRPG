@@ -2,12 +2,9 @@ package divinerpg.attachments;
 
 import javax.annotation.Nullable;
 
-import divinerpg.network.payload.*;
 import divinerpg.registries.*;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Arcana {
 	public static boolean hasArcana(@Nullable LivingEntity entity) {
@@ -18,14 +15,15 @@ public class Arcana {
      * @return amount of arcana
      */
     public static float getAmount(@Nullable LivingEntity entity) {
-        return entity == null ? 0 : AttachmentRegistry.ARCANA.get(entity);
+        if(entity == null) return 0F;
+        return !AttachmentRegistry.ARCANA.has(entity) && entity instanceof Player ? AttachmentRegistry.MAX_ARCANA.get(entity) : AttachmentRegistry.ARCANA.get(entity);
     }
     /**
      * Gets arcana max
      * @return amount of max possible arcana
      */
     public static float getMaxArcana(@Nullable LivingEntity entity) {
-        return entity == null ? 0 : AttachmentRegistry.MAX_ARCANA.get(entity);
+        return entity == null ? 0F : AttachmentRegistry.MAX_ARCANA.get(entity);
     }
     /**
      * Gets delay in ticks
