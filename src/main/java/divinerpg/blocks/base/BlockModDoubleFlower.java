@@ -2,14 +2,14 @@ package divinerpg.blocks.base;
 
 import net.minecraft.core.*;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.TallFlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 
-import static net.minecraft.world.level.block.Blocks.TALL_GRASS;
+import static net.minecraft.world.level.block.Blocks.ROSE_BUSH;
 
-public class BlockModDoublePlant extends DoublePlantBlock {
-    public BlockModDoublePlant(MapColor color, SoundType sound) {super(Properties.ofFullCopy(TALL_GRASS).mapColor(color).sound(sound));}
+public class BlockModDoubleFlower extends TallFlowerBlock {
+    public BlockModDoubleFlower(MapColor color) {super(Properties.ofFullCopy(ROSE_BUSH).mapColor(color));}
     @Override public int getFlammability(BlockState state, BlockGetter getter, BlockPos pos, Direction face) {return 100;}
     @Override public int getFireSpreadSpeed(BlockState state, BlockGetter getter, BlockPos pos, Direction face) {return 60;}
 }

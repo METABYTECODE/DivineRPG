@@ -16,6 +16,7 @@ public class BlockModMoss extends MossBlock {
 	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		return level.getBlockState(pos.below()).isAir();
 	}
+	//TODO: to do it the way vanilla does that
 	@Override
 	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
 		BlockState myState = this.defaultBlockState();
