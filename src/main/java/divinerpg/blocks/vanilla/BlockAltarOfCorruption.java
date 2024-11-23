@@ -1,107 +1,142 @@
 package divinerpg.blocks.vanilla;
 
 import com.mojang.serialization.MapCodec;
+import java.util.List;
+import javax.annotation.Nullable;
+
 import divinerpg.block_entities.AltarOfCorruptionBlockEntity;
 import divinerpg.client.menu.AltarOfCorruptionMenu;
 import divinerpg.registries.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.*;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.*;
-import net.minecraft.world.level.block.state.*;
+import net.minecraft.world.inventory.EnchantmentMenu;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.EnchantingTableBlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.*;
-
-import javax.annotation.Nullable;
-import java.util.List;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlockAltarOfCorruption extends BaseEntityBlock {
     public static final MapCodec<BlockAltarOfCorruption> CODEC = simpleCodec(BlockAltarOfCorruption::new);
-    protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
-    @Override public MapCodec<BlockAltarOfCorruption> codec() {return CODEC;}
-    public static final List<BlockPos> BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(-2, 0, -2, 2, 1, 2).filter((p_207914_) -> Math.abs(p_207914_.getX()) == 2 || Math.abs(p_207914_.getZ()) == 2).map(BlockPos::immutable).toList();
+    protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
+    public static final List<BlockPos> BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(-2, 0, -2, 2, 1, 2)
+            .filter(p_341357_ -> Math.abs(p_341357_.getX()) == 2 || Math.abs(p_341357_.getZ()) == 2)
+            .map(BlockPos::immutable)
+            .toList();
 
-    public BlockAltarOfCorruption(Properties properties) {
+    @Override
+    public MapCodec<BlockAltarOfCorruption> codec() {
+        return CODEC;
+    }
+
+    public BlockAltarOfCorruption(BlockBehaviour.Properties properties) {
         super(properties.mapColor(MapColor.COLOR_PURPLE));
     }
 
-    public static boolean isValidBookShelf(Level p_207910_, BlockPos p_207911_, BlockPos p_207912_) {
+    public static boolean isValidBookShelf(Level level, BlockPos enchantingTablePos, BlockPos bookshelfPos) {
         return true; // No bookshelves required.
     }
 
-    public boolean useShapeForLightOcclusion(BlockState p_52997_) {
+    @Override
+    protected boolean useShapeForLightOcclusion(BlockState state) {
         return true;
     }
 
-    public VoxelShape getShape(BlockState p_52988_, BlockGetter p_52989_, BlockPos p_52990_, CollisionContext p_52991_) {
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
-    public void animateTick(BlockState p_221092_, Level p_221093_, BlockPos p_221094_, RandomSource p_221095_) {
-        super.animateTick(p_221092_, p_221093_, p_221094_, p_221095_);
+    /**
+     * Called periodically clientside on blocks near the player to show effects (like furnace fire particles).
+     */
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
 
-        for(BlockPos blockpos : BOOKSHELF_OFFSETS) {
-            if (p_221095_.nextInt(16) == 0 && isValidBookShelf(p_221093_, p_221094_, blockpos)) {
-                p_221093_.addParticle(ParticleTypes.ENCHANT, (double)p_221094_.getX() + 0.5D, (double)p_221094_.getY() + 2.0D, (double)p_221094_.getZ() + 0.5D, (double)((float)blockpos.getX() + p_221095_.nextFloat()) - 0.5D, (double)((float)blockpos.getY() - p_221095_.nextFloat() - 1.0F), (double)((float)blockpos.getZ() + p_221095_.nextFloat()) - 0.5D);
+        for (BlockPos blockpos : BOOKSHELF_OFFSETS) {
+            if (random.nextInt(16) == 0 && isValidBookShelf(level, pos, blockpos)) {
+                level.addParticle(
+                        ParticleTypes.ENCHANT,
+                        (double)pos.getX() + 0.5,
+                        (double)pos.getY() + 2.0,
+                        (double)pos.getZ() + 0.5,
+                        (double)((float)blockpos.getX() + random.nextFloat()) - 0.5,
+                        (double)((float)blockpos.getY() - random.nextFloat() - 1.0F),
+                        (double)((float)blockpos.getZ() + random.nextFloat()) - 0.5
+                );
             }
         }
-
     }
 
-    public RenderShape getRenderShape(BlockState p_52986_) {
+    /**
+     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+     */
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
-    public BlockEntity newBlockEntity(BlockPos p_153186_, BlockState p_153187_) {
-        return new AltarOfCorruptionBlockEntity(p_153186_, p_153187_);
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new AltarOfCorruptionBlockEntity(pos, state);
     }
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153182_, BlockState p_153183_, BlockEntityType<T> p_153184_) {
-        return p_153182_.isClientSide ? createTickerHelper(p_153184_, BlockEntityRegistry.ALTAR_OF_CORRUPTION.get(), AltarOfCorruptionBlockEntity::bookAnimationTick) : null;
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? createTickerHelper(blockEntityType, BlockEntityRegistry.ALTAR_OF_CORRUPTION.get(), AltarOfCorruptionBlockEntity::bookAnimationTick) : null;
     }
 
-    public InteractionResult use(BlockState p_52974_, Level p_52975_, BlockPos p_52976_, Player p_52977_, InteractionHand p_52978_, BlockHitResult p_52979_) {
-        if (p_52975_.isClientSide) {
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            p_52977_.openMenu(p_52974_.getMenuProvider(p_52975_, p_52976_));
+            player.openMenu(state.getMenuProvider(level, pos));
             return InteractionResult.CONSUME;
         }
     }
 
     @Nullable
-    public MenuProvider getMenuProvider(BlockState p_52993_, Level p_52994_, BlockPos p_52995_) {
-        BlockEntity blockentity = p_52994_.getBlockEntity(p_52995_);
+    @Override
+    protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof AltarOfCorruptionBlockEntity) {
             Component component = ((Nameable)blockentity).getDisplayName();
-            return new SimpleMenuProvider((p_207906_, p_207907_, p_207908_) -> {
-                return new AltarOfCorruptionMenu(p_207906_, p_207907_, ContainerLevelAccess.create(p_52994_, p_52995_));
-            }, component);
+            return new SimpleMenuProvider(
+                    (p_341299_, p_341308_, p_341334_) -> new AltarOfCorruptionMenu(p_341299_, p_341308_, ContainerLevelAccess.create(level, pos)), component
+            );
         } else {
             return null;
         }
     }
 
-//    public void setPlacedBy(Level p_52963_, BlockPos p_52964_, BlockState p_52965_, LivingEntity p_52966_, ItemStack p_52967_) {
-//        if (p_52967_.hasCustomHoverName()) {
-//            BlockEntity blockentity = p_52963_.getBlockEntity(p_52964_);
-//            if (blockentity instanceof AltarOfCorruptionBlockEntity) {
-//                ((AltarOfCorruptionBlockEntity)blockentity).setCustomName(p_52967_.getHoverName());
-//            }
-//        }
-//
-//    }
-
-    public boolean isPathfindable(BlockState p_52969_, BlockGetter p_52970_, BlockPos p_52971_, PathComputationType p_52972_) {
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
+
+
 }

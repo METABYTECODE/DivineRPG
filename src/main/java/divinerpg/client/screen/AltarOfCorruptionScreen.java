@@ -131,7 +131,7 @@ public class AltarOfCorruptionScreen extends AbstractContainerScreen<AltarOfCorr
         float f5 = Mth.clamp(Mth.frac(f1 + 0.75F) * 1.6F - 0.3F, 0.0F, 1.0F);
         this.bookModel.setupAnim(0.0F, f4, f5, f);
         VertexConsumer vertexconsumer = p_289697_.bufferSource().getBuffer(this.bookModel.renderType(ENCHANTING_BOOK_LOCATION));
-        this.bookModel.renderToBuffer(p_289697_.pose(), vertexconsumer, 15728880, OverlayTexture.NO_OVERLAY, 1);
+        this.bookModel.renderToBuffer(p_289697_.pose(), vertexconsumer, 15728880, OverlayTexture.NO_OVERLAY);
         p_289697_.flush();
         p_289697_.pose().popPose();
         Lighting.setupFor3DItems();
