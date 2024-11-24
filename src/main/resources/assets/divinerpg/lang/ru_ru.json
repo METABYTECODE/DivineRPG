@@ -10,6 +10,7 @@
   "effect.divinerpg.demonized_hood": "Демонизация",
   "effect.divinerpg.demonized_mask": "Демонизация",
   "effect.divinerpg.divine_strength": "Божья сила",
+  "effect.divinerpg.ender_attachment": "Эндерение",
   "effect.divinerpg.explosion_protection": "Взрывостойкость",
   "effect.divinerpg.finished_helmet": "Завершённость",
   "effect.divinerpg.finished_hood": "Завершённость",
@@ -810,6 +811,10 @@
   "item.minecraft.lingering_potion.effect.long_warmth": "Туманное зелье теплоты",
   "item.minecraft.tipped_arrow.effect.long_warmth": "Стрела теплоты",
 
+  "item.divinerpg.potion.red_cattle": "Бычья кровь",
+
+  "item.divinerpg.potion.wreck_potion": "Зелье Крушителя",
+
   "item.divinerpg.tomato": "Томат",
   "item.divinerpg.tomato_seeds": "Семена томата",
   "item.divinerpg.white_mushroom": "Белый гриб",
@@ -871,6 +876,7 @@
   "item.divinerpg.kraken_leggings": "Поножи Кракена",
   "item.divinerpg.kraken_boots": "Ботинки Кракена",
 
+  "item.divinerpg.aquatic_coating_template": "Кузнечный шаблон",
   "upgrade.divinerpg.aquatic_coating": "Водяное покрытие",
   "item.divinerpg.smithing_template.aquatic_coating.applies_to": "Водяным доспехам",
   "item.divinerpg.smithing_template.aquatic_coating.ingredients": "Чешуя Кракена",
@@ -970,6 +976,7 @@
   "item.divinerpg.shadow_boots": "Теневые ботинки",
   "item.divinerpg.shadow_saber": "Теневая сабля",
   "item.divinerpg.shadow_bow": "Теневой лук",
+  "item.divinerpg.shadow_arrow": "Теневая стрела",
 
   "item.divinerpg.gray_diamond_chunk": "Серый алмазный кусок",
   "item.divinerpg.red_diamond_chunk": "Красный алмазный кусок",
@@ -977,6 +984,7 @@
   "item.divinerpg.green_diamond_chunk": "Зелёный алмазный кусок",
   "item.divinerpg.blue_diamond_chunk": "Синий алмазный кусок",
 
+  "item.divinerpg.color_template": "Кузнечный шаблон",
   "trim_pattern.divinerpg.color_template": "Цветовой шаблон",
   "item.divinerpg.smithing_template.color_template.applies_to": "Окрашиваемому снаряжению",
   "item.divinerpg.smithing_template.color_template.ingredients": "Цветной алмазный кусок",
@@ -1008,6 +1016,7 @@
   "item.divinerpg.jungle_rapier": "Рапира джунглей",
   "item.divinerpg.poison_saber": "Отравленная сабля",
   "item.divinerpg.hunter_bow": "Охотничий лук",
+  "item.divinerpg.hunter_arrow": "Охотничья стрела",
   "item.divinerpg.vile_storm": "Отравленный сюрикен",
 
   "item.divinerpg.raw_torridite": "Рудный торридит",
@@ -1032,6 +1041,7 @@
   "item.divinerpg.inferno_boots": "Ботинки преисподней",
   "item.divinerpg.inferno_sword": "Меч преисподней",
   "item.divinerpg.inferno_bow": "Лук преисподней",
+  "item.divinerpg.inferno_arrow": "Стрела преисподней",
 
   "item.divinerpg.bedrock_chunk": "Кусок бедрока",
   "item.divinerpg.bedrock_helmet": "Бедроковый шлем",
@@ -1046,6 +1056,7 @@
   "item.divinerpg.bedrock_axe": "Бедроковый топор",
   "item.divinerpg.bedrock_hoe": "Бедроковая мотыга",
 
+  "item.divinerpg.bedrock_upgrade_template": "Кузнечный шаблон",
   "upgrade.divinerpg.bedrock_upgrade": "Бедроковое улучшение",
   "item.divinerpg.smithing_template.bedrock_upgrade.applies_to": "Доспехам преисподней или торридитовым",
   "item.divinerpg.smithing_template.bedrock_upgrade.ingredients": "Кусок бедрока",
@@ -1064,6 +1075,7 @@
   "item.divinerpg.soulfire_stone": "Камень огня душ",
   "item.divinerpg.soulfire_sword": "Меч огня душ",
   "item.divinerpg.soulfire_bow": "Лук огня душ",
+  "item.divinerpg.soulfire_arrow": "Стрела огня душ",
 
   "item.divinerpg.angelic_helmet": "Ангельский шлем",
   "item.divinerpg.angelic_chestplate": "Ангельский нагрудник",
@@ -1121,6 +1133,7 @@
   "item.divinerpg.icicle_bane": "Бич оледенения",
   "item.divinerpg.icicle_dagger": "Сосулечный кинжал",
   "item.divinerpg.icicle_bow": "Сосулечный лук",
+  "item.divinerpg.icicle_arrow": "Сосулечная стрела",
 
   "item.divinerpg.slime_sword": "Слизневый меч",
   "item.divinerpg.glacier_sword": "Ледниковый меч",
@@ -1135,6 +1148,7 @@
   "item.divinerpg.sandslash": "Песчаный разрубатель",
   "item.divinerpg.snowslash": "Снежный разрубатель",
   "item.divinerpg.snowstorm_bow": "Лук метели",
+  "item.divinerpg.snowstorm_arrow": "Стрела метели",
 
   "item.divinerpg.sound_of_music": "Звуки музыки",
   "item.divinerpg.sound_of_carols": "Звуки кэрол",
@@ -1192,6 +1206,7 @@
   "item.divinerpg.blue_ender_sword": "Синий Эндер-меч",
   "item.divinerpg.enderice": "Эндероз",
   "item.divinerpg.ender_bow": "Эндер-лук",
+  "item.divinerpg.ender_arrow": "Эндер-стрела",
   "item.divinerpg.ender_scepter": "Эндер-скипетр",
 
   "item.divinerpg.divine_shards": "Божественные осколки",
@@ -2152,6 +2167,7 @@
   "tooltip.divinerpg.armor_pouch.leggings": "§9Поножи: ",
   "tooltip.divinerpg.bow_speed.faster": " Натяжение %sx быстрее",
   "tooltip.divinerpg.bow_speed.slower": " Натяжение %sx медленнее",
+  "tooltip.divinerpg.cool": "Охлаждает мобов",
   "tooltip.divinerpg.damage.arcana": " Урон арканой: %s",
   "tooltip.divinerpg.damage.magic": " Урон магией: %s",
   "tooltip.divinerpg.damage.ranged": " Урон в дальнем бою: %s",
@@ -2162,11 +2178,14 @@
   "tooltip.divinerpg.effect.burns": "Поджигает мобов на %s секунды",
   "tooltip.divinerpg.effect.poisons": "Отравляет мобов на %s секунды",
   "tooltip.divinerpg.effect.slows": "Замедляет мобов на %s секунды",
+  "tooltip.divinerpg.effect.teleport": "Телепортирует, если стрелять DivineRPG стрелами",
   "tooltip.divinerpg.ender_scepter": "Телепортирует использующего",
   "tooltip.divinerpg.frosted_allure": "Призывает мобов на поверхности. Выберите категорию мобов с помощью ледяного камня для более точного призыва",
   "tooltip.divinerpg.heals": "Восполняет %s сердец",
   "tooltip.divinerpg.health.regen": "Даёт регенерацию на %s секунды",
+  "tooltip.divinerpg.hit_ender": "Может ранить существ Эндера",
   "tooltip.divinerpg.instant_consumption": "Мгновенное употребление",
+  "tooltip.divinerpg.less_drag": "Уменьшенное сопротивление воздуха",
   "tooltip.divinerpg.lightning_shot": "Бьёт молниями",
   "tooltip.divinerpg.nightmare_bed": "Вам придётся поторговать с Голодом, чтобы сделать портал обратно",
   "tooltip.divinerpg.pull": "Притягивает мобов к пользователю",
@@ -2174,6 +2193,8 @@
   "tooltip.divinerpg.return": "Возвращается к пользователю",
   "tooltip.divinerpg.shadow_saber": "Ускоряет пользователя при каждой атаке",
   "tooltip.divinerpg.shots.bounce": "Отскакивающие снаряды",
+  "tooltip.divinerpg.shots.burn": "Стреляет огненными стрелами",
+  "tooltip.divinerpg.shots.blind": "Ослепляет мобов на %s секунды",
   "tooltip.divinerpg.shots.explosive": "Взрывные снаряды",
   "tooltip.divinerpg.shots.homing": "Самонаводящиеся снаряды",
   "tooltip.divinerpg.shots.sky": "%s снарядов с неба",
@@ -2187,7 +2208,7 @@
   "tooltip.divinerpg.teleport.dimension": "§9Измерение: %s",
   "tooltip.divinerpg.teleport.respawn_point": "Телепортирует на место возрождения",
   "tooltip.divinerpg.tool.efficiency": "§9Эффективность: %s",
-  "tooltip.divinerpg.tool.harvest_level": "§9Уровень сбора: %s",
+  "tooltip.divinerpg.tool.harvest_level": "§9Уровень добычи: %s",
   "tooltip.divinerpg.torridite": "Бывший незерит",
   "tooltip.divinerpg.weakened_without_arcana": "Урон сильно снижен, если не хватает арканы",
 
@@ -2728,5 +2749,8 @@
   "effect.divinerpg.demonized_hood.description": "Уменьшает получаемый урон от арканы.",
   "effect.divinerpg.finished_hood.description": "Уменьшает получаемый урон от арканы.",
   "effect.divinerpg.glistening_hood.description": "Уменьшает получаемый урон от арканы.",
-  "effect.divinerpg.tormented_hood.description": "Уменьшает получаемый урон от арканы."
+  "effect.divinerpg.tormented_hood.description": "Уменьшает получаемый урон от арканы.",
+
+  "lore.divinerpg.red_cattle": "Страх неудачи, который движет вами",
+  "lore.divinerpg.wreck_potion": "Может быть, для этого найдется применение..."
 }

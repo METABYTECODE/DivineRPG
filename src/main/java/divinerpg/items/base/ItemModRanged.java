@@ -65,7 +65,7 @@ public class ItemModRanged extends ItemMod {
         this.sound = sound;
     }
     //Throwables (no durability)
-    public ItemModRanged(int nameColor, BulletType bulletType, int delay) {
+    public ItemModRanged(BulletType bulletType, int delay, int nameColor) {
         super(new Properties());
         this.bulletType = bulletType;
         cooldown = delay;

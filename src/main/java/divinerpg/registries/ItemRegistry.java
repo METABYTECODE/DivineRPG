@@ -338,7 +338,7 @@ public class ItemRegistry {
             icicle_dagger = registerItem("icicle_dagger", () -> new ItemModSword(ToolStats.ICICLE_DAGGER, RarityList.ICICLE)),
             ender_sword = registerItem("ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.ENDER)),
             red_ender_sword = registerItem("red_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.RED)),
-            yellow_ender_sword = registerItem("yellow_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.COMMON)),
+            yellow_ender_sword = registerItem("yellow_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.UNCOMMON)),
             green_ender_sword = registerItem("green_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.GREEN)),
             blue_ender_sword = registerItem("blue_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.BLUE)),
             black_ender_sword = registerItem("black_ender_sword", () -> new ItemModSword(ToolStats.ENDER_SWORD, RarityList.DARK_GRAY)),
@@ -440,12 +440,12 @@ public class ItemRegistry {
             vile_storm = registerItem("vile_storm", () -> new ItemModThrowable(BulletType.VILE_STORM_SHOT)),
 
             //Slicers
-            eden_slicer = registerItem("eden_slicer", () -> new ItemModThrowable(RarityList.EDEN, BulletType.EDEN_SLICER_SHOT)),
-            wildwood_slicer = registerItem("wildwood_slicer", () -> new ItemModThrowable(RarityList.WILDWOOD, BulletType.WILDWOOD_SLICER_SHOT)),
-            apalachia_slicer = registerItem("apalachia_slicer", () -> new ItemModThrowable(RarityList.APALACHIA, BulletType.APALACHIA_SLICER_SHOT)),
-            skythern_slicer = registerItem("skythern_slicer", () -> new ItemModThrowable(RarityList.SKYTHERN, BulletType.SKYTHERN_SLICER_SHOT)),
-            mortum_slicer = registerItem("mortum_slicer", () -> new ItemModThrowable(RarityList.MORTUM, BulletType.MORTUM_SLICER_SHOT)),
-            halite_slicer = registerItem("halite_slicer", () -> new ItemModThrowable(RarityList.HALITE, BulletType.HALITE_SLICER_SHOT)),
+            eden_slicer = registerItem("eden_slicer", () -> new ItemModThrowable(BulletType.EDEN_SLICER_SHOT, RarityList.EDEN)),
+            wildwood_slicer = registerItem("wildwood_slicer", () -> new ItemModThrowable(BulletType.WILDWOOD_SLICER_SHOT, RarityList.WILDWOOD)),
+            apalachia_slicer = registerItem("apalachia_slicer", () -> new ItemModThrowable(BulletType.APALACHIA_SLICER_SHOT, RarityList.APALACHIA)),
+            skythern_slicer = registerItem("skythern_slicer", () -> new ItemModThrowable(BulletType.SKYTHERN_SLICER_SHOT, RarityList.SKYTHERN)),
+            mortum_slicer = registerItem("mortum_slicer", () -> new ItemModThrowable(BulletType.MORTUM_SLICER_SHOT, RarityList.MORTUM)),
+            halite_slicer = registerItem("halite_slicer", () -> new ItemModThrowable(BulletType.HALITE_SLICER_SHOT, RarityList.HALITE)),
 
             //Extra
             scythe = registerItem("scythe", ItemScythe::new),

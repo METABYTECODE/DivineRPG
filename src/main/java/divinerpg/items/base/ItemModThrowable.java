@@ -9,14 +9,14 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 public class ItemModThrowable extends ItemModRanged {
+    public ItemModThrowable(BulletType bulletType, int nameColor) {super(bulletType, 0, nameColor);}
     public ItemModThrowable(BulletType bulletType) {
-        super(RarityList.COMMON, bulletType, 0);
+        this(bulletType, RarityList.COMMON);
         if(bulletType == BulletType.GRENADE) {
             cooldown = 20;
             sound = SoundEvents.TRIDENT_THROW.value();
         }
     }
-    public ItemModThrowable(int nameColor, BulletType bulletType) {super(nameColor, bulletType, 0);}
     @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if(!player.isCreative()) stack.shrink(1);

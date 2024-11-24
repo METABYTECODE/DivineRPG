@@ -1,15 +1,19 @@
 package divinerpg.util;
 
+import net.minecraft.ChatFormatting;
+
 public class RarityList {
     /** Use these 3 Rarities for yellow, aqua, and light purple colors instead of custom ones:
+     * COMMON(ChatFormatting.WHITE),
      * UNCOMMON(ChatFormatting.YELLOW),
      * RARE(ChatFormatting.AQUA),
      * EPIC(ChatFormatting.LIGHT_PURPLE);
      */
     public static int
     //Vanilla rarity colors
-    UNCOMMON = 16777045,
     COMMON = 16777215,
+    UNCOMMON = 16777045,
+    RARE = 5636095,
     EPIC = 16733695,
     //Extra base colors
     GRAY = 11184810,
