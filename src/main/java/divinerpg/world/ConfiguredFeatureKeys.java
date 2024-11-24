@@ -15,11 +15,9 @@ import net.minecraft.world.level.levelgen.feature.*;
 import net.minecraft.world.level.levelgen.feature.LakeFeature.Configuration;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.neoforged.fml.common.EventBusSubscriber;
 
 import static divinerpg.util.Utils.*;
 
-@SuppressWarnings("deprecation")
 public final class ConfiguredFeatureKeys {
 	public ConfiguredFeatureKeys() {}
 

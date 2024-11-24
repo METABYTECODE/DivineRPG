@@ -21,20 +21,20 @@ public class ItemModSword extends SwordItem {
 	public Optional<Integer> nameColor;
     public int arcanaConsumedUse, arcanaConsumedAttack, cooldown;
     public ToolStats sword;
-    //Have rarity
-    public ItemModSword(int nameColor, Tier tier) {
-        super(tier, new Properties().attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
+    //Base constructor
+    public ItemModSword(Tier tier, Properties properties) {
+        super(tier, properties.attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
         sword = (ToolStats)tier;
-        this.nameColor = Optional.of(nameColor);
+    }
+    //Have rarity
+    public ItemModSword(Tier tier, int rarity) {
+        this(tier, new Properties());
+        sword = (ToolStats)tier;
+        nameColor = Optional.of(rarity);
     }
     //No rarity
     public ItemModSword(Tier tier) {
         super(tier, new Properties().attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
-        sword = (ToolStats)tier;
-    }
-    //Fire-resistant swords
-    public ItemModSword(Tier tier, Properties properties) {
-        super(tier, properties.attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
         sword = (ToolStats)tier;
     }
     public ItemModSword setAttackArcanaConsumption(int amount) {
@@ -79,8 +79,7 @@ public class ItemModSword extends SwordItem {
         if(arcanaConsumedAttack > 0) tooltip.add(LocalizeUtils.arcanaConsumed(arcanaConsumedAttack));
         if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
-    @Override
-    public Component getName(ItemStack pStack) {
+    @Override public Component getName(ItemStack pStack) {
     	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
     }
 }

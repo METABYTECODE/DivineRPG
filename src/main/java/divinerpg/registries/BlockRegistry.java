@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static divinerpg.DivineRPG.MODID;
+import static divinerpg.registries.ItemRegistry.*;
 import static divinerpg.registries.SoundRegistry.*;
 import static net.minecraft.core.particles.ParticleTypes.FLAME;
 import static net.minecraft.sounds.SoundEvents.*;
@@ -43,7 +44,7 @@ public class BlockRegistry {
             skythernDirt = registerBlock("skythern_dirt", () -> new BlockModDirt(COLOR_LIGHT_GRAY)),
             mortumDirt = registerBlock("mortum_dirt", () -> new BlockModDirt(COLOR_GRAY)),
             dreamDirt = registerBlock("dream_dirt", () -> new BlockModDirt(COLOR_CYAN)),
-            dreamStone = registerBlock("dream_stone", () -> new BlockMod(COLOR_CYAN, 1.5F, 6)),
+            dreamStone = registerBlock("dream_stone", () -> new BlockMod(COLOR_CYAN)),
 
             //Grass Blocks
             frozenGrass = registerBlock("frozen_grass", () -> new BlockModGrassBlock(frozenDirt, DIAMOND)),
@@ -79,8 +80,8 @@ public class BlockRegistry {
             arcaniteMoss = registerBlock("arcanite_moss", () -> new BlockModMoss(Properties.ofFullCopy(Blocks.MOSS_BLOCK).mapColor(COLOR_LIGHT_BLUE))),
 
             //Stone & Stuff
-            milkStone = registerBlock("milk_stone", () -> new BlockMod(WOOL, 1.5F, 6)),
-            frozenStone = registerBlock("frozen_stone", () -> new BlockMod(GLOW_LICHEN, 1.5F, 6)),
+            milkStone = registerBlock("milk_stone", () -> new BlockMod(WOOL)),
+            frozenStone = registerBlock("frozen_stone", () -> new BlockMod(GLOW_LICHEN)),
             frozenStairs = registerBlock("frozen_stairs", () -> new BlockModStairs(frozenStone.get())),
             frozenSlab = registerBlock("frozen_slab", () -> new BlockModSlab(frozenStone.get())),
             frozenPressurePlate = registerBlock("frozen_pressure_plate", () -> new BlockModPressurePlate(Blocks.STONE_PRESSURE_PLATE, GLOW_LICHEN, BlockSetType.STONE)),
@@ -91,7 +92,7 @@ public class BlockRegistry {
             cobbledFrozenWall = registerBlock("cobbled_frozen_wall", () -> new BlockModWall(cobbledFrozenStone.get())),
             cobbledFrozenPressurePlate = registerBlock("cobbled_frozen_pressure_plate", () -> new BlockModPressurePlate(Blocks.STONE_PRESSURE_PLATE, GLOW_LICHEN, BlockSetType.STONE)),
             cobbledFrozenButton = registerBlock("cobbled_frozen_button", BlockModButton::new),
-            cobaltite = registerBlock("cobaltite", () -> new BlockMod(COLOR_LIGHT_BLUE, 1.5F, 6)),
+            cobaltite = registerBlock("cobaltite", () -> new BlockMod(COLOR_LIGHT_BLUE)),
             cobaltiteStairs = registerBlock("cobaltite_stairs", () -> new BlockModStairs(cobaltite.get())),
             cobaltiteSlab = registerBlock("cobaltite_slab", () -> new BlockModSlab(cobaltite.get())),
             cobaltiteWall = registerBlock("cobaltite_wall", () -> new BlockModWall(cobaltite.get())),
@@ -100,21 +101,21 @@ public class BlockRegistry {
             icyStone = registerBlock("icy_stone", () -> new BlockMod(ICE, 50, 1200)),
             blueStone = registerBlock("blue_stone", () -> new BlockLightCrystal(COLOR_LIGHT_BLUE)),
             icicle = registerBlock("icicle", BlockIcicle::new),
-            coalstone = registerBlock("coalstone", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
+            coalstone = registerBlock("coalstone", () -> new BlockMod(COLOR_GRAY)),
             coalstoneStairs = registerBlock("coalstone_stairs", () -> new BlockModStairs(coalstone.get())),
             coalstoneSlab = registerBlock("coalstone_slab", () -> new BlockModSlab(coalstone.get())),
             coalstoneWall = registerBlock("coalstone_wall", () -> new BlockModWall(coalstone.get())),
             coalstonePressurePlate = registerBlock("coalstone_pressure_plate", () -> new BlockModPressurePlate(Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE, COLOR_GRAY, BlockSetType.STONE)),
             coalstoneButton = registerBlock("coalstone_button", BlockModButton::new),
             thermalVent = registerBlock("thermal_vent", BlockThermalVent::new),
-            arcaniteStone = registerBlock("arcanite_stone", () -> new BlockMod(COLOR_CYAN, 1.5F, 6)),
+            arcaniteStone = registerBlock("arcanite_stone", () -> new BlockMod(COLOR_CYAN)),
             ancientStone = registerBlock("ancient_stone", () -> new BlockModUnbreakable(COLOR_GRAY)),
-            ancientStoneBreakable = registerBlock("ancient_stone_breakable", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
+            ancientStoneBreakable = registerBlock("ancient_stone_breakable", () -> new BlockMod(COLOR_GRAY)),
             soulStone = registerBlock("soul_stone", () -> new BlockModUnbreakable(TERRACOTTA_BLUE)),
-            soulStoneBreakable = registerBlock("soul_stone_breakable", () -> new BlockMod(TERRACOTTA_BLUE, 1.5F, 6)),
-            twilightStone = registerBlock("twilight_stone", () -> new BlockMod(TERRACOTTA_LIGHT_BLUE, 1.5F, 6)),
+            soulStoneBreakable = registerBlock("soul_stone_breakable", () -> new BlockMod(TERRACOTTA_BLUE)),
+            twilightStone = registerBlock("twilight_stone", () -> new BlockMod(TERRACOTTA_LIGHT_BLUE)),
             divineMossStone = registerBlock("divine_moss_stone", () -> new BlockMod(STONE, 2, 6)),
-            divineRock = registerBlock("divine_rock", () -> new BlockMod(TERRACOTTA_YELLOW, 1.5F, 6)),
+            divineRock = registerBlock("divine_rock", () -> new BlockMod(TERRACOTTA_YELLOW)),
             everstone = registerBlock("everstone", () -> new BlockModUnbreakable(PLANT)),
             whiteEverstone = registerBlock("white_everstone", () -> new BlockModUnbreakable(WOOL)),
             darkEverstone = registerBlock("dark_everstone", () -> new BlockModUnbreakable(COLOR_BLACK)),
@@ -177,7 +178,7 @@ public class BlockRegistry {
             plankDesign = registerBlock("plank_design", () -> new BlockModPlanks(WOOD, SoundType.WOOD)),
 
             //Divine Tree
-            divineSapling = registerBlock("divine_sapling", () -> new BlockModSapling(GOLD, () -> Blocks.GRASS_BLOCK, () -> Blocks.DIRT, new TreeGrower("divine", Optional.of(ConfiguredFeatureKeys.DIVINE_TREE), Optional.empty(), Optional.empty()))),
+            divineSapling = registerBlock("divine_sapling", () -> new BlockModSapling(GOLD, new TreeGrower("divine", Optional.empty(), Optional.of(ConfiguredFeatureKeys.DIVINE_TREE), Optional.empty()))),
             divineLeaves = registerBlock("divine_leaves", () -> new BlockModLeaves(GOLD, SoundType.GRASS)),
             divineLog = registerBlock("divine_log", () -> new BlockModLog(TERRACOTTA_LIGHT_GREEN, SoundType.CHERRY_WOOD)),
             divineWood = registerBlock("divine_wood", () -> new BlockModLog(TERRACOTTA_LIGHT_GREEN, SoundType.CHERRY_WOOD)),
@@ -194,7 +195,7 @@ public class BlockRegistry {
             divineButton = registerBlock("divine_button", () -> new BlockModButton(BlockSetType.CHERRY)),
 
             //Shiverspine
-            shiverspineSapling = registerBlock("shiverspine_sapling", () -> new BlockModSapling(GLOW_LICHEN, frozenGrass, frozenDirt, new TreeGrower("shiverspine", Optional.of(ConfiguredFeatureKeys.SHIVERSPINE_TREE), Optional.empty(), Optional.empty()))),
+            shiverspineSapling = registerBlock("shiverspine_sapling", () -> new BlockModSapling(GLOW_LICHEN, new TreeGrower("shiverspine", Optional.of(ConfiguredFeatureKeys.SHIVERSPINE_TREE), Optional.empty(), Optional.empty()))),
             brittleLeaves = registerBlock("brittle_leaves", () -> new BlockModLeaves(WOOL, SoundType.GRASS)),
             shiverspineLog = registerBlock("shiverspine_log", () -> new BlockModLog(GLOW_LICHEN, SoundType.WOOD)),
             shiverspineWood = registerBlock("shiverspine_wood", () -> new BlockModLog(COLOR_LIGHT_GRAY, SoundType.WOOD)),
@@ -212,7 +213,7 @@ public class BlockRegistry {
             shiverspineButton = registerBlock("shiverspine_button", () -> new BlockModButton(BlockSetType.SPRUCE)),
             
             //Auroraoak
-            auroraoakSapling = registerBlock("auroraoak_sapling", () -> new BlockModSapling(COLOR_PURPLE, frozenGrass, frozenDirt, new TreeGrower("auroraoak", Optional.of(ConfiguredFeatureKeys.AURORAOAK_TREE), Optional.empty(), Optional.empty()))),
+            auroraoakSapling = registerBlock("auroraoak_sapling", () -> new BlockModSapling(COLOR_PURPLE, new TreeGrower("auroraoak", Optional.empty(), Optional.of(ConfiguredFeatureKeys.AURORAOAK_TREE), Optional.empty()))),
             auroraoakLeaves = registerBlock("auroraoak_leaves", () -> new BlockModLeaves(COLOR_PURPLE, SoundType.CHERRY_LEAVES)),
             auroraoakLog = registerBlock("auroraoak_log", () -> new BlockModLog(ICE, SoundType.WOOD)),
             auroraoakWood = registerBlock("auroraoak_wood", () -> new BlockModLog(COLOR_BROWN, SoundType.WOOD)),
@@ -229,7 +230,7 @@ public class BlockRegistry {
             auroraoakButton = registerBlock("auroraoak_button", () -> new BlockModButton(BlockSetType.OAK)),
             
     		//Cozybark
-            cozybarkSapling = registerBlock("cozybark_sapling", () -> new BlockModSapling(CRIMSON_STEM, frozenGrass, frozenDirt, new TreeGrower("cozybark", Optional.of(ConfiguredFeatureKeys.COZYBARK_TREE), Optional.empty(), Optional.empty()))),
+            cozybarkSapling = registerBlock("cozybark_sapling", () -> new BlockModSapling(CRIMSON_STEM, new TreeGrower("cozybark", Optional.of(ConfiguredFeatureKeys.COZYBARK_TREE), Optional.empty(), Optional.empty()))),
             cozybarkLeaves = registerBlock("cozybark_leaves", BlockCozybarkLeaves::new),
             cozybarkLog = registerBlock("cozybark_log", () -> new BlockModLog(TERRACOTTA_PURPLE, SoundType.WOOD)),
             cozybarkWood = registerBlock("cozybark_wood", () -> new BlockModLog(TERRACOTTA_PURPLE, SoundType.WOOD)),
@@ -246,7 +247,7 @@ public class BlockRegistry {
             cozybarkButton = registerBlock("cozybark_button", () -> new BlockModButton(BlockSetType.DARK_OAK)),
             
             //Streamleaf
-            streamleafSapling = registerBlock("streamleaf_sapling", () -> new BlockModSapling(GLOW_LICHEN, frozenGrass, frozenDirt, new TreeGrower("streamleaf", Optional.of(ConfiguredFeatureKeys.STREAMLEAF_TREE), Optional.empty(), Optional.empty()))),
+            streamleafSapling = registerBlock("streamleaf_sapling", () -> new BlockModSapling(GLOW_LICHEN, new TreeGrower("streamleaf", Optional.empty(), Optional.of(ConfiguredFeatureKeys.STREAMLEAF_TREE), Optional.empty()))),
             streamleafLeaves = registerBlock("streamleaf_leaves", () -> new BlockModLeaves(GLOW_LICHEN, SoundType.AZALEA_LEAVES)),
             streamleafLog = registerBlock("streamleaf_log", () -> new BlockModLog(ICE, SoundType.NETHER_WOOD)),
             streamleafWood = registerBlock("streamleaf_wood", () -> new BlockModLog(TERRACOTTA_BROWN, SoundType.NETHER_WOOD)),
@@ -293,7 +294,7 @@ public class BlockRegistry {
             eucalyptusButton = registerBlock("eucalyptus_button", () -> new BlockModButton(BlockSetType.BIRCH)),
 
             //Eden Tree
-            edenSapling = registerBlock("eden_sapling", () -> new BlockModSapling(GOLD, edenGrass, edenDirt, new TreeGrower("eden", Optional.of(ConfiguredFeatureKeys.EDEN_TREE), Optional.empty(), Optional.empty()))),
+            edenSapling = registerBlock("eden_sapling", () -> new BlockModSapling(GOLD, new TreeGrower("eden", Optional.empty(), Optional.of(ConfiguredFeatureKeys.EDEN_TREE), Optional.empty()))),
             edenLeaves = registerBlock("eden_leaves", () -> new BlockModLeaves(GOLD, SoundType.AZALEA_LEAVES)),
             edenLog = registerBlock("eden_log", () -> new BlockModLog(SAND, SoundType.WOOD)),
             edenWood = registerBlock("eden_wood", () -> new BlockModLog(COLOR_BROWN, SoundType.WOOD)),
@@ -310,7 +311,7 @@ public class BlockRegistry {
             edenButton = registerBlock("eden_button", () -> new BlockModButton(BlockSetType.OAK)),
 
             //Wildwood Tree
-            wildwoodSapling = registerBlock("wildwood_sapling", () -> new BlockModSapling(COLOR_LIGHT_BLUE, wildwoodGrass, wildwoodDirt, new TreeGrower("wildwood", Optional.of(ConfiguredFeatureKeys.WILDWOOD_TREE), Optional.empty(), Optional.empty()))),
+            wildwoodSapling = registerBlock("wildwood_sapling", () -> new BlockModSapling(COLOR_LIGHT_BLUE, new TreeGrower("wildwood", Optional.of(ConfiguredFeatureKeys.WILDWOOD_TREE), Optional.empty(), Optional.empty()))),
             wildwoodLeaves = registerBlock("wildwood_leaves", () -> new BlockModLeaves(COLOR_LIGHT_BLUE, SoundType.AZALEA_LEAVES)),
             wildwoodLog = registerBlock("wildwood_log", () -> new BlockModLog(COLOR_LIGHT_BLUE, SoundType.WOOD)),
             wildwoodWood = registerBlock("wildwood_wood", () -> new BlockModLog(COLOR_BLUE, SoundType.WOOD)),
@@ -327,7 +328,7 @@ public class BlockRegistry {
             wildwoodButton = registerBlock("wildwood_button", () -> new BlockModButton(BlockSetType.DARK_OAK)),
 
             //Apalachia Tree
-            apalachiaSapling = registerBlock("apalachia_sapling", () -> new BlockModSapling(COLOR_MAGENTA, apalachiaGrass, apalachiaDirt, new TreeGrower("apalachia", Optional.of(ConfiguredFeatureKeys.APALACHIA_TREE), Optional.empty(), Optional.empty()))),
+            apalachiaSapling = registerBlock("apalachia_sapling", () -> new BlockModSapling(COLOR_MAGENTA, new TreeGrower("apalachia", Optional.empty(), Optional.of(ConfiguredFeatureKeys.APALACHIA_TREE), Optional.empty()))),
             apalachiaLeaves = registerBlock("apalachia_leaves", () -> new BlockModLeaves(COLOR_MAGENTA, SoundType.AZALEA_LEAVES)),
             apalachiaLog = registerBlock("apalachia_log", () -> new BlockModLog(COLOR_MAGENTA, SoundType.WOOD)),
             apalachiaWood = registerBlock("apalachia_wood", () -> new BlockModLog(WARPED_HYPHAE, SoundType.WOOD)),
@@ -344,7 +345,7 @@ public class BlockRegistry {
             apalachiaButton = registerBlock("apalachia_button", () -> new BlockModButton(BlockSetType.ACACIA)),
 
             //Skythern Tree
-            skythernSapling = registerBlock("skythern_sapling", () -> new BlockModSapling(WOOL, skythernGrass, skythernDirt, new TreeGrower("skythern", Optional.of(ConfiguredFeatureKeys.SKYTHERN_TREE), Optional.empty(), Optional.empty()))),
+            skythernSapling = registerBlock("skythern_sapling", () -> new BlockModSapling(WOOL, new TreeGrower("skythern", Optional.of(ConfiguredFeatureKeys.SKYTHERN_TREE), Optional.empty(), Optional.empty()))),
             skythernLeaves = registerBlock("skythern_leaves", () -> new BlockModLeaves(COLOR_LIGHT_GRAY, SoundType.AZALEA_LEAVES)),
             skythernLog = registerBlock("skythern_log", () -> new BlockModLog(WOOL, SoundType.NETHER_WOOD)),
             skythernWood = registerBlock("skythern_wood", () -> new BlockModLog(COLOR_LIGHT_GRAY, SoundType.NETHER_WOOD)),
@@ -361,7 +362,7 @@ public class BlockRegistry {
             skythernButton = registerBlock("skythern_button", () -> new BlockModButton(BlockSetType.CRIMSON)),
 
             //Mortum Tree
-            mortumSapling = registerBlock("mortum_sapling", () -> new BlockModSapling(COLOR_GRAY, mortumGrass, mortumDirt, new TreeGrower("mortum", Optional.of(ConfiguredFeatureKeys.MORTUM_TREE), Optional.empty(), Optional.empty()))),
+            mortumSapling = registerBlock("mortum_sapling", () -> new BlockModSapling(COLOR_GRAY, new TreeGrower("mortum", Optional.empty(), Optional.of(ConfiguredFeatureKeys.MORTUM_TREE), Optional.empty()))),
             mortumLeaves = registerBlock("mortum_leaves", () -> new BlockModLeaves(COLOR_BLACK, SoundType.AZALEA_LEAVES)),
             mortumLog = registerBlock("mortum_log", () -> new BlockModLog(TERRACOTTA_PINK, SoundType.WOOD)),
             mortumWood = registerBlock("mortum_wood", () -> new BlockModLog(TERRACOTTA_PINK, SoundType.WOOD)),
@@ -406,17 +407,17 @@ public class BlockRegistry {
             strippedMintwoodWood = registerBlock("stripped_mintwood_wood", () -> new BlockModLog(COLOR_CYAN, SoundType.WOOD)),
 
             //Wool
-            checker = registerBlock("checker", () -> new BlockMod(WOOL,.8F, .8F, 60, 30, SoundType.WOOL, NoteBlockInstrument.GUITAR)),
-            fancyWool = registerBlock("fancy_wool", () -> new BlockMod(CRIMSON_HYPHAE,.8F, .8F, 60, 30, SoundType.WOOL, NoteBlockInstrument.GUITAR)),
-            rainbowWool = registerBlock("rainbow_wool", () -> new BlockMod(COLOR_PURPLE,.8F, .8F, 60, 30, SoundType.WOOL, NoteBlockInstrument.GUITAR)),
-            workshopCarpet = registerBlock("workshop_carpet", () -> new BlockMod(TERRACOTTA_RED,.8F, .8F, 60, 30, SoundType.WOOL, NoteBlockInstrument.GUITAR)),
+            checker = registerBlock("checker", () -> new BlockModWool(WOOL)),
+            rainbowWool = registerBlock("rainbow_wool", () -> new BlockModWool(COLOR_PURPLE)),
+            fancyWool = registerBlock("fancy_wool", () -> new BlockModWool(CRIMSON_HYPHAE)),
+            workshopCarpet = registerBlock("workshop_carpet", () -> new BlockModWool(TERRACOTTA_RED)),
 
             //Bookshelves
-            workshopBookcase = registerBlock("workshop_bookcase", () -> new BlockModBookshelf(COLOR_GRAY)),
-            dungeonBookshelf = registerBlock("dungeon_bookshelf", () -> new BlockModBookshelf(COLOR_BLUE)),
+            workshopBookcase = registerBlock("workshop_bookcase", () -> new BlockMod(COLOR_GRAY, 2, 6)),
+            dungeonBookshelf = registerBlock("dungeon_bookshelf", () -> new BlockMod(COLOR_BLUE, 2, 6)),
 
             //Asphalt
-            asphalt = registerBlock("asphalt", () -> new BlockMod(COLOR_BLACK, 1.5F, 6)),
+            asphalt = registerBlock("asphalt", () -> new BlockMod(COLOR_BLACK)),
             asphaltStairs = registerBlock("asphalt_stairs", () -> new BlockModStairs(asphalt.get())),
             asphaltSlab = registerBlock("asphalt_slab", () -> new BlockModSlab(asphalt.get())),
 
@@ -455,29 +456,29 @@ public class BlockRegistry {
             bloodgemMinibricks = registerBlock("bloodgem_minibricks", () -> new BlockMod(CRIMSON_STEM, 2, 6, SoundType.NETHER_BRICKS, NoteBlockInstrument.BASEDRUM)),
 
             //Iceika Bricks & Other Blocks
-            frozenBricks = registerBlock("frozen_bricks", () -> new BlockMod(GLOW_LICHEN, 1.5F, 6)),
+            frozenBricks = registerBlock("frozen_bricks", () -> new BlockMod(GLOW_LICHEN)),
             frozenBrickStairs = registerBlock("frozen_brick_stairs", () -> new BlockModStairs(frozenBricks.get())),
             frozenBrickSlab = registerBlock("frozen_brick_slab", () -> new BlockModSlab(frozenBricks.get())),
             frozenBrickWall = registerBlock("frozen_brick_wall", () -> new BlockModWall(frozenBricks.get())),
             frozenBrickPressurePlate = registerBlock("frozen_brick_pressure_plate", () -> new BlockModPressurePlate(Blocks.STONE_PRESSURE_PLATE, GLOW_LICHEN, BlockSetType.STONE)),
             frozenBrickButton = registerBlock("frozen_brick_button", BlockModButton::new),
-            snowBricks = registerBlock("snow_bricks", () -> new BlockMod(SNOW, 1.5F, 6)),
+            snowBricks = registerBlock("snow_bricks", () -> new BlockMod(SNOW)),
             icyBricks = registerBlock("icy_bricks", () -> new BlockMod(ICE, 50, 1200)),
             runicIcyBricks = registerBlock("runic_icy_bricks", () -> new BlockMod(ICE, 50, 1200)),
-            coalstoneBricks = registerBlock("coalstone_bricks", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
+            coalstoneBricks = registerBlock("coalstone_bricks", () -> new BlockMod(COLOR_GRAY)),
             coalstoneBrickStairs = registerBlock("coalstone_brick_stairs", () -> new BlockModStairs(coalstoneBricks.get())),
             coalstoneBrickSlab = registerBlock("coalstone_brick_slab", () -> new BlockModSlab(coalstoneBricks.get())),
             coalstoneBrickWall = registerBlock("coalstone_brick_wall", () -> new BlockModWall(coalstoneBricks.get())),
             coalstoneBrickPressurePlate = registerBlock("coalstone_brick_pressure_plate", () -> new BlockModPressurePlate(Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE, COLOR_GRAY, BlockSetType.POLISHED_BLACKSTONE)),
             coalstoneBrickButton = registerBlock("coalstone_brick_button", BlockModButton::new),
-            chiseledCoalstoneBricks = registerBlock("chiseled_coalstone_bricks", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
-            polishedCoalstone = registerBlock("polished_coalstone", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
+            chiseledCoalstoneBricks = registerBlock("chiseled_coalstone_bricks", () -> new BlockMod(COLOR_GRAY)),
+            polishedCoalstone = registerBlock("polished_coalstone", () -> new BlockMod(COLOR_GRAY)),
             polishedCoalstoneStairs = registerBlock("polished_coalstone_stairs", () -> new BlockModStairs(polishedCoalstone.get())),
             polishedCoalstoneSlab = registerBlock("polished_coalstone_slab", () -> new BlockModSlab(polishedCoalstone.get())),
             polishedCoalstoneWall = registerBlock("polished_coalstone_wall", () -> new BlockModWall(polishedCoalstone.get())),
             polishedCoalstonePressurePlate = registerBlock("polished_coalstone_pressure_plate", () -> new BlockModPressurePlate(Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE, COLOR_GRAY, BlockSetType.POLISHED_BLACKSTONE)),
             polishedCoalstoneButton = registerBlock("polished_coalstone_button", BlockModButton::new),
-            polishedCobaltite = registerBlock("polished_cobaltite", () -> new BlockMod(COLOR_LIGHT_BLUE, 1.5F, 6)),
+            polishedCobaltite = registerBlock("polished_cobaltite", () -> new BlockMod(COLOR_LIGHT_BLUE)),
             polishedCobaltiteStairs = registerBlock("polished_cobaltite_stairs", () -> new BlockModStairs(polishedCobaltite.get())),
             polishedCobaltiteSlab = registerBlock("polished_cobaltite_slab", () -> new BlockModSlab(polishedCobaltite.get())),
             polishedCobaltiteWall = registerBlock("polished_cobaltite_wall", () -> new BlockModWall(polishedCobaltite.get())),
@@ -506,11 +507,11 @@ public class BlockRegistry {
             arcaniumPower = registerBlock("arcanium_power", () -> new BlockModUnbreakable(COLOR_GRAY)),
             battleBricks = registerBlock("battle_bricks", () -> new BlockModUnbreakable(FIRE)),
             gildedBricks = registerBlock("gilded_bricks", () -> new BlockModUnbreakable(COLOR_ORANGE)),
-            ancientBricksBreakable = registerBlock("ancient_bricks_breakable", () -> new BlockMod(WARPED_NYLIUM, 1.5F, 6)),
+            ancientBricksBreakable = registerBlock("ancient_bricks_breakable", () -> new BlockMod(WARPED_NYLIUM)),
             ancientBrickStairsBreakable = registerBlock("ancient_brick_stairs_breakable", () -> new BlockModStairs(ancientBricksBreakable.get())),
             ancientBrickSlabBreakable = registerBlock("ancient_brick_slab_breakable", () -> new BlockModSlab(ancientBricksBreakable.get())),
             ancientBrickWallBreakable = registerBlock("ancient_brick_wall_breakable", () -> new BlockModWall(ancientBricksBreakable.get())),
-            degradedBricksBreakable = registerBlock("degraded_bricks_breakable", () -> new BlockMod(COLOR_BLUE, 1.5F, 6)),
+            degradedBricksBreakable = registerBlock("degraded_bricks_breakable", () -> new BlockMod(COLOR_BLUE)),
             degradedBrickStairsBreakable = registerBlock("degraded_brick_stairs_breakable", () -> new BlockModStairs(degradedBricksBreakable.get())),
             degradedBrickSlabBreakable = registerBlock("degraded_brick_slab_breakable", () -> new BlockModSlab(degradedBricksBreakable.get())),
             degradedBrickWallBreakable = registerBlock("degraded_brick_wall_breakable", () -> new BlockModWall(degradedBricksBreakable.get())),
@@ -521,17 +522,17 @@ public class BlockRegistry {
             arcaniteLadder = registerBlock("arcanite_ladder", BlockModLadder::new),
 
             //Twilight Bricks
-            edenBricks = registerBlock("eden_bricks", () -> new BlockMod(COLOR_YELLOW, 1.5F, 6)),
-            wildwoodBricks = registerBlock("wildwood_bricks", () -> new BlockMod(COLOR_LIGHT_BLUE, 1.5F, 6)),
-            apalachiaBricks = registerBlock("apalachia_bricks", () -> new BlockMod(COLOR_MAGENTA, 1.5F, 6)),
-            skythernBricks = registerBlock("skythern_bricks", () -> new BlockMod(WOOL, 1.5F, 6)),
-            mortumBricks = registerBlock("mortum_bricks", () -> new BlockMod(COLOR_GRAY, 1.5F, 6)),
+            edenBricks = registerBlock("eden_bricks", () -> new BlockMod(COLOR_YELLOW)),
+            wildwoodBricks = registerBlock("wildwood_bricks", () -> new BlockMod(COLOR_LIGHT_BLUE)),
+            apalachiaBricks = registerBlock("apalachia_bricks", () -> new BlockMod(COLOR_MAGENTA)),
+            skythernBricks = registerBlock("skythern_bricks", () -> new BlockMod(WOOL)),
+            mortumBricks = registerBlock("mortum_bricks", () -> new BlockMod(COLOR_GRAY)),
 
             //Vethea Bricks & Extra Blocks
             hallWall = registerBlock("hall_wall", () -> new BlockModUnbreakable(NETHER)),
-            redDreamBricks = registerBlock("red_dream_bricks", () -> new BlockMod(CRIMSON_NYLIUM, 1.5F, 6)),
-            lightDreamBricks = registerBlock("light_dream_bricks", () -> new BlockMod(LAPIS, 1.5F, 6)),
-            darkDreamBricks = registerBlock("dark_dream_bricks", () -> new BlockMod(COLOR_BLUE, 1.5F, 6)),
+            redDreamBricks = registerBlock("red_dream_bricks", () -> new BlockMod(CRIMSON_NYLIUM)),
+            lightDreamBricks = registerBlock("light_dream_bricks", () -> new BlockMod(LAPIS)),
+            darkDreamBricks = registerBlock("dark_dream_bricks", () -> new BlockMod(COLOR_BLUE)),
             blueKarosBricks = registerBlock("blue_karos_bricks", () -> new BlockModUnbreakable(COLOR_BLUE)),
             blackKarosBricks = registerBlock("black_karos_bricks", () -> new BlockModUnbreakable(COLOR_BLACK)),
             metalCaging = registerBlock("metal_caging", () -> new BlockMod(Properties.of().mapColor(TERRACOTTA_GREEN).requiresCorrectToolForDrops().strength(5).sound(SoundType.METAL).noOcclusion())),
@@ -588,7 +589,7 @@ public class BlockRegistry {
             soulfireLamp = registerBlock("soulfire_lamp", () -> new BlockModLamp(WATER, SoundType.GLASS)),
             enderStoneLamp = registerBlock("ender_stone_lamp", () -> new BlockModLamp(COLOR_PURPLE, SoundType.GLASS)),
 
-            //Other Lamps
+            //Metal Lamps
             milkyLamp = registerBlock("milky_lamp", () -> new BlockModLamp(QUARTZ)),
             edenLamp = registerBlock("eden_lamp", () -> new BlockModLamp(COLOR_RED)),
             torriditeLamp = registerBlock("torridite_lamp", () -> new BlockModLamp(CRIMSON_NYLIUM)),
@@ -607,9 +608,9 @@ public class BlockRegistry {
             bloodgemLamp = registerBlock("bloodgem_lamp", () -> new BlockModLamp(COLOR_PINK)),
 
             //Extra Lamps
-            slimeLight = registerBlock("slime_light", BlockModLight::new),
+            slimeLight = registerBlock("slime_light", BlockModLampRedstone::new),
             workshopLamp = registerBlock("workshop_lamp", () -> new BlockModLamp(COLOR_LIGHT_BLUE, SoundType.GLASS)),
-            dungeonLamp = registerBlock("dungeon_lamp", () -> new BlockModUnbreakable(QUARTZ, true)),
+            dungeonLamp = registerBlock("dungeon_lamp", () -> new BlockModUnbreakable(QUARTZ, 15)),
             dungeonLampBreakable = registerBlock("dungeon_lamp_breakable", () -> new BlockMod(Properties.of().mapColor(QUARTZ).strength(.3F).sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT).lightLevel((state) -> 15))),
             cellLamp = registerBlock("cell_lamp", () -> new BlockModLamp(COLOR_LIGHT_GREEN, SoundType.GLASS)),
             villageLamp = registerBlock("village_lamp", () -> new BlockModLamp(TERRACOTTA_RED, SoundType.GLASS)),
@@ -620,9 +621,9 @@ public class BlockRegistry {
             starBridge = registerBlock("star_bridge", BlockModBridge::new),
 
             //Powered Fences
-            redFence = registerBlock("red_fence", () -> new BlockModLightFence(COLOR_RED)),
-            blueFence = registerBlock("blue_fence", () -> new BlockModLightFence(COLOR_BLUE)),
-            greenFence = registerBlock("green_fence", () -> new BlockModLightFence(COLOR_GREEN)),
+            redFence = registerBlock("red_fence", () -> new BlockModFenceRedstone(COLOR_RED)),
+            blueFence = registerBlock("blue_fence", () -> new BlockModFenceRedstone(COLOR_BLUE)),
+            greenFence = registerBlock("green_fence", () -> new BlockModFenceRedstone(COLOR_GREEN)),
 
             //Glass
             frostedGlass = registerBlock("frosted_glass", BlockModGlass::new),
@@ -676,20 +677,20 @@ public class BlockRegistry {
             blossomedWeedwoodVine = registerBlock("blossomed_weedwood_vine", () -> new BlockModVine(COLOR_BLUE)),
 
             //Crops
-            tomatoPlant = registerBlock("tomato_plant", () -> new BlockModCrop(ItemRegistry.tomato_seeds.getId())),
-            whiteMushroomPlant = registerBlock("white_mushroom_plant", () -> new BlockModCrop(ItemRegistry.white_mushroom_seeds.getId())),
-            aquamarinePlant = registerBlock("aquamarine_plant", () -> new BlockModCrop(ItemRegistry.aquamarine_seeds.getId())),
-            eucalyptusPlant = registerBlock("eucalyptus_plant", () -> new BlockModCrop(ItemRegistry.eucalyptus_root_seeds.getId())),
-            firestockPlant = registerBlock("firestock_plant", BlockArcanaDoubleCrop::new),
-            hitchakPlant = registerBlock("hitchak_plant", () -> new BlockModCrop(ItemRegistry.hitchak_seeds.getId())),
-            lamonaPlant = registerBlock("lamona_plant", () -> new BlockModCrop(ItemRegistry.lamona_seeds.getId())),
-            marsinePlant = registerBlock("marsine_plant", () -> new BlockModCrop(ItemRegistry.marsine_seeds.getId())),
-            pinflyPlant = registerBlock("pinfly_plant", BlockArcanaDoubleCrop::new),
-            veiloPlant = registerBlock("veilo_plant", () -> new BlockModCrop(ItemRegistry.veilo_seeds.getId())),
-            moonbulbPlant = registerBlock("moonbulb_plant", () -> new BlockModDoubleCrop(4)),
-            purpleGlowbonePlant = registerBlock("purple_glowbone_plant", () -> new BlockModDoubleCrop(6)),
-            pinkGlowbonePlant = registerBlock("pink_glowbone_plant", () -> new BlockModDoubleCrop(6)),
-            skyPlant = registerBlock("sky_plant", () -> new BlockModCrop(ItemRegistry.sky_plant_seeds.getId())),
+            tomatoPlant = registerBlock("tomato_plant", () -> new BlockModCrop(tomato_seeds.getId())),
+            whiteMushroomPlant = registerBlock("white_mushroom_plant", () -> new BlockModCrop(white_mushroom_seeds.getId())),
+            aquamarinePlant = registerBlock("aquamarine_plant", () -> new BlockModCrop(aquamarine_seeds.getId())),
+            eucalyptusPlant = registerBlock("eucalyptus_plant", () -> new BlockModCrop(eucalyptus_root_seeds.getId())),
+            firestockPlant = registerBlock("firestock_plant", () -> new BlockArcanaDoubleCrop(firestock_seeds.getId())),
+            hitchakPlant = registerBlock("hitchak_plant", () -> new BlockModCrop(hitchak_seeds.getId())),
+            lamonaPlant = registerBlock("lamona_plant", () -> new BlockModCrop(lamona_seeds.getId())),
+            marsinePlant = registerBlock("marsine_plant", () -> new BlockModCrop(marsine_seeds.getId())),
+            pinflyPlant = registerBlock("pinfly_plant", () -> new BlockArcanaDoubleCrop(pinfly_seeds.getId())),
+            veiloPlant = registerBlock("veilo_plant", () -> new BlockModCrop(veilo_seeds.getId())),
+            moonbulbPlant = registerBlock("moonbulb_plant", () -> new BlockModDoubleCrop(4, moonbulb_seeds.getId())),
+            purpleGlowbonePlant = registerBlock("purple_glowbone_plant", () -> new BlockModDoubleCrop(6, purple_glowbone_seeds.getId())),
+            pinkGlowbonePlant = registerBlock("pink_glowbone_plant", () -> new BlockModDoubleCrop(6, pink_glowbone_seeds.getId())),
+            skyPlant = registerBlock("sky_plant", () -> new BlockModCrop(sky_plant_seeds.getId())),
 
             //Mob Pumpkins
             blazePumpkin = registerBlock("blaze_pumpkin", () -> new BlockMobPumpkin(() -> BLAZE_AMBIENT, COLOR_YELLOW)),
@@ -729,20 +730,20 @@ public class BlockRegistry {
             proximitySpawner = registerBlock("proximity_spawner", () -> new BlockModProximitySpawner(Properties.ofFullCopy(Blocks.SPAWNER))),
 
             //Encaged Arcana Creatures
-            encagedCaptainMerik = registerBlock("encaged_captain_merik", () -> new BlockModMobCage(EntityRegistry.CAPTAIN_MERIK.getId(), ItemRegistry.firestock.getId())),
-            encagedDatticon = registerBlock("encaged_datticon", () -> new BlockModMobCage(EntityRegistry.DATTICON.getId(), ItemRegistry.aquamarine.getId())),
-            encagedKazari = registerBlock("encaged_kazari", () -> new BlockModMobCage(EntityRegistry.KAZARI.getId(), ItemRegistry.lamona.getId())),
-            encagedLeorna = registerBlock("encaged_leorna", () -> new BlockModMobCage(EntityRegistry.LEORNA.getId(), ItemRegistry.hitchak.getId())),
-            encagedLordVatticus = registerBlock("encaged_lord_vatticus", () -> new BlockModMobCage(EntityRegistry.LORD_VATTICUS.getId(), ItemRegistry.marsine.getId())),
-            encagedWarGeneral = registerBlock("encaged_war_general", () -> new BlockModMobCage(EntityRegistry.WAR_GENERAL.getId(), ItemRegistry.pinfly.getId())),
-            encagedZelus = registerBlock("encaged_zelus", () -> new BlockModMobCage(EntityRegistry.ZELUS.getId(), ItemRegistry.veilo.getId())),
+            encagedCaptainMerik = registerBlock("encaged_captain_merik", () -> new BlockModMobCage(EntityRegistry.CAPTAIN_MERIK.getId(), firestock.getId())),
+            encagedDatticon = registerBlock("encaged_datticon", () -> new BlockModMobCage(EntityRegistry.DATTICON.getId(), aquamarine.getId())),
+            encagedKazari = registerBlock("encaged_kazari", () -> new BlockModMobCage(EntityRegistry.KAZARI.getId(), lamona.getId())),
+            encagedLeorna = registerBlock("encaged_leorna", () -> new BlockModMobCage(EntityRegistry.LEORNA.getId(), hitchak.getId())),
+            encagedLordVatticus = registerBlock("encaged_lord_vatticus", () -> new BlockModMobCage(EntityRegistry.LORD_VATTICUS.getId(), marsine.getId())),
+            encagedWarGeneral = registerBlock("encaged_war_general", () -> new BlockModMobCage(EntityRegistry.WAR_GENERAL.getId(), pinfly.getId())),
+            encagedZelus = registerBlock("encaged_zelus", () -> new BlockModMobCage(EntityRegistry.ZELUS.getId(), veilo.getId())),
 
             //Boss Spawners
-            calcifiedBrain = registerBlock("calcified_brain", () -> new BlockModMobCage(Properties.ofFullCopy(Blocks.BONE_BLOCK), EntityRegistry.KITRA.getId(), ItemRegistry.liopleurodon_skull.getId(), new BlockPos(0, 5, 0))),
-            sunstormSpawner = registerBlock("sunstorm_spawner", () -> new BlockModMobCage(EntityRegistry.SUNSTORM.getId(), ItemRegistry.eden_chunk.getId(), COLOR_YELLOW)),
-            termasectSpawner = registerBlock("termasect_spawner", () -> new BlockModMobCage(EntityRegistry.TERMASECT.getId(), ItemRegistry.wildwood_chunk.getId(), COLOR_LIGHT_BLUE, new BlockPos(0, 11, 0))),
-            eternalArcherSpawner = registerBlock("eternal_archer_spawner", () -> new BlockModMobCage(EntityRegistry.ETERNAL_ARCHER.getId(), ItemRegistry.apalachia_chunk.getId(), COLOR_MAGENTA)),
-            experiencedCoriSpawner = registerBlock("experienced_cori_spawner", () -> new BlockModMobCage(EntityRegistry.EXPERIENCED_CORI.getId(), ItemRegistry.skythern_chunk.getId(), COLOR_LIGHT_GRAY, new BlockPos(0, 11, 0))),
+            calcifiedBrain = registerBlock("calcified_brain", () -> new BlockModMobCage(Properties.ofFullCopy(Blocks.BONE_BLOCK), EntityRegistry.KITRA.getId(), liopleurodon_skull.getId(), new BlockPos(0, 5, 0))),
+            sunstormSpawner = registerBlock("sunstorm_spawner", () -> new BlockModMobCage(EntityRegistry.SUNSTORM.getId(), eden_chunk.getId(), COLOR_YELLOW)),
+            termasectSpawner = registerBlock("termasect_spawner", () -> new BlockModMobCage(EntityRegistry.TERMASECT.getId(), wildwood_chunk.getId(), COLOR_LIGHT_BLUE, new BlockPos(0, 11, 0))),
+            eternalArcherSpawner = registerBlock("eternal_archer_spawner", () -> new BlockModMobCage(EntityRegistry.ETERNAL_ARCHER.getId(), apalachia_chunk.getId(), COLOR_MAGENTA)),
+            experiencedCoriSpawner = registerBlock("experienced_cori_spawner", () -> new BlockModMobCage(EntityRegistry.EXPERIENCED_CORI.getId(), skythern_chunk.getId(), COLOR_LIGHT_GRAY, new BlockPos(0, 11, 0))),
 
             //Boss Altars
             dramixAltar = registerWithRender("dramix_altar", () -> new BlockModAltar(CRIMSON_HYPHAE), Rarity.COMMON),
@@ -767,10 +768,10 @@ public class BlockRegistry {
 
             //Doors
             steelDoor = registerBlock("steel_door", () -> new BlockModDoor(METAL)),
-            ancientBrickDoor = registerBlock("ancient_brick_door", () -> new BlockArcanaDoor(WARPED_NYLIUM, ItemRegistry.ancient_key.getId())),
-            degradedBrickDoor = registerBlock("degraded_brick_door", () -> new BlockArcanaDoor(COLOR_BLUE, ItemRegistry.degraded_key.getId())),
-            soulSludgeDoor = registerBlock("soul_sludge_door", () -> new BlockArcanaDoor(COLOR_GRAY, ItemRegistry.sludge_key.getId())),
-            soulStoneDoor = registerBlock("soul_stone_door", () -> new BlockArcanaDoor(TERRACOTTA_BLUE, ItemRegistry.soul_key.getId())),
+            ancientBrickDoor = registerBlock("ancient_brick_door", () -> new BlockArcanaDoor(WARPED_NYLIUM, ancient_key.getId())),
+            degradedBrickDoor = registerBlock("degraded_brick_door", () -> new BlockArcanaDoor(COLOR_BLUE, degraded_key.getId())),
+            soulSludgeDoor = registerBlock("soul_sludge_door", () -> new BlockArcanaDoor(COLOR_GRAY, sludge_key.getId())),
+            soulStoneDoor = registerBlock("soul_stone_door", () -> new BlockArcanaDoor(TERRACOTTA_BLUE, soul_key.getId())),
             barredDoor = registerBlock("barred_door", () -> new BlockModDoor(PLANT)),
 
             //Crafting & Stuff

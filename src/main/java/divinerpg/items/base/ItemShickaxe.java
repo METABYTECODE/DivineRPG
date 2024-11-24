@@ -6,8 +6,7 @@ import divinerpg.DivineRPG;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -32,17 +31,22 @@ import static net.minecraft.advancements.CriteriaTriggers.ITEM_USED_ON_BLOCK;
 import static net.minecraft.core.Direction.DOWN;
 import static net.minecraft.sounds.SoundSource.BLOCKS;
 import static net.minecraft.tags.BlockTags.*;
+import static net.minecraft.world.item.Items.*;
 import static net.minecraft.world.level.gameevent.GameEvent.BLOCK_CHANGE;
 import static net.neoforged.neoforge.common.ItemAbilities.*;
 
 public class ItemShickaxe extends DiggerItem {
 	public Optional<Integer> nameColor;
-    public ItemShickaxe(int nameColor, Tier tier) {
-        super(tier, BlockTags.create(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "shickaxe_effective")), new Properties().attributes(ShovelItem.createAttributes(tier, 1, -2.4F)));
-        this.nameColor = Optional.of(nameColor);
+    //Base constructor
+    public ItemShickaxe(Tier tier, Properties properties) {
+        super(tier, create(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "shickaxe_effective")), properties.attributes(ShovelItem.createAttributes(tier, 1, -2.4F)));
     }
-    public ItemShickaxe(Tier tier) {
-        super(tier, BlockTags.create(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "shickaxe_effective")), new Properties().attributes(ShovelItem.createAttributes(tier, 1, -2.4F)));
+    //Base shickaxes
+    public ItemShickaxe(Tier tier) {this(tier, new Properties());}
+    //Shickaxes with custom rarity
+    public ItemShickaxe(Tier tier, int rarity) {
+        this(tier, new Properties());
+        nameColor = Optional.of(rarity);
     }
     private static final Set<ItemAbility> TOOL_ACTIONS = Stream.of(AXE_DIG, AXE_SCRAPE, AXE_STRIP, AXE_WAX_OFF, PICKAXE_DIG, SHOVEL_DIG, SHOVEL_FLATTEN, HOE_DIG, HOE_TILL).collect(Collectors.toCollection(Sets::newIdentityHashSet));
     @Override public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {return TOOL_ACTIONS.contains(itemAbility);}
@@ -109,10 +113,11 @@ public class ItemShickaxe extends DiggerItem {
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(LocalizeUtils.efficiency((int)getTier().getSpeed()));
         TagKey<Block> tagKey = getTier().getIncorrectBlocksForDrops();
+        if(tagKey == INCORRECT_FOR_DIAMOND_TOOL || tagKey == INCORRECT_FOR_NETHERITE_TOOL) tooltip.add(LocalizeUtils.harvestLevel(OBSIDIAN.asItem().getName(stack)));
+        else if(tagKey == INCORRECT_FOR_IRON_TOOL) tooltip.add(LocalizeUtils.harvestLevel(DIAMOND.getName(stack)));
         if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
-    @Override
-    public Component getName(ItemStack pStack) {
+    @Override public Component getName(ItemStack pStack) {
     	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
     }
 }

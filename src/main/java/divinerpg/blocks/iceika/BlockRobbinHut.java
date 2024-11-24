@@ -20,7 +20,7 @@ public class BlockRobbinHut extends BaseEntityBlock {
 	protected static final VoxelShape BASE_SHAPE = box(2, 0, 2, 14, 16, 14);
 	@Override public MapCodec<BlockRobbinHut> codec() {return CODEC;}
 	public BlockRobbinHut(Properties properties) {
-		super(properties.randomTicks().noOcclusion().mapColor(MapColor.COLOR_LIGHT_GRAY).isSuffocating((state, getter, pos) -> false).isViewBlocking((state, getter, pos) -> false).isRedstoneConductor((state, getter, pos) -> false));
+		super(properties.randomTicks().mapColor(MapColor.COLOR_LIGHT_GRAY).isSuffocating((state, getter, pos) -> false).isViewBlocking((state, getter, pos) -> false).isRedstoneConductor((state, getter, pos) -> false));
 	}
 	@Override public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {return BASE_SHAPE;}
 	@Override public RenderShape getRenderShape(BlockState state) {return RenderShape.MODEL;}

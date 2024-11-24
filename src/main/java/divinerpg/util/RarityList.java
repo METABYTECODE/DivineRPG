@@ -6,22 +6,39 @@ public class RarityList {
      * RARE(ChatFormatting.AQUA),
      * EPIC(ChatFormatting.LIGHT_PURPLE);
      */
-    //Extra Base Colors
-    public static int GRAY = 11184810;
-    public static int DARK_GRAY = 5592405;
-    public static int RED = 16733525;
-    public static int GREEN = 5635925;
-    public static int BLUE = 5592575;
+    public static int
+    //Vanilla rarity colors
+    UNCOMMON = 16777045,
+    COMMON = 16777215,
+    EPIC = 16733695,
+    //Extra base colors
+    GRAY = 11184810,
+    DARK_GRAY = 5592405,
+    RED = 16733525,
+    GREEN = 5635925,
+    BLUE = 5592575,
     //Materials
-    public static int ENDER = 11294186;
-    public static int DIVINE = 16506215;
-    public static int EDEN = 15360539;
-    public static int WILDWOOD = 1484773;
-    public static int APALACHIA = 13318614;
-    public static int SKYTHERN = 11445945;
-    public static int MORTUM = 7302520;
-    public static int HALITE = 6471301;
-    public static int AWAKENED_HALITE = 4451564;
-    public static int UNCOMMON = 16777045;
-    public static int COMMON = 16777215;
+    INFERNO = 14308919,
+    ICICLE = 10414049,
+    ENDER = 11294186,
+    DIVINE = 16506215,
+    EDEN = 15360539,
+    WILDWOOD = 1484773,
+    APALACHIA = 13318614,
+    SKYTHERN = 11445945,
+    MORTUM = 7302520,
+    HALITE = 6471301,
+    TWILIGHT = 11141120,
+    AWAKENED_HALITE = 4451564,
+    //Vethea materials
+    TEAKER = 3342336,
+    AMTHIRMIS = 4456448,
+    DARVEN = 5570560,
+    CERMILE = 6684672,
+    PARDIMAL = 7798784,
+    QUADROTIC = 8912896,
+    KAROS = 10027008,
+    HELIOSIS = 11141120,
+    ARKSIANE = 12255232,
+    EVER = 13369344;
 }

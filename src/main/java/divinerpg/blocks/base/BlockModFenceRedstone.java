@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.*;
 
-public class BlockModLightFence extends FenceBlock {
+public class BlockModFenceRedstone extends FenceBlock {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
-    public BlockModLightFence(MapColor color) {
+    public BlockModFenceRedstone(MapColor color) {
         super(Block.Properties.of().mapColor(color).dynamicShape().strength(0.3F).sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT));
         this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, Boolean.valueOf(false)).setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
 

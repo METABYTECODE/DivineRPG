@@ -1,24 +1,29 @@
 package divinerpg.blocks.base;
 
 import net.minecraft.core.*;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.*;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.SugarCaneBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.CommonHooks;
 
+import static net.minecraft.tags.BlockTags.DIRT;
+import static net.minecraft.tags.FluidTags.LAVA;
+import static net.minecraft.world.level.block.Blocks.WHEAT;
+
 public class BlockModDoubleCrop extends SugarCaneBlock {
-//    private final ResourceLocation seed;
-    public BlockModDoubleCrop() {
-        super(Properties.ofFullCopy(Blocks.WHEAT));
-//        this.seed = seed;
+    private final ResourceLocation seed;
+    public BlockModDoubleCrop(int lightLevel, ResourceLocation seed) {
+        super(Properties.ofFullCopy(WHEAT).lightLevel((state) -> lightLevel));
+        this.seed = seed;
     }
-    public BlockModDoubleCrop(int lightLevel) {
-        super(Properties.ofFullCopy(Blocks.WHEAT).lightLevel((state) -> lightLevel));
-//        this.seed = seed;
-    }
+    public BlockModDoubleCrop(ResourceLocation seed) {this(0, seed);}
     @Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if(level.isEmptyBlock(pos.above())) {
             int i;
@@ -38,10 +43,11 @@ public class BlockModDoubleCrop extends SugarCaneBlock {
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         for(Direction direction : Direction.Plane.HORIZONTAL) {
             BlockState blockstate = level.getBlockState(pos.relative(direction));
-            if(blockstate.hasLargeCollisionShape() || level.getFluidState(pos.relative(direction)).is(FluidTags.LAVA)) return false;
+            if(blockstate.hasLargeCollisionShape() || level.getFluidState(pos.relative(direction)).is(LAVA)) return false;
         } BlockState belowState = level.getBlockState(pos.below());
-        return (level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos)) && (belowState.is(BlockTags.DIRT) || belowState.is(this) && belowState.getValue(AGE) == 14);
+        return (level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos)) && (belowState.is(DIRT) || belowState.is(this) && belowState.getValue(AGE) == 14);
     }
-//    @Override public ItemStack getCloneItemStack(BlockGetter getter, BlockPos pos, BlockState state) {return new ItemStack(BuiltInRegistries.ITEM.get(seed));}
-//    @Override public net.minecraftforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {return net.minecraftforge.common.PlantType.CROP;}
+    @Override public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        return new ItemStack(BuiltInRegistries.ITEM.get(seed));
+    }
 }
