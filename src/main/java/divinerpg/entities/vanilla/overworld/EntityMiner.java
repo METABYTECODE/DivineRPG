@@ -5,8 +5,6 @@ import divinerpg.entities.goals.FindOreGoal;
 import divinerpg.entities.goals.MoveToChestGoal;
 import divinerpg.entities.goals.MoveToItemGoal;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ChunkLevel;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.*;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.*;
@@ -20,7 +18,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 
 import javax.annotation.*;
 import java.util.function.Predicate;
