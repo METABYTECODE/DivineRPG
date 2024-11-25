@@ -123,21 +123,15 @@ public class FindOreGoal extends Goal {
         if (visibleOres.isEmpty()) {
             return null;
         }
-
         visibleOres.sort(Comparator.comparingDouble(pos -> pos.distSqr(new Vec3i((int) this.miner.position().x, (int) this.miner.position().y, (int) this.miner.position().z)))); // Sorting by distance to eye position
-
         for (BlockPos orePos : visibleOres) {
-            Vec3 start = this.miner.position().add(0, this.miner.getEyeHeight(), 0); // Start from eye position
-            // Extend the end position to cover a 4-block reach, including vertical direction.
+            Vec3 start = this.miner.position().add(0, this.miner.getEyeHeight(), 0);
             Vec3 end = Vec3.atCenterOf(orePos);
-
-            // Check if the ore block is within 4 blocks of the miner's eye height.
             if (start.distanceTo(end) <= 4.0D) {
                 BlockHitResult result = this.miner.level().clip(new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, this.miner));
-                // Check if the block hit by the raycast is the same block as the ore
                 if (result.getType() == BlockHitResult.Type.BLOCK && result.getBlockPos().equals(orePos)) {
                     if (isOreAccessible(orePos)) {
-                        return orePos; // Return the closest accessible ore position
+                        return orePos;
                     }
                 }
             }
@@ -146,12 +140,9 @@ public class FindOreGoal extends Goal {
     }
 
     private boolean isOreAccessible(BlockPos orePos) {
-        Vec3 start = this.miner.position();  // Remove the eye height adjustment
+        Vec3 start = this.miner.position();
         Vec3 end = Vec3.atCenterOf(orePos);
-
         BlockHitResult result = this.miner.level().clip(new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, this.miner));
-
-        // Check if ore is within reach (max reach of 4 blocks)
         return result.getType() == BlockHitResult.Type.BLOCK && result.getBlockPos().equals(orePos) && start.distanceTo(end) <= 4.0D;
     }
 
