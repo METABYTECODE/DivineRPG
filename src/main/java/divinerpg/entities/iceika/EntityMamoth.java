@@ -4,13 +4,12 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import divinerpg.entities.ai.*;
+import divinerpg.entities.goals.*;
 import divinerpg.registries.BlockRegistry;
 import divinerpg.registries.EntityRegistry;
 import divinerpg.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;

@@ -1,4 +1,4 @@
-package divinerpg.entities.ai;
+package divinerpg.entities.goals;
 
 import divinerpg.entities.wildwood.EntityBehemoth;
 import net.minecraft.core.*;

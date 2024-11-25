@@ -1,6 +1,6 @@
 package divinerpg.entities.base;
 
-import divinerpg.entities.ai.EscapeWaterGoal;
+import divinerpg.entities.goals.EscapeWaterGoal;
 import divinerpg.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;

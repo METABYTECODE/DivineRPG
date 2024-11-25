@@ -2,7 +2,7 @@ package divinerpg.entities.base;
 
 import javax.annotation.Nullable;
 
-import divinerpg.entities.ai.EscapeWaterGoal;
+import divinerpg.entities.goals.EscapeWaterGoal;
 import net.minecraft.sounds.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;

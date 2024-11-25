@@ -1,6 +1,6 @@
 package divinerpg.entities.wildwood;
 
-import divinerpg.entities.ai.EntityBehemothEatWood;
+import divinerpg.entities.goals.EntityBehemothEatWood;
 import divinerpg.entities.base.EntityDivineMonster;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;

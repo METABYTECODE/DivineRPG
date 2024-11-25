@@ -1,8 +1,7 @@
 package divinerpg.events;
 
-import divinerpg.*;
 import divinerpg.attachments.Arcana;
-import divinerpg.entities.ai.TurtleEatAequorea;
+import divinerpg.entities.goals.TurtleEatAequoreaGoal;
 import divinerpg.entities.vanilla.overworld.EntityAequorea;
 import divinerpg.network.payload.Weather;
 import divinerpg.registries.*;
@@ -15,7 +14,6 @@ import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.*;
@@ -56,7 +54,7 @@ public class Ticker {
         if(event.getEntity() instanceof Turtle) {
             Turtle turtle = (Turtle) event.getEntity();
             turtle.goalSelector.addGoal(3, new NearestAttackableTargetGoal<>(turtle, EntityAequorea.class, false));
-            turtle.goalSelector.addGoal(3, new TurtleEatAequorea(turtle, turtle.getAttributeValue(Attributes.FOLLOW_RANGE), false));
+            turtle.goalSelector.addGoal(3, new TurtleEatAequoreaGoal(turtle, turtle.getAttributeValue(Attributes.FOLLOW_RANGE), false));
         }
     }
 }

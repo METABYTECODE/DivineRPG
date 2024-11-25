@@ -1,6 +1,6 @@
 package divinerpg.entities.iceika.groglin;
 
-import divinerpg.entities.ai.FollowLeaderGoal;
+import divinerpg.entities.goals.FollowLeaderGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.entities.projectile.arrows.IcicleArrow;
 import divinerpg.registries.ItemRegistry;

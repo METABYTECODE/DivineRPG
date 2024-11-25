@@ -1,6 +1,6 @@
 package divinerpg.entities.boss;
 
-import divinerpg.entities.ai.AISunstormAttack;
+import divinerpg.entities.goals.SunstormAttackGoal;
 import divinerpg.entities.base.EntityDivineBoss;
 import divinerpg.entities.projectile.EntityParticleBullet;
 import divinerpg.enums.BulletType;
@@ -45,7 +45,7 @@ public class EntitySunstorm extends EntityDivineBoss implements RangedAttackMob 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.targetSelector.addGoal(0, new AISunstormAttack(this, 0.27F, 50, 10));
+        this.targetSelector.addGoal(0, new SunstormAttackGoal(this, 0.27F, 50, 10));
         this.targetSelector.addGoal(1, new MeleeAttackGoal(this, 1, true));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 0, true, false, null));
     }

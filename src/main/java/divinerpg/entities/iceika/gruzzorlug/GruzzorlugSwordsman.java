@@ -1,6 +1,6 @@
 package divinerpg.entities.iceika.gruzzorlug;
 
-import divinerpg.entities.ai.FollowLeaderGoal;
+import divinerpg.entities.goals.FollowLeaderGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.*;
 import net.minecraft.util.RandomSource;

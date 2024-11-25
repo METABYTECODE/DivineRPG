@@ -1,6 +1,6 @@
 package divinerpg.entities.iceika.groglin;
 
-import divinerpg.entities.ai.AvoidFactionGoal;
+import divinerpg.entities.goals.AvoidFactionGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.*;
 import net.minecraft.util.RandomSource;

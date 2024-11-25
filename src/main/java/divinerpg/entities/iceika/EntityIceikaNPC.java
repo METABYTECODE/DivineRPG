@@ -1,7 +1,7 @@
 package divinerpg.entities.iceika;
 
 import divinerpg.DivineRPG;
-import divinerpg.entities.ai.FactionTargetGoal;
+import divinerpg.entities.goals.FactionTargetGoal;
 import divinerpg.entities.base.*;
 import divinerpg.registries.AttachmentRegistry;
 import net.minecraft.core.Holder;

@@ -1,4 +1,4 @@
-package divinerpg.entities.ai;
+package divinerpg.entities.goals;
 
 import divinerpg.entities.vanilla.overworld.EntityAequorea;
 import divinerpg.util.DamageSources;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.pathfinder.*;
 
 import java.util.EnumSet;
 
-public class TurtleEatAequorea extends Goal {
+public class TurtleEatAequoreaGoal extends Goal {
     Turtle turtle;
     private final double speedModifier;
     private final boolean followingTargetEvenIfNotSeen;
@@ -25,7 +25,7 @@ public class TurtleEatAequorea extends Goal {
     private int failedPathFindingPenalty = 0;
     private boolean canPenalize = false;
 
-    public TurtleEatAequorea(Turtle turtle, double speed, boolean followAtAllCosts) {
+    public TurtleEatAequoreaGoal(Turtle turtle, double speed, boolean followAtAllCosts) {
     this.turtle = turtle;
         this.speedModifier = speed;
         this.followingTargetEvenIfNotSeen = followAtAllCosts;

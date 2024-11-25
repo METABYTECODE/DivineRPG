@@ -1,4 +1,4 @@
-package divinerpg.entities.ai;
+package divinerpg.entities.goals;
 
 import divinerpg.enums.*;
 import net.minecraft.sounds.*;
@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.BiFunction;
 
-public class AIDivineFireballAttack extends Goal {
+public class DivineFireballAttackGoal extends Goal {
     private final Mob parentEntity;
     private final BiFunction<Mob, Entity, Entity> createFireballFunc;
     public int attackTimer;
@@ -34,7 +34,7 @@ public class AIDivineFireballAttack extends Goal {
      */
     private final SoundEvent onShoot;
 
-    public AIDivineFireballAttack(Mob parentEntity, BiFunction<Mob, Entity, Entity> createFireballFunc, int attackDelay, int maxDistance, SoundEvent beforeShoot, SoundEvent onShoot) {
+    public DivineFireballAttackGoal(Mob parentEntity, BiFunction<Mob, Entity, Entity> createFireballFunc, int attackDelay, int maxDistance, SoundEvent beforeShoot, SoundEvent onShoot) {
         this.parentEntity = parentEntity;
         this.createFireballFunc = createFireballFunc;
         this.attackDelay = attackDelay;
@@ -43,15 +43,15 @@ public class AIDivineFireballAttack extends Goal {
         this.onShoot = onShoot;
     }
 
-    public AIDivineFireballAttack(Mob ghast, ILaunchFireBall func) {
+    public DivineFireballAttackGoal(Mob ghast, ILaunchFireBall func) {
         this(ghast, func::createFireball, 20, 64, SoundEvents.GHAST_WARN, SoundEvents.GHAST_SHOOT);
     }
 
-    public AIDivineFireballAttack(Mob ghast, ILaunchFireBall createFireball, SoundEvent onShoot) {
+    public DivineFireballAttackGoal(Mob ghast, ILaunchFireBall createFireball, SoundEvent onShoot) {
         this(ghast, createFireball::createFireball, 20, 64, null, onShoot);
     }
 
-    public AIDivineFireballAttack(Mob ghast, ILaunchThrowable createThrowable, SoundEvent onShoot) {
+    public DivineFireballAttackGoal(Mob ghast, ILaunchThrowable createThrowable, SoundEvent onShoot) {
         this(ghast, createThrowable::createFireball, 20, 64, null, onShoot);
     }
     @Override

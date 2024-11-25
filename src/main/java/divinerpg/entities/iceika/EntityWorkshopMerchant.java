@@ -1,6 +1,6 @@
 package divinerpg.entities.iceika;
 
-import divinerpg.entities.ai.AvoidFactionGoal;
+import divinerpg.entities.goals.AvoidFactionGoal;
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.entities.base.FactionEntity;
 import divinerpg.registries.*;

@@ -1,4 +1,4 @@
-package divinerpg.entities.ai;
+package divinerpg.entities.goals;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 
-public class AISunstormAttack extends Goal {
+public class SunstormAttackGoal extends Goal {
         /** The entity the AI instance has been applied to */
         private final Mob entityHost;
         /** The entity (as a RangedAttackMob) the AI instance has been applied to. */
@@ -25,12 +25,12 @@ public class AISunstormAttack extends Goal {
         private final float attackRadius;
         private final float maxAttackDistance;
 
-    public AISunstormAttack(RangedAttackMob attacker, double movespeed, int maxAttackTime, float maxAttackDistanceIn)
+    public SunstormAttackGoal(RangedAttackMob attacker, double movespeed, int maxAttackTime, float maxAttackDistanceIn)
         {
             this(attacker, movespeed, maxAttackTime, maxAttackTime, maxAttackDistanceIn);
         }
 
-    public AISunstormAttack(RangedAttackMob attacker, double movespeed, int p_i1650_4_, int maxAttackTime, float maxAttackDistanceIn)
+    public SunstormAttackGoal(RangedAttackMob attacker, double movespeed, int p_i1650_4_, int maxAttackTime, float maxAttackDistanceIn)
         {
             this.rangedAttackTime = -1;
 

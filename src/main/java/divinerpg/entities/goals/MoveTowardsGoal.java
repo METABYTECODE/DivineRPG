@@ -1,4 +1,4 @@
-package divinerpg.entities.ai;
+package divinerpg.entities.goals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
