@@ -19,7 +19,6 @@ public class MoveToItemGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        // Find the nearest ItemEntity in range
         ItemEntity closestItem = this.miner.level().getEntitiesOfClass(ItemEntity.class, miner.getBoundingBox().inflate(5.0D))
                 .stream().min((item1, item2) -> Double.compare(miner.distanceTo(item1), miner.distanceTo(item2)))
                 .orElse(null);
@@ -33,19 +32,16 @@ public class MoveToItemGoal extends Goal {
 
     @Override
     public void start() {
-        // Start moving towards the item
         miner.getNavigation().moveTo(targetItem, speed);
     }
 
     @Override
     public boolean canContinueToUse() {
-        // Continue as long as the miner is still moving towards the item or until it's picked up
         return targetItem != null && miner.distanceTo(targetItem) > 1.0D && !miner.getNavigation().isDone();
     }
 
     @Override
     public void stop() {
-        // Once the miner has reached the item, pick it up and stop the movement
         if (targetItem != null) {
             miner.pickUpDroppedItem(targetItem);
         }
