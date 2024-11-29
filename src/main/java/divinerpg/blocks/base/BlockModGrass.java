@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.shapes.*;
 import net.neoforged.neoforge.common.IShearable;
 
 import static net.minecraft.tags.BlockTags.SAND;
@@ -21,6 +22,9 @@ public class BlockModGrass extends BushBlock implements IShearable {
     public BlockModGrass(MapColor color) {this(color, false);}
     @Override protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
         return canGrowOnSand ? super.mayPlaceOn(state, level, pos) || state.is(SAND) : super.mayPlaceOn(state, level, pos);
+    }
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return box(2, 0, 2, 14, 13, 14);
     }
     @Override public int getFlammability(BlockState state, BlockGetter getter, BlockPos pos, Direction face) {return 100;}
     @Override public int getFireSpreadSpeed(BlockState state, BlockGetter getter, BlockPos pos, Direction face) {return 60;}
