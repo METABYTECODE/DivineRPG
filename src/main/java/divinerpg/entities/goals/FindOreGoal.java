@@ -18,18 +18,16 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 
-
 public class FindOreGoal extends Goal {
     private final Monster miner;
     private final double speedModifier;
     private BlockPos targetOrePos;
     private BlockPos chestPos;
     private int miningTime;
-    private static final int MAX_MINING_TIME = 100;
     private boolean isStuck;
     private boolean isMiningTunnel;
     private BlockPos tunnelTargetPos;
-    private static final double REACH_DISTANCE = 5.0D;
+    private static final double REACH_DISTANCE = 4.9D;
 
     public FindOreGoal(Monster miner, double speedModifier, BlockPos chestPos) {
         this.miner = miner;
@@ -72,10 +70,12 @@ public class FindOreGoal extends Goal {
     @Override
     public void tick() {
         if (targetOrePos != null) {
-            double distanceToOre = this.miner.distanceToSqr(Vec3.atCenterOf(targetOrePos));
-            this.miner.getLookControl().setLookAt(targetOrePos.getX() + 0.5, targetOrePos.getY() + 0.5, targetOrePos.getZ() + 0.5);
+            double distanceToOre = this.miner.position().distanceTo(Vec3.atCenterOf(targetOrePos));
+            double horizontalDistance = Math.sqrt(Math.pow(targetOrePos.getX() - miner.position().x, 2) +
+                    Math.pow(targetOrePos.getZ() - miner.position().z, 2));
+            double verticalDistance = Math.abs(targetOrePos.getY() - miner.position().y);
 
-            if (distanceToOre < 9.0D) {
+            if (distanceToOre < REACH_DISTANCE) {
                 mineOre(targetOrePos);
             } else if (!this.miner.getNavigation().isInProgress()) {
                 isStuck = checkIfStuck();
@@ -90,7 +90,7 @@ public class FindOreGoal extends Goal {
         } else if (isMiningTunnel) {
             mineTunnel();
         }
-        if(isStuck){
+        if (isStuck) {
             tryToEscape();
         }
     }
@@ -112,26 +112,7 @@ public class FindOreGoal extends Goal {
 
         boolean hasFreeSpaceAbove = this.miner.level().getBlockState(minerPos.above()).isAir();
 
-        if (freeSpaceCount < 5 && hasFreeSpaceAbove) {
-            tryToEscape();
-            return false;
-        }
-
-        return freeSpaceCount < 5;
-    }
-
-    private void tryToEscape() {
-        BlockPos minerPos = this.miner.blockPosition();
-        BlockPos abovePos = minerPos.above();
-        if (this.miner.distanceToSqr(Vec3.atCenterOf(abovePos)) < 2.0D) {
-            if (this.miner.level().getBlockState(abovePos).isAir()) {
-                Block blockToPlace = (this.miner.level().getMinBuildHeight() > 0 && minerPos.getY() >= 0) ? Blocks.COBBLESTONE : Blocks.COBBLED_DEEPSLATE;
-
-                this.miner.jumpFromGround();
-                this.miner.level().setBlock(minerPos, blockToPlace.defaultBlockState(), 3);
-                isStuck = false;
-            }
-        }
+        return freeSpaceCount < 5 && hasFreeSpaceAbove;
     }
 
     private void moveToTargetOre() {
@@ -165,6 +146,17 @@ public class FindOreGoal extends Goal {
         if (this.miner.level().getBlockState(pos).is(BlockTags.create(ResourceLocation.parse("c:ores")))) {
             Block block = this.miner.level().getBlockState(pos).getBlock();
             float hardness = block.defaultDestroyTime();
+
+            double verticalOffset = pos.getY() - this.miner.getEyePosition().y;
+
+            if (verticalOffset > REACH_DISTANCE) {
+                return;
+            }
+
+            if (verticalOffset > 1.0) {
+                this.miner.getLookControl().setLookAt(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
+            }
+
             if (miningTime < hardness * 10) {
                 miningTime++;
                 this.miner.swing(InteractionHand.MAIN_HAND);
@@ -178,9 +170,18 @@ public class FindOreGoal extends Goal {
     }
 
     private void mineBlock(BlockPos pos) {
+        double distanceToBlock = this.miner.getEyePosition().distanceTo(Vec3.atCenterOf(pos));
+
         if (!this.miner.level().getBlockState(pos).isAir()) {
             Block block = this.miner.level().getBlockState(pos).getBlock();
             float hardness = block.defaultDestroyTime();
+
+            double verticalOffset = pos.getY() - this.miner.getEyePosition().y;
+
+            if (verticalOffset > REACH_DISTANCE) {
+                return;
+            }
+
             if (miningTime < hardness * 10) {
                 miningTime++;
                 this.miner.swing(InteractionHand.MAIN_HAND);
@@ -188,6 +189,25 @@ public class FindOreGoal extends Goal {
             } else {
                 this.miner.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                 miningTime = 0;
+            }
+        }
+    }
+
+    private void tryToEscape() {
+        BlockPos minerPos = this.miner.blockPosition();
+
+        for (int yOffset = 1; yOffset <= REACH_DISTANCE; yOffset++) {
+            BlockPos abovePos = minerPos.above(yOffset);
+            boolean isAir = this.miner.level().getBlockState(abovePos).isAir();
+
+            if (isAir) {
+                Block blockToPlace = Blocks.COBBLESTONE;
+                this.miner.level().setBlock(minerPos, blockToPlace.defaultBlockState(), 3);
+                this.miner.jumpFromGround();
+                isStuck = false;
+                break;
+            } else {
+                mineBlock(abovePos);
             }
         }
     }
@@ -210,9 +230,16 @@ public class FindOreGoal extends Goal {
         BlockPos entityPos = entity.blockPosition();
         List<BlockPos> blocks = new ArrayList<>();
 
-        for (int x = (int) (entityPos.getX() - searchRadius); x <= entityPos.getX() + searchRadius; x++) {
-            for (int y = (int) (entityPos.getY() - searchRadius); y <= entityPos.getY() + searchRadius; y++) {
-                for (int z = (int) (entityPos.getZ() - searchRadius); z <= entityPos.getZ() + searchRadius; z++) {
+        int minX = (int) Math.floor(entityPos.getX() - searchRadius);
+        int maxX = (int) Math.ceil(entityPos.getX() + searchRadius);
+        int minY = (int) Math.max(entityPos.getY() - searchRadius, level.getMinBuildHeight());
+        int maxY = (int) Math.min(entityPos.getY() + searchRadius, level.getMaxBuildHeight());
+        int minZ = (int) Math.floor(entityPos.getZ() - searchRadius);
+        int maxZ = (int) Math.ceil(entityPos.getZ() + searchRadius);
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     if (level.getBlockState(pos).is(blockTag)) {
                         blocks.add(pos);
@@ -224,25 +251,6 @@ public class FindOreGoal extends Goal {
     }
 
     private boolean isValidTargetOre(BlockPos pos) {
-        if (this.miner.distanceToSqr(Vec3.atCenterOf(pos)) > REACH_DISTANCE * REACH_DISTANCE) {
-            return false;
-        }
-        return hasLineOfSight(pos);
-    }
-
-    private boolean hasLineOfSight(BlockPos pos) {
-        Vec3 minerPosition = this.miner.position().add(0, this.miner.getEyeHeight(), 0);
-        Vec3 oreCenter = Vec3.atCenterOf(pos);
-        Level level = this.miner.level();
-        Vec3 direction = oreCenter.subtract(minerPosition).normalize();
-        double distance = minerPosition.distanceTo(oreCenter);
-        for (double step = 0; step <= distance; step += 0.25) {
-            Vec3 checkPosition = minerPosition.add(direction.scale(step));
-            BlockPos blockPos = new BlockPos((int) checkPosition.x, (int) checkPosition.y, (int) checkPosition.z);
-            if (!blockPos.equals(pos) && !level.getBlockState(blockPos).isAir()) {
-                return false;
-            }
-        }
-        return true;
+        return this.miner.level().getBlockState(pos).is(BlockTags.create(ResourceLocation.parse("c:ores")));
     }
 }

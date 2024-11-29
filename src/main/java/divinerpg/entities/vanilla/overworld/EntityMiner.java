@@ -5,6 +5,7 @@ import divinerpg.entities.goals.FindOreGoal;
 import divinerpg.entities.goals.MoveToChestGoal;
 import divinerpg.entities.goals.MoveToItemGoal;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -44,11 +45,11 @@ public class EntityMiner extends EntityDivineMonster {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new BreakDoorGoal(this, HARD_DIFFICULTY_PREDICATE));
-        goalSelector.addGoal(2, new FindOreGoal(this, 1.0D, null)); // Finds and mines ores
-        goalSelector.addGoal(3, new MoveToChestGoal(this, 1.0D));    // Places items in chests
-        goalSelector.addGoal(4, new MoveToItemGoal(this, 1.0D));     // Collects dropped items
-        goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 100)); // Wandering with more randomness
-        goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        goalSelector.addGoal(3, new FindOreGoal(this, 1.0D, null));
+        goalSelector.addGoal(4, new MoveToChestGoal(this, 1.0D));
+        goalSelector.addGoal(2, new MoveToItemGoal(this, 1.0D));
+        goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D, 100));
+        goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     @Override
@@ -165,4 +166,18 @@ public class EntityMiner extends EntityDivineMonster {
             setRemainingFireTicks(8);
         }
     }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (!stack.isEmpty()) {
+                ItemEntity itemEntity = new ItemEntity(level(), this.getX(), this.getY(), this.getZ(), stack);
+                level().addFreshEntity(itemEntity);
+                inventory.setItem(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
 }
