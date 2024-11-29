@@ -28,18 +28,20 @@ public class MoveToChestGoal extends Goal {
         if (chestLocation == null || isChestFull()) {
             chestLocation = findNearestChest();
         }
-        return chestLocation != null && miner.distanceToSqr(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ()) > 2.0D;
+        return chestLocation != null && miner.distanceToSqr(chestLocation.getX() + 0.5, chestLocation.getY() + 0.5, chestLocation.getZ() + 0.5) > 2.0D;
     }
 
     @Override
     public void start() {
-        miner.getNavigation().moveTo(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ(), speed);
+        if (chestLocation != null) {
+            miner.getNavigation().moveTo(chestLocation.getX() + 0.5, chestLocation.getY() + 0.5, chestLocation.getZ() + 0.5, speed);
+        }
     }
 
     @Override
     public void stop() {
         if (chestLocation != null) {
-            if (miner.distanceToSqr(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ()) <= REACH_DISTANCE * REACH_DISTANCE) {
+            if (miner.distanceToSqr(chestLocation.getX() + 0.5, chestLocation.getY() + 0.5, chestLocation.getZ() + 0.5) <= REACH_DISTANCE * REACH_DISTANCE) {
                 storeItemsInChest();
             }
         }
@@ -64,27 +66,25 @@ public class MoveToChestGoal extends Goal {
     }
 
     private void storeItemsInChest() {
-        if (chestLocation != null) {
-            BlockEntity blockEntity = miner.level().getBlockEntity(chestLocation);
-            if (blockEntity instanceof ChestBlockEntity chestBlockEntity) {
-                Container chestInventory = chestBlockEntity;
-                for (int i = 0; i < miner.getInventory().getContainerSize(); i++) {
-                    ItemStack minerStack = miner.getInventory().getItem(i);
-                    if (!minerStack.isEmpty()) {
-                        for (int j = 0; j < chestInventory.getContainerSize(); j++) {
-                            ItemStack chestStack = chestInventory.getItem(j);
-                            if (chestStack.isEmpty()) {
-                                chestInventory.setItem(j, minerStack.copy());
+        BlockEntity blockEntity = miner.level().getBlockEntity(chestLocation);
+        if (blockEntity instanceof ChestBlockEntity chestBlockEntity) {
+            Container chestInventory = chestBlockEntity;
+            for (int i = 0; i < miner.getInventory().getContainerSize(); i++) {
+                ItemStack minerStack = miner.getInventory().getItem(i);
+                if (!minerStack.isEmpty()) {
+                    for (int j = 0; j < chestInventory.getContainerSize(); j++) {
+                        ItemStack chestStack = chestInventory.getItem(j);
+                        if (chestStack.isEmpty()) {
+                            chestInventory.setItem(j, minerStack.copy());
+                            miner.getInventory().setItem(i, ItemStack.EMPTY);
+                            break;
+                        } else if (ItemStack.isSameItemSameComponents(minerStack, chestStack) && chestStack.getCount() < chestStack.getMaxStackSize()) {
+                            int transferAmount = Math.min(minerStack.getCount(), chestStack.getMaxStackSize() - chestStack.getCount());
+                            chestStack.grow(transferAmount);
+                            minerStack.shrink(transferAmount);
+                            if (minerStack.isEmpty()) {
                                 miner.getInventory().setItem(i, ItemStack.EMPTY);
                                 break;
-                            } else if (ItemStack.isSameItem(minerStack, chestStack) && chestStack.getCount() < chestStack.getMaxStackSize()) {
-                                int transferAmount = Math.min(minerStack.getCount(), chestStack.getMaxStackSize() - chestStack.getCount());
-                                chestStack.grow(transferAmount);
-                                minerStack.shrink(transferAmount);
-                                if (minerStack.isEmpty()) {
-                                    miner.getInventory().setItem(i, ItemStack.EMPTY);
-                                    break;
-                                }
                             }
                         }
                     }

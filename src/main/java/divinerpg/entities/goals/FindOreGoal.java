@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 
+
 public class FindOreGoal extends Goal {
     private final Monster miner;
     private final double speedModifier;
@@ -28,6 +29,7 @@ public class FindOreGoal extends Goal {
     private boolean isStuck;
     private boolean isMiningTunnel;
     private BlockPos tunnelTargetPos;
+    private static final double REACH_DISTANCE = 5.0D;
 
     public FindOreGoal(Monster miner, double speedModifier, BlockPos chestPos) {
         this.miner = miner;
@@ -196,7 +198,11 @@ public class FindOreGoal extends Goal {
         if (nearbyOres.isEmpty()) {
             return null;
         }
-        return nearbyOres.stream().min(Comparator.comparingDouble(ore -> this.miner.distanceToSqr(ore.getX(), ore.getY(), ore.getZ()))).orElse(null);
+
+        return nearbyOres.stream()
+                .filter(this::isValidTargetOre)
+                .min(Comparator.comparingDouble(ore -> this.miner.distanceToSqr(ore.getX(), ore.getY(), ore.getZ())))
+                .orElse(null);
     }
 
     private List<BlockPos> getNearbyBlocks(Entity entity, TagKey<Block> blockTag, double searchRadius) {
@@ -215,5 +221,28 @@ public class FindOreGoal extends Goal {
             }
         }
         return blocks;
+    }
+
+    private boolean isValidTargetOre(BlockPos pos) {
+        if (this.miner.distanceToSqr(Vec3.atCenterOf(pos)) > REACH_DISTANCE * REACH_DISTANCE) {
+            return false;
+        }
+        return hasLineOfSight(pos);
+    }
+
+    private boolean hasLineOfSight(BlockPos pos) {
+        Vec3 minerPosition = this.miner.position().add(0, this.miner.getEyeHeight(), 0);
+        Vec3 oreCenter = Vec3.atCenterOf(pos);
+        Level level = this.miner.level();
+        Vec3 direction = oreCenter.subtract(minerPosition).normalize();
+        double distance = minerPosition.distanceTo(oreCenter);
+        for (double step = 0; step <= distance; step += 0.25) {
+            Vec3 checkPosition = minerPosition.add(direction.scale(step));
+            BlockPos blockPos = new BlockPos((int) checkPosition.x, (int) checkPosition.y, (int) checkPosition.z);
+            if (!blockPos.equals(pos) && !level.getBlockState(blockPos).isAir()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
