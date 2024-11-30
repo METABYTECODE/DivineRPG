@@ -8,9 +8,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
@@ -147,6 +149,12 @@ public class FindOreGoal extends Goal {
             Block block = this.miner.level().getBlockState(pos).getBlock();
             float hardness = block.defaultDestroyTime();
 
+            // Perform ray trace to ensure line of sight
+            boolean hasLineOfSight = hasClearLineOfSight(pos);
+            if (!hasLineOfSight) {
+                return; // Exit if there's no line of sight
+            }
+
             double verticalOffset = pos.getY() - this.miner.getEyePosition().y;
 
             if (verticalOffset > REACH_DISTANCE) {
@@ -253,4 +261,13 @@ public class FindOreGoal extends Goal {
     private boolean isValidTargetOre(BlockPos pos) {
         return this.miner.level().getBlockState(pos).is(BlockTags.create(ResourceLocation.parse("c:ores")));
     }
+
+    private boolean hasClearLineOfSight(BlockPos pos) {
+        Vec3 minerEyePos = this.miner.getEyePosition();
+        Vec3 blockCenterPos = Vec3.atCenterOf(pos);
+
+        BlockHitResult hitResult = this.miner.level().clip(new ClipContext(minerEyePos, blockCenterPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.miner));
+        return hitResult.getBlockPos().equals(pos);
+    }
+
 }

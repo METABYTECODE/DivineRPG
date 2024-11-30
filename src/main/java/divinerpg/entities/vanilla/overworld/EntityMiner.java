@@ -148,7 +148,9 @@ public class EntityMiner extends EntityDivineMonster {
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack existingStack = inventory.getItem(i);
             if (existingStack.isEmpty() || (existingStack.is(stack.getItem()) && existingStack.getCount() < existingStack.getMaxStackSize())) {
-                inventory.setItem(i, stack);
+                ItemStack combinedStack = existingStack.copy();
+                combinedStack.grow(stack.getCount());
+                inventory.setItem(i, combinedStack);
                 return true;
             }
         }
