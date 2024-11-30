@@ -5,6 +5,7 @@ import divinerpg.entities.goals.FindOreGoal;
 import divinerpg.entities.goals.MoveToChestGoal;
 import divinerpg.entities.goals.MoveToItemGoal;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -15,9 +16,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -50,6 +54,7 @@ public class EntityMiner extends EntityDivineMonster {
         goalSelector.addGoal(2, new MoveToItemGoal(this, 1.0D));
         goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D, 100));
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        goalSelector.addGoal(1, new FleeSunGoal(this, 1.0D));
     }
 
     @Override
@@ -98,14 +103,34 @@ public class EntityMiner extends EntityDivineMonster {
         super.aiStep();
 
         if (this.isAlive()) {
-            if (isSunBurnTick()) handleSunBurn();
-
             if (!this.level().isClientSide) {
                 for (ItemEntity itemEntity : level().getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(5.0D))) {
                     if (itemEntity != null && this.distanceTo(itemEntity) < 1.0D) {
                         pickUpDroppedItem(itemEntity);
                         break;
                     }
+                }
+            }
+
+
+            boolean flag = this.isSunBurnTick();
+            if (flag) {
+                ItemStack itemstack = this.getItemBySlot(EquipmentSlot.HEAD);
+                if (!itemstack.isEmpty()) {
+                    if (itemstack.isDamageableItem()) {
+                        Item item = itemstack.getItem();
+                        itemstack.setDamageValue(itemstack.getDamageValue() + this.random.nextInt(2));
+                        if (itemstack.getDamageValue() >= itemstack.getMaxDamage()) {
+                            this.onEquippedItemBroken(item, EquipmentSlot.HEAD);
+                            this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+                        }
+                    }
+
+                    flag = false;
+                }
+
+                if (flag) {
+                    this.igniteForSeconds(8.0F);
                 }
             }
         }
@@ -150,21 +175,6 @@ public class EntityMiner extends EntityDivineMonster {
 
     public Container getInventory() {
         return inventory;
-    }
-
-    private void handleSunBurn() {
-        ItemStack itemstack = getItemBySlot(EquipmentSlot.HEAD);
-        if (!itemstack.isEmpty()) {
-            if (itemstack.isDamageableItem()) {
-                itemstack.setDamageValue(itemstack.getDamageValue() + random.nextInt(2));
-                if (itemstack.getDamageValue() >= itemstack.getMaxDamage()) {
-                    onEquippedItemBroken(itemstack.getItem(), EquipmentSlot.HEAD);
-                    setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
-                }
-            }
-        } else {
-            setRemainingFireTicks(8);
-        }
     }
 
     @Override
