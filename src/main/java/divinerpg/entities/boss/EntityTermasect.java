@@ -1,8 +1,8 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityWildwoodLog;
-import divinerpg.registries.EntityRegistry;
+import divinerpg.entities.projectile.DivineThrownItem;
+import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.*;
 import net.minecraft.sounds.*;
@@ -21,8 +21,7 @@ import net.minecraft.world.level.Level;
 import java.util.EnumSet;
 
 public class EntityTermasect extends EntityDivineFlyingMob implements RangedAttackMob {
-    private ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE,
-            BossEvent.BossBarOverlay.PROGRESS));
+    private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.PROGRESS);
 
     public EntityTermasect(EntityType<? extends EntityDivineFlyingMob> type, Level worldIn) {
         super(type, worldIn, 25F);
@@ -41,7 +40,10 @@ public class EntityTermasect extends EntityDivineFlyingMob implements RangedAtta
     @Override
     public void performRangedAttack(LivingEntity entity, float range) {
         if (isAlive() && getTarget() != null && !level().isClientSide) {
-            EntityWildwoodLog shot = new EntityWildwoodLog(EntityRegistry.WILDWOOD_LOG.get(), this, this.level());
+            DivineThrownItem shot = EntityRegistry.THROWN_ITEM.get().create(level());
+            shot.setItem(BlockRegistry.wildwoodLog.asItem().getDefaultInstance());
+            shot.setOwner(this);
+            shot.setPos(getEyePosition());
             double d0 = getTarget().getX() - this.getX();
             double d1 = getTarget().getY(0.3333333333333333D) - shot.getY();
             double d2 = getTarget().getZ() - this.getZ();
@@ -101,7 +103,10 @@ public class EntityTermasect extends EntityDivineFlyingMob implements RangedAtta
             double tx = getTarget().getX() - this.getX();
             double ty = getTarget().getEyeY() - this.getEyeY();
             double tz = getTarget().getZ() - this.getZ();
-            EntityWildwoodLog e = new EntityWildwoodLog(EntityRegistry.WILDWOOD_LOG.get(), this, level());
+            DivineThrownItem e = EntityRegistry.THROWN_ITEM.get().create(level());
+            e.setItem(BlockRegistry.wildwoodLog.asItem().getDefaultInstance());
+            e.setOwner(this);
+            e.setPos(getEyePosition());
             double horizontalDistance = Math.sqrt(tx * tx + tz * tz);
             e.shoot(tx, ty, tz, 2.6f, 0);
             e.setDeltaMovement(tx / horizontalDistance * 1.6f, ty / horizontalDistance * 1.6f, tz / horizontalDistance * 1.6f);

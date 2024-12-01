@@ -1,7 +1,6 @@
 package divinerpg.entities.base;
 
-import divinerpg.entities.projectile.EntityParticleBullet;
-import divinerpg.enums.BulletType;
+import divinerpg.entities.projectile.DivineThrowableProjectile;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -13,11 +12,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.*;
 
-public abstract class EntityMageBase extends EntityDivineMonster {
-    private final BulletType bullet;
-    public EntityMageBase(EntityType<? extends Monster> type, Level worldIn, BulletType bullet) {
+import java.util.function.Supplier;
+
+public class EntityMageBase extends EntityDivineMonster {
+    private final Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType;
+    public EntityMageBase(EntityType<? extends Monster> type, Level worldIn, Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType) {
         super(type, worldIn);
-        this.bullet = bullet;
+        this.projectileType = projectileType;
     }
     @Override
     protected void registerGoals() {
@@ -29,7 +30,9 @@ public abstract class EntityMageBase extends EntityDivineMonster {
         super.tick();
         if(tickCount % 19 == 0 && isAlive() && getTarget() != null && !level().isClientSide) {
             double tx = getTarget().getX() - getX(), ty = getTarget().getBoundingBox().minY - getY() - 0.1, tz = getTarget().getZ() - getZ();
-            ThrowableProjectile e = new EntityParticleBullet(EntityRegistry.PARTICLE_BULLET.get(), level(), this, bullet != null ? bullet : BulletType.SPELLBINDER_SHOT);
+            ThrowableProjectile e = (projectileType == null ? EntityRegistry.SPELLBINDER_SHOT : projectileType).get().create(level());
+            e.setOwner(this);
+            e.setPos(getEyePosition());
             e.shoot(tx, ty, tz, 1.6F, 0);
             level().addFreshEntity(e);
             playSound(SoundRegistry.MAGE_FIRE.get());

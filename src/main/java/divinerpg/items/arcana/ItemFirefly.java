@@ -1,25 +1,19 @@
 package divinerpg.items.arcana;
 
-import divinerpg.entities.projectile.EntityFirefly;
-import divinerpg.enums.BulletType;
-import divinerpg.items.base.ItemModRanged;
+import divinerpg.items.ranged.ItemRangedWeapon;
 import divinerpg.registries.*;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.*;
 import java.util.List;
 
-public class ItemFirefly extends ItemModRanged {
-    public ItemFirefly() {super("firefly", null, SoundRegistry.FIREFLY.get(), 1216, 30, null, 25);}
-    @Override protected void spawnEntity(Level world, Player player, ItemStack stack, BulletType bulletType, String entityType) {
-        ThrowableProjectile bullet = new EntityFirefly(EntityRegistry.FIREFLY.get(), player, world);
-        bullet.moveTo(player.xo, player.getEyeY(), player.zo);
-        bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, 1);
-        world.addFreshEntity(bullet);
+public class ItemFirefly extends ItemRangedWeapon {
+    public ItemFirefly() {
+        super(EntityRegistry.FIREFLY::value, 1216);
+        sound = SoundRegistry.FIREFLY.get();
+        cooldown = 30;
+        arcanaConsumedUse = 25;
     }
     @OnlyIn(Dist.CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {

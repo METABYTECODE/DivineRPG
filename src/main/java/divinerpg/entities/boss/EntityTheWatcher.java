@@ -1,12 +1,9 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.EntityRegistry;
 import divinerpg.registries.SoundRegistry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.server.level.*;
 import net.minecraft.sounds.*;
 import net.minecraft.util.RandomSource;
@@ -21,13 +18,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.phys.*;
-import net.neoforged.api.distmarker.*;
 
 import java.util.EnumSet;
 
 public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAttackMob {
-    private ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE,
-            BossEvent.BossBarOverlay.PROGRESS));
+    private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.BLUE,
+            BossEvent.BossBarOverlay.PROGRESS);
     private int explosionStrength = 1;
 
     public EntityTheWatcher(EntityType<? extends EntityDivineFlyingMob> type, Level worldIn) {
@@ -40,9 +36,6 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
     public boolean fireImmune() {
         return true;
     }
-    public boolean canSpawn(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return level().dimension() == Level.OVERWORLD;
-    }
 
     protected void registerGoals() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -50,9 +43,7 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
         this.goalSelector.addGoal(5, new EntityTheWatcher.RandomFlyGoal(this));
         this.goalSelector.addGoal(7, new EntityTheWatcher.LookAroundGoal(this));
         this.goalSelector.addGoal(7, new EntityTheWatcher.FireballAttackGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (p_213812_1_) -> {
-            return Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D;
-        }));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (p_213812_1_) -> Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D));
     }
 
 //    @OnlyIn(Dist.CLIENT)
@@ -64,22 +55,24 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
 //        this.entityData.set(ATTACKING, attacking);
 //    }
 
-    public int getFireballStrength() {
-        return this.explosionStrength;
-    }
+//    public int getFireballStrength() {
+//        return this.explosionStrength;
+//    }
 
-    protected boolean isDespawnPeaceful() {
-        return true;
-    }
+//    protected boolean isDespawnPeaceful() {
+//        return true;
+//    }
 
     @Override
     public void performRangedAttack(LivingEntity entity, float range) {
         if (this.isAlive() && getTarget() != null) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.THE_WATCHER_SHOT);
+            ThrowableProjectile projectile = EntityRegistry.WATCHER_SHOT.get().create(level());
+            projectile.setPos(getEyePosition());
+            projectile.setOwner(this);
             double d0 = getTarget().getX() - this.getX();
             double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
             double d2 = getTarget().getZ() - this.getZ();
-            double d3 = (double) Math.sqrt(d0 * d0 + d2 * d2);
+            double d3 = Math.sqrt(d0 * d0 + d2 * d2);
             projectile.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
             this.level().addFreshEntity(projectile);
         }
@@ -186,7 +179,8 @@ public class EntityTheWatcher extends EntityDivineFlyingMob implements RangedAtt
                         world.levelEvent(null, 1016, this.mob.blockPosition(), 0);
                     }
 
-                    ThrowableProjectile shot = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), livingentity, world, BulletType.THE_WATCHER_SHOT);
+                    ThrowableProjectile shot = EntityRegistry.WATCHER_SHOT.get().create(world);
+                    shot.setOwner(mob);
                     shot.shoot(d2, d3, d4, 1, 1);
                     shot.setPos(this.mob.getX() + vector3d.x * 4.0D, this.mob.getY(0.5D) + 0.5D, shot.getZ() + vector3d.z * 4.0D);
                     world.addFreshEntity(shot);

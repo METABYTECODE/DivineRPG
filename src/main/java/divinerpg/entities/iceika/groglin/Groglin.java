@@ -3,7 +3,6 @@ package divinerpg.entities.iceika.groglin;
 import divinerpg.DivineRPG;
 import divinerpg.entities.iceika.EntityIceikaNPC;
 import divinerpg.registries.MobEffectRegistry;
-import divinerpg.registries.ProfessionRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +14,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 public abstract class Groglin extends EntityIceikaNPC {
 	public static final TagKey<Structure> RAID_TARGETS = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "groglin_raid_targets"));
-	public Groglin(EntityType<? extends Groglin> type, Level worldIn) {super(type, worldIn, ProfessionRegistry.GROGLIN.get());}
+	public Groglin(EntityType<? extends Groglin> type, Level worldIn) {super(type, worldIn, "groglin");}
 	@Override public Faction getFaction() {return Faction.GROGLIN;}
 	@Override protected TagKey<Structure> getRaidTargets() {return RAID_TARGETS;}
 	@Override protected Holder<MobEffect> getTargetEffect() {return MobEffectRegistry.GROGLIN_BOUNTY;}

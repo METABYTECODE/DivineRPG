@@ -6,14 +6,13 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 
 public class EntityLivestockMerchant extends EntityDivineMerchant {
     public EntityLivestockMerchant(EntityType<? extends EntityDivineMerchant> type, Level worldIn) {
-        super(type, worldIn, ProfessionRegistry.LIVESTOCK_MERCHANT.get());
+        super(type, worldIn, "livestock_merchant");
     }
     @Override
     public String[] getChatMessages() {

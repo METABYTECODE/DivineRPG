@@ -1,8 +1,6 @@
 package divinerpg.entities.vanilla.overworld;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -18,9 +16,6 @@ import net.neoforged.neoforge.common.Tags.Biomes;
 public class EntityCaveclops extends EntityDivineMonster implements RangedAttackMob {
     public EntityCaveclops(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-    }
-    public boolean canSpawn(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return getY() < 20 && level().dimension() == Level.OVERWORLD;
     }
     @Override public boolean isAggressive() {return true;}
     @Override
@@ -48,7 +43,9 @@ public class EntityCaveclops extends EntityDivineMonster implements RangedAttack
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
         if (isAlive() && getTarget() != null && !level().isClientSide) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.CAVE_ROCK);
+            ThrowableProjectile projectile = EntityRegistry.CAVE_ROCK.get().create(level());
+            projectile.setOwner(this);
+            projectile.setPos(getEyePosition());
             double d0 = getTarget().getX() - this.getX();
             double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
             double d2 = getTarget().getZ() - this.getZ();

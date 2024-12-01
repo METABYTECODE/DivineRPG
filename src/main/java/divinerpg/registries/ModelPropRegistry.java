@@ -2,7 +2,7 @@ package divinerpg.registries;
 
 import divinerpg.DivineRPG;
 import divinerpg.items.arcana.ItemMeriksMissile;
-import divinerpg.items.base.ItemBow;
+import divinerpg.items.ranged.ItemBow;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

@@ -49,9 +49,8 @@ public class EnderArrow extends DivineArrow {
             if(entity.hurt(damagesource, (float)j)) {
                 if(entity instanceof LivingEntity livingentity) {
                     if(!level().isClientSide) livingentity.setArrowCount(livingentity.getArrowCount() + 1);
-                    if(level() instanceof ServerLevel serverlevel1) {
-                        EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, livingentity, damagesource, getWeaponItem());
-                    } doPostHurtEffects(livingentity);
+                    if(level() instanceof ServerLevel serverlevel1) EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, livingentity, damagesource, getWeaponItem());
+                    doPostHurtEffects(livingentity);
                     if(!level().isClientSide && entity1 instanceof ServerPlayer serverplayer && !entity.isAlive() && shotFromCrossbow()) CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayer, Arrays.asList(entity));
                 } playSound(getHitGroundSoundEvent(), 1F, 1.2F / (random.nextFloat() * .2F + .9F));
                 discard();

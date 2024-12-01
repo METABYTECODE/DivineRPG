@@ -2128,6 +2128,21 @@
   "death.attack.divinerpg.trap.player": "%1$s fell into a trap while trying to escape %2$s",
   "death.attack.divinerpg.turtle": "%1$s was eaten by a Turtle",
 
+  "tag.divinerpg.acid": "Acid",
+  "tag.divinerpg.cacti": "Cacti",
+  "tag.divinerpg.corrupted_bullet": "Corrupted Bullets",
+  "tag.divinerpg.gold_nuggets": "Gold Nuggets",
+  "tag.divinerpg.grenade": "Grenades",
+  "tag.divinerpg.ice_shards": "Ice Shards",
+  "tag.divinerpg.snowballs": "Snowballs",
+
+  "tag.divinerpg.dust.eden": "Eden Dust",
+  "tag.divinerpg.dust.wildwood": "Wildwood Dust",
+  "tag.divinerpg.dust.apalachia": "Apalachia Dust",
+  "tag.divinerpg.dust.skythern": "Skythern Dust",
+  "tag.divinerpg.dust.mortum": "Mortum Dust",
+  "tag.divinerpg.dust.halite": "Mortum Dust",
+
   "tooltip.divinerpg.ammo": "§9Projectile: %s",
   "tooltip.divinerpg.ammo.infinite": "Infinity",
   "tooltip.divinerpg.arcana": "Consumes %s Arcana",

@@ -1,8 +1,11 @@
 package divinerpg.util;
 
+import divinerpg.registries.ItemRegistry;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 
@@ -49,8 +52,8 @@ public class LocalizeUtils {
      *
      * @param ammo - ammunition
      */
-    public static Component ammo(Item ammo) {
-        Component ammoName = MutableComponent.create(new TranslatableContents(ammo.getDescriptionId(), null, new Object[0]));
+    public static Component ammo(TagKey<Item> ammo) {
+        Component ammoName = MutableComponent.create(new TranslatableContents(Util.makeDescriptionId("tag", ammo.location()), null, new Object[0]));
         return i18n(ChatFormatting.WHITE, Ammo, ammoName);
     }
     /**

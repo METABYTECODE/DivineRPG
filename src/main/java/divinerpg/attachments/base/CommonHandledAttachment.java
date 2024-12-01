@@ -30,9 +30,10 @@ public class CommonHandledAttachment<T> extends SynchedAttachement<T> {
             p.level().getEntity(payload.entityID).setData(attachment, payload.data);
             if(!p.level().isClientSide()) PacketDistributor.sendToPlayersTrackingEntity(p, new AttachmentPayload(payload.data, p.getId()));
         }));
-        r.playBidirectional(requestType, requestCodec, (payload, context) -> context.enqueueWork(() ->
-            context.reply(new AttachmentPayload(context.player().level().getEntity(payload.entityID).getData(attachment), payload.entityID))
-        ));
+        r.playBidirectional(requestType, requestCodec, (payload, context) -> context.enqueueWork(() -> {
+            Entity e = context.player().level().getEntity(payload.entityID);
+            if(e != null) context.reply(new AttachmentPayload(e.getData(attachment), payload.entityID));
+        }));
     }
     @Override
     public void requestAttachment(Entity e, ServerPlayer player) {

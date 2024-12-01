@@ -1,8 +1,7 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.*;
-import divinerpg.entities.projectile.*;
-import divinerpg.enums.*;
+import divinerpg.entities.projectile.magic.EntityTwilightDemonShot;
 import divinerpg.registries.*;
 
 import net.minecraft.sounds.SoundEvent;
@@ -44,19 +43,23 @@ public class EntityTwilightDemon extends EntityDivineBoss {
                 double ty = this.getTarget().getBoundingBox().minY - this.getY() - 2;
                 double tz = this.getTarget().getZ() - this.getZ();
                 double angle = Math.atan(-(tx) / (tz));
-                EntityTwilightDemonShot e = new EntityTwilightDemonShot(EntityRegistry.TWILIGHT_DEMON_SHOT.get(), this, level(), this.random.nextInt(50) == 0 ?
-                        BulletType.TWILIGHT_DEMON_RED_SHOT : BulletType.TWILIGHT_DEMON_BLACK_SHOT);
+                EntityTwilightDemonShot e = EntityRegistry.TWILIGHT_DEMON_SHOT.get().create(level());
+                e.setOwner(this);
+                e.setPos(position());
+                if(random.nextBoolean()) e.particle = ParticleRegistry.TWILIGHT_PORTAL::value;
                 e.zo += Math.sin(angle);
                 e.xo += Math.cos(angle);
                 e.shoot(tx - Math.cos(angle), ty, tz - Math.sin(angle), 1.6f, 0);
                 this.level().addFreshEntity(e);
 
-                EntityTwilightDemonShot e1 = new EntityTwilightDemonShot(EntityRegistry.TWILIGHT_DEMON_SHOT.get(), this, level(), this.random.nextInt(50) == 0 ?
-                        BulletType.TWILIGHT_DEMON_RED_SHOT : BulletType.TWILIGHT_DEMON_BLACK_SHOT);
-                e1.zo -= Math.sin(angle);
-                e1.xo -= Math.cos(angle);
-                e1.shoot(tx + Math.cos(angle), ty, tz + Math.sin(angle), 1.6f, 0);
-                this.level().addFreshEntity(e1);
+                e = EntityRegistry.TWILIGHT_DEMON_SHOT.get().create(level());
+                e.setOwner(this);
+                e.setPos(position());
+                if(random.nextBoolean()) e.particle = ParticleRegistry.TWILIGHT_PORTAL::value;
+                e.zo -= Math.sin(angle);
+                e.xo -= Math.cos(angle);
+                e.shoot(tx + Math.cos(angle), ty, tz + Math.sin(angle), 1.6f, 0);
+                this.level().addFreshEntity(e);
             }
             if (this.shooting > 0) {
                 this.shooting--;

@@ -27,8 +27,8 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 public abstract class EntityDivineMerchant extends AbstractVillager {
-    VillagerProfession profession;
-    public EntityDivineMerchant(EntityType<? extends EntityDivineMerchant> type, Level level, VillagerProfession profession) {
+    String profession;
+    public EntityDivineMerchant(EntityType<? extends EntityDivineMerchant> type, Level level, String profession) {
         super(type, level);
         ((GroundPathNavigation) getNavigation()).setCanOpenDoors(true);
         this.profession = profession;
@@ -47,7 +47,7 @@ public abstract class EntityDivineMerchant extends AbstractVillager {
                     player.awardStat(Stats.TALKED_TO_VILLAGER); // Award stat for talking to the villager
                     if(hasOffers && canTrade(player)) { // Check if trading can start
                         setTradingPlayer(player); // Set the trading player
-                        openTradingScreen(player, Component.translatable("entity.divinerpg." + profession.name()), 0); // Open the trading screen
+                        openTradingScreen(player, Component.translatable("entity.divinerpg." + profession), 0); // Open the trading screen
                     }
                 }
             }

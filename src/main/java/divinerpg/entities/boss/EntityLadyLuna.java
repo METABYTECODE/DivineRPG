@@ -1,7 +1,7 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineBoss;
-import divinerpg.entities.projectile.EntityLadyLunaSparkler;
+import divinerpg.entities.projectile.magic.EntityLadyLunaSparkler;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -76,7 +76,8 @@ public class EntityLadyLuna extends EntityDivineBoss {
                 BlockPos pos = iter.next();
                 if(level.getBlockState(pos).getBlock() != BlockRegistry.lunicAcid.get()) iter.remove();
                 else if(random.nextInt(4) == 0) {
-                    EntityLadyLunaSparkler e = new EntityLadyLunaSparkler(EntityRegistry.LADY_LUNA_SPARKLER.get(), level(), this);
+                    EntityLadyLunaSparkler e = EntityRegistry.LADY_LUNA_SPARKLER.get().create(level);
+                    e.setOwner(this);
                     e.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                     level.addFreshEntity(e);
                 }

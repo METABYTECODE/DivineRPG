@@ -1,7 +1,7 @@
 package divinerpg.items.arcana;
 
 import divinerpg.attachments.Arcana;
-import divinerpg.entities.projectile.EntityMerikMissile;
+import divinerpg.entities.projectile.bullet.EntityMerikMissile;
 import divinerpg.items.base.ItemMod;
 import divinerpg.registries.*;
 import divinerpg.util.LocalizeUtils;
@@ -42,7 +42,7 @@ public class ItemMeriksMissile extends ItemMod {
                 bullet.moveTo(player.getX(), player.getY() + 1, player.getZ());
                 bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3, 1);
                 world.addFreshEntity(bullet);
-                Arcana.modifyAmount(player, -arcanaPoints);
+                if(!world.isClientSide()) Arcana.modifyAmount(player, -arcanaPoints);
             }
         }
     }

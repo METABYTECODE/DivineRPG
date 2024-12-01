@@ -1,6 +1,6 @@
 package divinerpg.items.vanilla;
 
-import divinerpg.entities.projectile.EntityShooterBullet;
+import divinerpg.entities.projectile.DivineThrowableProjectile;
 import divinerpg.enums.*;
 import divinerpg.items.base.ItemModSword;
 import divinerpg.registries.*;
@@ -8,25 +8,30 @@ import divinerpg.util.LocalizeUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.*;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemAnchor extends ItemModSword {
-    protected BulletType bulletType;
-    public ItemAnchor(ToolStats stats, BulletType projectileType) {
+    protected Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType;
+    int baseDamageTooltip;
+    public ItemAnchor(ToolStats stats, Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType, int baseDamageTooltip) {
         super(stats);
-        bulletType = projectileType;
+        this.projectileType = projectileType;
+        this.baseDamageTooltip = baseDamageTooltip;
     }
     @Override public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         player.playSound(SoundRegistry.BLITZ.get(), 1, 1);
         if(!world.isClientSide) {
-            ThrowableProjectile bullet;
-            bullet = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), player, world, bulletType);
+            Projectile bullet = projectileType.get().create(world);
+            bullet.setOwner(player);
+            bullet.setPos(player.getEyePosition().add(0D, -0.15, 0D));
             bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, .5F);
             world.addFreshEntity(bullet);
         }
@@ -35,7 +40,7 @@ public class ItemAnchor extends ItemModSword {
     }
     @OnlyIn(Dist.CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(LocalizeUtils.rangedDam((int)bulletType.getDamage()));
+        tooltip.add(LocalizeUtils.rangedDam(baseDamageTooltip));
         tooltip.add(LocalizeUtils.infiniteAmmo());
         super.appendHoverText(stack, context, tooltip, flagIn);
     }

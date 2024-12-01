@@ -2,7 +2,7 @@ package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineBoss;
 import divinerpg.entities.projectile.*;
-import divinerpg.enums.BulletType;
+import divinerpg.entities.projectile.magic.EntityBouncingProjectile;
 import divinerpg.registries.*;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.core.BlockPos;
@@ -142,9 +142,8 @@ public class EntityWreck extends EntityDivineBoss {
 
     private void message() {
         List<Entity> list = level().getEntities(this, this.getBoundingBox().expandTowards(64.0D, 64.0D, 64.0D));
-        for (int var1 = 0; var1 < list.size(); ++var1) {
-            if (list.get(var1) instanceof Player) {
-                Player player = (Player) list.get(var1);
+        for(int var1 = 0; var1 < list.size(); ++var1) {
+            if (list.get(var1) instanceof Player player) {
 
                 switch (this.getAbility()) {
                     case CHARGE:
@@ -250,7 +249,10 @@ public class EntityWreck extends EntityDivineBoss {
         double z = getTarget().getZ() - this.getZ();
         switch (this.getAbility()) {
             case BOUNCE:
-                    ThrowableProjectile projectile = new EntityBouncingProjectile(EntityRegistry.BOUNCING_PROJECTILE.get(), this, level(), BulletType.WRECK_BOUNCING_SHOT);
+                EntityBouncingProjectile projectile = EntityRegistry.BOUNCING_PROJECTILE.get().create(level());
+                    projectile.setOwner(this);
+                    projectile.setPos(getEyePosition());
+                    projectile.baseDamage = 35F;
                     double bounceY = getTarget().getY(0.3333333333333333D) - projectile.getY();
                     double d3 = Mth.sqrt((float) (x * x + z * z));
                     projectile.shoot(x, bounceY + d3 * (double) 0.2F, z, 1.6F, 0.5F);
@@ -259,7 +261,9 @@ public class EntityWreck extends EntityDivineBoss {
                 break;
             case SPEED:
                 if (this.abilityTimer % 5 == 0) {
-                    ThrowableProjectile shot = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this,  level(), BulletType.WRECK_SHOT);
+                    ThrowableProjectile shot = EntityRegistry.WRECK_SHOT.get().create(level());
+                    shot.setPos(getEyePosition());
+                    shot.setOwner(this);
                     double shotY = getTarget().getY(0.3333333333333333D) - shot.getY();
                     double ws3 = Mth.sqrt((float) (x * x + z * z));
                     shot.shoot(x, shotY + ws3 * (double) 0.2F, z, 1.6F, 0.5F);
@@ -271,7 +275,9 @@ public class EntityWreck extends EntityDivineBoss {
                 break;
             case EXPLOSIONS:
                 if ((this.abilityTimer % 40) == 0) {
-                    ThrowableProjectile explosiveShot = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this,  level(), BulletType.WRECK_EXPLOSIVE_SHOT);
+                    ThrowableProjectile explosiveShot = EntityRegistry.WRECK_BOMB.get().create(level());
+                    explosiveShot.setOwner(this);
+                    explosiveShot.setPos(getEyePosition());
                     double explodeY = getTarget().getY(0.3333333333333333D) - explosiveShot.getY();
                     double e3 = Mth.sqrt((float) (x * x + z * z));
                     explosiveShot.shoot(x, explodeY + e3 * (double) 0.2F, z, 1.6F, 0.5F);
@@ -283,7 +289,10 @@ public class EntityWreck extends EntityDivineBoss {
                 break;
             case STRENGTH:
                 if ((this.abilityTimer % 40) == 0) {
-                    EntityShooterBullet strengthShot = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.WRECK_STRONG_SHOT);
+                    DivineThrowableProjectile strengthShot = EntityRegistry.WRECK_SHOT.get().create(level());
+                    strengthShot.setOwner(this);
+                    strengthShot.setPos(getEyePosition());
+                    strengthShot.baseDamage = 40F;
                     double strengthY = getTarget().getY(0.3333333333333333D) - strengthShot.getY();
                     double s3 = Mth.sqrt((float) (x * x + z * z));
                     strengthShot.shoot(x, strengthY + s3 * (double) 0.2F, z, 1.6F, 0.5F);

@@ -1,8 +1,6 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineBoss;
-import divinerpg.entities.projectile.*;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.BossEvent.BossBarColor;
@@ -42,10 +40,14 @@ public class EntityKingOfScorchers extends EntityDivineBoss implements RangedAtt
                 double d0 = getTarget().getX() - (this.getX() + vector3d.x * 4.0D);
                 double d1 = getTarget().getY(0.5D) - (0.5D + this.getY(0.5D));
                 double d2 = getTarget().getZ() - (this.getZ() + vector3d.z * 4.0D);
-                double d3 = (double) Math.sqrt(d0 * d0 + d2 * d2);
-                ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.KING_OF_SCORCHERS_SHOT);
-                if (level().getRandom().nextInt(10) == 0) {
-                    projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.KING_OF_SCORCHERS_METEOR);
+                double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                ThrowableProjectile projectile = EntityRegistry.KING_OF_SCORCHERS_SHOT.get().create(level());
+                projectile.setOwner(this);
+                projectile.setPos(getEyePosition());
+                if(level().getRandom().nextInt(10) == 0) {
+                    projectile = EntityRegistry.KING_OF_SCORCHERS_METEOR.get().create(level());
+                    projectile.setOwner(this);
+                    projectile.setPos(getEyePosition());
                     for (int i = 0; i < 4; i++) {
                         projectile.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
                         this.level().addFreshEntity(projectile);

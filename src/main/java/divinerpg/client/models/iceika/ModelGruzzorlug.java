@@ -2,7 +2,7 @@ package divinerpg.client.models.iceika;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import divinerpg.entities.iceika.gruzzorlug.Gruzzorlug;
-import divinerpg.items.base.ItemModRanged;
+import divinerpg.items.ranged.ItemRangedWeapon;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.geom.builders.*;
@@ -36,7 +36,7 @@ public class ModelGruzzorlug extends HumanoidModel<Gruzzorlug> {
 	}
 	@Override public void prepareMobModel(Gruzzorlug entity, float limbSwing, float limbSwingAmount, float ageInTicks) {
 		rightArmPose = leftArmPose = HumanoidModel.ArmPose.EMPTY;
-		if((entity.getMainHandItem().getItem() instanceof BowItem || entity.getMainHandItem().getItem() instanceof ItemModRanged) && entity.isAggressive()) {
+		if((entity.getMainHandItem().getItem() instanceof BowItem || entity.getMainHandItem().getItem() instanceof ItemRangedWeapon) && entity.isAggressive()) {
 			if(entity.getMainArm() == HumanoidArm.RIGHT) rightArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
 			else leftArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
 		} super.prepareMobModel(entity, limbSwing, limbSwingAmount, ageInTicks);

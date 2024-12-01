@@ -17,7 +17,7 @@ import java.util.List;
 
 public class EntityJackOMan extends EntityDivineMerchant {
     public EntityJackOMan(EntityType<? extends EntityDivineMerchant> type, Level worldIn) {
-        super(type, worldIn, ProfessionRegistry.JACK_O_MAN.get());
+        super(type, worldIn, "jack_o_man");
     }
     @Override
     public String[] getChatMessages() {

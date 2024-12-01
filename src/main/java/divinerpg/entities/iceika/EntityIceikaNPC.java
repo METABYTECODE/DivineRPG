@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 public abstract class EntityIceikaNPC extends EntityDivineMerchant implements FactionEntity {
 	public static final TagKey<Structure> WHALE_SKULL = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "whale_skull"));
-	public EntityIceikaNPC(EntityType<? extends EntityDivineMerchant> type, Level worldIn, VillagerProfession profession) {
+	public EntityIceikaNPC(EntityType<? extends EntityDivineMerchant> type, Level worldIn, String profession) {
         super(type, worldIn, profession);
         setPathfindingMalus(PathType.POWDER_SNOW, -1);
     }

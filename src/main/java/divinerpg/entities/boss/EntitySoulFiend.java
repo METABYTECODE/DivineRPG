@@ -1,7 +1,7 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.*;
-import divinerpg.entities.projectile.*;
+import divinerpg.entities.projectile.bullet.EntitySoulFiendShot;
 import divinerpg.registries.*;
 import net.minecraft.util.*;
 import net.minecraft.world.BossEvent.*;
@@ -27,7 +27,9 @@ public class EntitySoulFiend extends EntityDivineBoss {
         super.tick();
         if (!this.level().isClientSide() && this.tickCount % 300 == 0) {
             for (int i = 0; i < 4; i++) {
-                EntitySoulFiendShot shot = new EntitySoulFiendShot(EntityRegistry.SOUL_FIEND_SHOT.get(), this, level());
+                EntitySoulFiendShot shot = EntityRegistry.SOUL_FIEND_SHOT.get().create(level());
+                shot.setOwner(this);
+                shot.setPos(position());
                 shot.shoot(this.random.nextDouble() - this.random.nextDouble(), -0.25,
                         this.random.nextDouble() - this.random.nextDouble(), 0.5f, 12);
                 this.level().addFreshEntity(shot);

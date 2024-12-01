@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 
 public class EntityDiamondDave extends EntityDivineMerchant {
     public EntityDiamondDave(EntityType<? extends EntityDivineMerchant> type, Level worldIn) {
-        super(type, worldIn, ProfessionRegistry.DIAMOND_DAVE.get());
+        super(type, worldIn, "diamond_dave");
     }
     @Override public String[] getChatMessages() {
         return new String[] {

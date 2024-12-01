@@ -1,7 +1,7 @@
 package divinerpg.entities.iceika;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityFractiteShot;
+import divinerpg.entities.projectile.fireball.EntityFractiteShot;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
