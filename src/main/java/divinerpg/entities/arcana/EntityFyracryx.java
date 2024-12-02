@@ -1,7 +1,7 @@
 package divinerpg.entities.arcana;
 
 import divinerpg.entities.base.EntityDivineTameable;
-import divinerpg.entities.projectile.EntityFyracryxFireball;
+import divinerpg.entities.projectile.fireball.EntityFyracryxFireball;
 import divinerpg.registries.SoundRegistry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;

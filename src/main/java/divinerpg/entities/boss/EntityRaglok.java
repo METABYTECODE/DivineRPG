@@ -1,8 +1,6 @@
 package divinerpg.entities.boss;
 
 import divinerpg.entities.base.EntityDivineBoss;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.sounds.SoundEvent;
@@ -119,7 +117,8 @@ public class EntityRaglok extends EntityDivineBoss {
                 for (int i = 0; i < 4; i++) {
 
 
-                    ThrowableProjectile var2 = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.RAGLOK_BOMB);
+                    ThrowableProjectile var2 = EntityRegistry.RAGLOK_BOMB.get().create(level());
+                    var2.setOwner(this);
                     var2.moveTo(player.xo, player.yo + 5, player.zo);
                     var2.setDeltaMovement((random.nextDouble() - random.nextDouble()) / 5, -0.14, (random.nextDouble() - random.nextDouble()) / 5);
                     this.level().addFreshEntity(var2);

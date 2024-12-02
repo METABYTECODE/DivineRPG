@@ -1,8 +1,6 @@
 package divinerpg.entities.eden;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -33,7 +31,9 @@ public class EntityWeakCori extends EntityDivineFlyingMob implements RangedAttac
     @Override
     public void performRangedAttack(LivingEntity entity, float range) {
         if (isAlive() && getTarget() != null && !level().isClientSide) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.WEAK_CORI_SHOT);
+            ThrowableProjectile projectile = EntityRegistry.CORI_SHOT.get().create(level());
+            projectile.setOwner(this);
+            projectile.setPos(getEyePosition());
             double d0 = getTarget().getX() - this.getX();
             double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
             double d2 = getTarget().getZ() - this.getZ();

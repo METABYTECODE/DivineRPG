@@ -1,7 +1,7 @@
 package divinerpg.entities.vethea;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityDissimentShot;
+import divinerpg.entities.projectile.bullet.EntityDissimentShot;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;

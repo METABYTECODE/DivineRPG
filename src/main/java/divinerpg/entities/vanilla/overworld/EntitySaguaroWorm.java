@@ -1,11 +1,10 @@
 package divinerpg.entities.vanilla.overworld;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntitySaguaroWormShot;
+import divinerpg.entities.projectile.bullet.EntitySaguaroWormShot;
 import divinerpg.registries.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -109,7 +108,9 @@ public class EntitySaguaroWorm extends EntityDivineMonster implements RangedAtta
             for (double h = -1.5; h < 1.5; h += 0.5) {
                 for (double r = 0; r < 1.5 - Math.abs(h); r += 0.5) {
                     for (double theta = 0; theta < Math.PI * 2; theta += Math.PI / 2) {
-                        EntitySaguaroWormShot shot = new EntitySaguaroWormShot(EntityRegistry.SAGUARO_WORM_SHOT.get(), this, this.level());
+                        EntitySaguaroWormShot shot = EntityRegistry.SAGUARO_WORM_SHOT.get().create(level());
+                        shot.setOwner(this);
+                        shot.setPos(position());
                         shot.xo = this.xo + r * Math.cos(theta);
                         shot.yo = this.yo + 5 + h;
                         shot.zo = this.zo + r * Math.sin(theta);

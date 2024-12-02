@@ -1,7 +1,7 @@
 package divinerpg.entities.vanilla.end;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityEnderTripletsFireball;
+import divinerpg.entities.projectile.fireball.EntityEnderTripletsFireball;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.*;
 import net.minecraft.util.RandomSource;

@@ -2,7 +2,6 @@ package divinerpg.entities.arcana;
 
 import divinerpg.entities.base.EntityDivineMerchant;
 import divinerpg.registries.ItemRegistry;
-import divinerpg.registries.ProfessionRegistry;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffers;
@@ -11,7 +10,7 @@ import net.minecraft.world.level.*;
 public class EntityZelus extends EntityDivineMerchant {
 
 	public EntityZelus(EntityType<? extends EntityDivineMerchant> type, Level worldIn) {
-		super(type, worldIn, ProfessionRegistry.ZELUS.get());
+		super(type, worldIn, "zelus");
 	}
 
 	public String[] getChatMessages() {

@@ -3,7 +3,7 @@ package divinerpg.client.renders.entity.projectile;
 import com.mojang.blaze3d.vertex.*;
 import divinerpg.*;
 import divinerpg.client.models.vanilla.*;
-import divinerpg.entities.projectile.*;
+import divinerpg.entities.projectile.bullet.EntitySaguaroWormShot;
 import divinerpg.entities.vanilla.overworld.EntitySaguaroWorm;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.*;

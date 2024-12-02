@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 public class EntityLordVatticus extends EntityDivineMerchant {
 
 	public EntityLordVatticus(EntityType<? extends EntityDivineMerchant> type, Level worldIn) {
-		super(type, worldIn, ProfessionRegistry.LORD_VATTICUS.get());
+		super(type, worldIn, "lord_vatticus");
 	}
 
 	public String[] getChatMessages() {

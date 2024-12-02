@@ -2,6 +2,8 @@ package divinerpg.registries;
 
 import divinerpg.items.arcana.*;
 import divinerpg.items.base.*;
+import divinerpg.items.ranged.ItemBow;
+import divinerpg.items.ranged.ItemRangedWeapon;
 import divinerpg.items.vanilla.ItemArmorPouch;
 import divinerpg.items.vethea.ItemNightmareBed;
 import net.minecraft.core.registries.Registries;
@@ -33,13 +35,13 @@ public class CreativeTabRegistry {
             }
         } if(event.getTab() == TOOLS.get()) {
             for(DeferredHolder<Item, ?> item : ItemRegistry.ITEMS.getEntries()) {
-                if(item.get() instanceof ItemMeriksMissile || item.getId().toLanguageKey().contains("bullet") || item.getId().toLanguageKey().contains("bucket") || item.getId().toLanguageKey().contains("serenade") || item.get() instanceof ItemEnderScepter || item.get() instanceof ItemDivineAccumulator || item.get() instanceof ItemGhostbane || item.get() instanceof ItemStaffEnrichment || item.getId().toLanguageKey().contains("arrow") || item.get() instanceof DivineShield || item.get() instanceof ItemDivineArmor || item.get() instanceof ItemModAxe || item.get() instanceof ItemBow || item.get() instanceof ItemModHoe || item.get() instanceof ItemModPickaxe || item.get() instanceof ItemModRanged || item.get() instanceof ItemModShovel || item.get() instanceof ItemModSword || item.get() instanceof ItemShickaxe || item.get() instanceof ItemArmorPouch) {
+                if(item.get() instanceof ItemMeriksMissile || item.getId().toLanguageKey().contains("bullet") || item.getId().toLanguageKey().contains("bucket") || item.getId().toLanguageKey().contains("serenade") || item.get() instanceof ItemEnderScepter || item.get() instanceof ItemDivineAccumulator || item.get() instanceof ItemGhostbane || item.get() instanceof ItemStaffEnrichment || item.getId().toLanguageKey().contains("arrow") || item.get() instanceof DivineShield || item.get() instanceof ItemDivineArmor || item.get() instanceof ItemModAxe || item.get() instanceof ItemBow || item.get() instanceof ItemModHoe || item.get() instanceof ItemModPickaxe || item.get() instanceof ItemRangedWeapon || item.get() instanceof ItemModShovel || item.get() instanceof ItemModSword || item.get() instanceof ItemShickaxe || item.get() instanceof ItemArmorPouch) {
                     event.accept(item.get());
                 }
             }
         } if(event.getTab() == MISC.get()) {
             for(DeferredHolder<Item, ?> item : ItemRegistry.ITEMS.getEntries()) {
-                if(!(item.get() instanceof ItemMeriksMissile || item.getId().toLanguageKey().contains("bullet") || item.getId().toLanguageKey().contains("bucket") || item.getId().toLanguageKey().contains("serenade") || item.get() instanceof ItemEnderScepter || item.get() instanceof ItemDivineAccumulator || item.get() instanceof ItemGhostbane || item.get() instanceof ItemStaffEnrichment || item.getId().toLanguageKey().contains("arrow") || item.get() instanceof ItemNightmareBed || item.get() instanceof StandingAndWallBlockItem || item.get() instanceof DivineShield || item.get() instanceof ItemDivineArmor || item.get() instanceof ItemModAxe || item.get() instanceof ItemBow || item.get() instanceof ItemModHoe || item.get() instanceof ItemModPickaxe || item.get() instanceof ItemModRanged || item.get() instanceof ItemModShovel || item.get() instanceof ItemModSword || item.get() instanceof ItemShickaxe || item.get() instanceof ItemArmorPouch)) {
+                if(!(item.get() instanceof ItemMeriksMissile || item.getId().toLanguageKey().contains("bullet") || item.getId().toLanguageKey().contains("bucket") || item.getId().toLanguageKey().contains("serenade") || item.get() instanceof ItemEnderScepter || item.get() instanceof ItemDivineAccumulator || item.get() instanceof ItemGhostbane || item.get() instanceof ItemStaffEnrichment || item.getId().toLanguageKey().contains("arrow") || item.get() instanceof ItemNightmareBed || item.get() instanceof StandingAndWallBlockItem || item.get() instanceof DivineShield || item.get() instanceof ItemDivineArmor || item.get() instanceof ItemModAxe || item.get() instanceof ItemBow || item.get() instanceof ItemModHoe || item.get() instanceof ItemModPickaxe || item.get() instanceof ItemRangedWeapon || item.get() instanceof ItemModShovel || item.get() instanceof ItemModSword || item.get() instanceof ItemShickaxe || item.get() instanceof ItemArmorPouch)) {
                     event.accept(item.get());
                 }
             }

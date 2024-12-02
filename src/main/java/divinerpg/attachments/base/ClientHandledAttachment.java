@@ -27,9 +27,10 @@ public class ClientHandledAttachment<T> extends SynchedAttachement<T> {
         r.playToServer(type, streamCodec, (payload, context) -> context.enqueueWork(() ->
             context.player().level().getEntity(payload.entityID).setData(attachment, payload.data)
         ));
-        r.playToClient(requestType, requestCodec, (payload, context) -> context.enqueueWork(() ->
-            context.reply(new AttachmentPayload(context.player().level().getEntity(payload.entityID).getData(attachment), payload.entityID))
-        ));
+        r.playToClient(requestType, requestCodec, (payload, context) -> context.enqueueWork(() -> {
+            Entity e = context.player().level().getEntity(payload.entityID);
+            if(e != null) context.reply(new AttachmentPayload(e.getData(attachment), payload.entityID));
+        }));
     }
     @Override
     public void requestAttachment(Entity e, ServerPlayer player) {

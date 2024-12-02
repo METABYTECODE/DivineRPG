@@ -20,6 +20,7 @@ import divinerpg.client.renders.tiles.RenderNightmareBed;
 import divinerpg.entities.apalachia.*;
 import divinerpg.entities.arcana.*;
 import divinerpg.entities.base.EntityDivineWaterMob;
+import divinerpg.entities.base.EntityMageBase;
 import divinerpg.entities.boss.*;
 import divinerpg.entities.eden.*;
 import divinerpg.entities.iceika.*;
@@ -28,6 +29,10 @@ import divinerpg.entities.iceika.gruzzorlug.*;
 import divinerpg.entities.mortum.*;
 import divinerpg.entities.projectile.*;
 import divinerpg.entities.projectile.arrows.*;
+import divinerpg.entities.projectile.bullet.*;
+import divinerpg.entities.projectile.fireball.*;
+import divinerpg.entities.projectile.magic.*;
+import divinerpg.entities.projectile.throwable.*;
 import divinerpg.entities.skythern.*;
 import divinerpg.entities.vanilla.end.*;
 import divinerpg.entities.vanilla.nether.*;
@@ -37,6 +42,7 @@ import divinerpg.entities.wildwood.*;
 import divinerpg.enums.EntityStats;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -46,6 +52,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.projectile.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -61,25 +68,90 @@ public class EntityRegistry {
     public EntityRegistry(){}
 
     //Projectiles
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	 BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new,            "bouncing_projectile");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDisk>>					 DISK = registerProjectile(EntityDisk::new,                                         "disk");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrownItem>> THROWN_ITEM = registerProjectile(DivineThrownItem::new, "thrown_item");
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowFlakeShuriken>> SNOWFLAKE_SHURIKEN = registerProjectile(SnowFlakeShuriken::new, "snowflake_shuriken");
+    public static final DeferredHolder<EntityType<?>, EntityType<VileStorm>> VILE_STORM = registerProjectile(VileStorm::new, "vile_storm");
+    public static final DeferredHolder<EntityType<?>, EntityType<Grenade>> GRENADE = registerProjectile(Grenade::new, "grenade");
+    public static final DeferredHolder<EntityType<?>, EntityType<AttractorBeam>> ATTRACTOR_BEAM = registerProjectile(AttractorBeam::new, "attractor_beam");
+    public static final DeferredHolder<EntityType<?>, EntityType<ReflectorBeam>> REFLECTOR_BEAM = registerProjectile(ReflectorBeam::new, "reflector_beam");
+    public static final DeferredHolder<EntityType<?>, EntityType<IceBullet>> ICE_BULLET = registerProjectile(IceBullet::new, "ice_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<DeathBullet>> DEATH_BULLET = registerProjectile(DeathBullet::new, "death_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_MUSIC = registerProjectile((type, level) -> new MusicalBullet(type, level, 9F), "sound_of_music");
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_CAROLS = registerProjectile((type, level) -> new MusicalBullet(type, level, 11F), "sound_of_carols");
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_WHALES = registerProjectile((type, level) -> new MusicalBullet(type, level, 13F), "sound_of_whales");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> SCYTHE_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 6F), "scythe_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EYE_SHARD = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3F), "eye_shard");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAELSTROM_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "maelstrom_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<SparklerShot>> SPARKLER_SHOT = registerProjectile(SparklerShot::new, "sparkler_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFirefly>> FIREFLY = registerProjectile(EntityFirefly::new, "firefly");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityMerikMissile>> MERIKS_MISSILE = registerProjectile(EntityMerikMissile::new, "meriks_missile");
+    public static final DeferredHolder<EntityType<?>, EntityType<GeneralsShot>> GENERALS_SHOT = registerProjectile(GeneralsShot::new, "generals_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<StarProjectile>> STAR = registerProjectile((type, level) -> new StarProjectile(type, level, 13F, ParticleRegistry.EDEN_PORTAL), "star");
+    public static final DeferredHolder<EntityType<?>, EntityType<MeteorProjectile>> METEOR = registerProjectile(MeteorProjectile::new, "meteor");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "crab_claw");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 7F), "frost_claw");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "bowhead_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "frost_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FRACTITE_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 8F), "fractite_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> GHAST_CANNON_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 11F), "ghast_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> GOLDEN_FURY_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 17F), "golden_fury_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORRUPTED_BULLET = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 10F), "corrupted_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineArcanaProjectile>> BLASTER_BULLET = registerProjectile((type, level) -> new DivineArcanaProjectile(type, level, 13F), "blaster_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new, "bouncing_projectile");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CANNON_SHOT = registerProjectile(DivineThrowableProjectile::new, "cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EVERSIGHT_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 42F), "eversight_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityDisk>> DISK = registerProjectile(EntityDisk::new, "disk");
+    public static final DeferredHolder<EntityType<?>, EntityType<Dissipator>> DISSIPATOR = registerProjectile(Dissipator::new, "dissipator");
+    public static final DeferredHolder<EntityType<?>, EntityType<BoneFragment>> BONE_FRAGMENT = registerProjectile(BoneFragment::new, "bone_fragment");
+    public static final DeferredHolder<EntityType<?>, EntityType<BoneBomb>> BONE_BOMB = registerProjectile(BoneBomb::new, "bone_bomb");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CAVE_ROCK = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "cave_rock");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORI_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 20F), "cori_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAGE_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10F, ParticleRegistry.WILDWOOD_PORTAL), "mage_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SPELLBINDER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "speelbinder_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MYSTIC_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 13F, ParticleRegistry.SKYTHERN_PORTAL), "mystic_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SORCERER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14F, ParticleRegistry.MORTUM_PORTAL), "sorcerer_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> MANDRAGORA_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "mandragora_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KAZROTIC_SHOT = registerProjectile(Bomb::new, "kazrotic_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> ZORAGON_BOMB = registerProjectile(Bomb::new, "zoragon_bomb");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> RAGLOK_BOMB = registerProjectile(Bomb::new, "raglok_bomb");
+    public static final DeferredHolder<EntityType<?>, EntityType<WatcherShot>> WATCHER_SHOT = registerProjectile(WatcherShot::new, "watcher_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<KingOfShorchersShot>> KING_OF_SCORCHERS_SHOT = registerProjectile(KingOfShorchersShot::new, "king_of_scorchers_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KING_OF_SCORCHERS_METEOR = registerProjectile(Bomb::new, "king_of_scorchers_meteor");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SUNSTORM_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12F, ParticleRegistry.EDEN_PORTAL), "sunstorm_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> WRECK_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 15F), "wreck_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> WRECK_BOMB = registerProjectile(Bomb::new, "wreck_bomb");
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> EDEN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 8F, ParticleRegistry.EDEN_PORTAL), "eden_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> WILDWOOD_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10F, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> APALACHIA_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "apalachia_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SKYTHERN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14F, ParticleRegistry.SKYTHERN_PORTAL), "skythern_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MORTUM_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 16F, ParticleRegistry.MORTUM_PORTAL), "mortum_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> HALITE_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 18F, ParticleRegistry.HALITE_PORTAL), "halite_phaser_shot");
+
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> EDEN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 10F, ParticleRegistry.EDEN_PORTAL), "eden_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> WILDWOOD_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12F, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> APALACHIA_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 14F, ParticleRegistry.APALACHIA_PORTAL), "apalachia_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SKYTHERN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 16F, ParticleRegistry.SKYTHERN_PORTAL), "skythern_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> MORTUM_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 18F, ParticleRegistry.MORTUM_PORTAL), "mortum_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> HALITE_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 20F, ParticleRegistry.HALITE_PORTAL), "halite_blitz_shot");
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3F), "crab_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> SHARK_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "shark_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 5F), "bowhead_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> LIOPLEURODON_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "liopleurodon_anchor_shot");
+
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDissimentShot>>			 DISSIMENT_SHOT = registerProjectile(EntityDissimentShot::new,                      "dissiment_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityEnderTripletsFireball>>  ENDER_TRIPLETS_FIREBALL = registerFireballProjectile(EntityEnderTripletsFireball::new, "ender_triplets_fireball");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFirefly>>				 FIREFLY = registerProjectile(EntityFirefly::new,                                   "firefly");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFractiteShot>>			 FRACTITE_SHOT = registerFireballProjectile(EntityFractiteShot::new,                "fractite_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostCloud>>			 FROST_CLOUD = registerFrostCloud(EntityFrostCloud::new,                            "frost_cloud");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostShot>>				 FROST_SHOT = registerFireballProjectile(EntityFrostShot::new,                      "frost_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFyracryxFireball>>		 FYRACRYX_FIREBALL = registerFireballProjectile(EntityFyracryxFireball::new,        "fyracryx_fireball");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityLadyLunaSparkler>>		 LADY_LUNA_SPARKLER = registerProjectile(EntityLadyLunaSparkler::new,               "lady_luna_sparkler");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityMerikMissile>>			 MERIKS_MISSILE = registerProjectile(EntityMerikMissile::new,                       "meriks_missile");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityParticleBullet>>		 PARTICLE_BULLET = registerProjectile(EntityParticleBullet::new,                    "particle_bullet");
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySaguaroWormShot>>		 SAGUARO_WORM_SHOT = registerProjectile(EntitySaguaroWormShot::new,                 "saguaro_worm_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityScorcherShot>>			 SCORCHER_SHOT = registerFireballProjectile(EntityScorcherShot::new,                "scorcher_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityShooterBullet>> SHOOTER_BULLET = registerProjectile(EntityShooterBullet::new,                      "shooter_bullet");
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySkyreBullet>>			 SKYRE_BULLET = registerProjectile(EntitySkyreBullet::new,                          "skyre_bullet");
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySoulFiendShot>>			 SOUL_FIEND_SHOT = registerProjectile(EntitySoulFiendShot::new,                     "soul_fiend_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemonShot>>		 TWILIGHT_DEMON_SHOT = registerProjectile(EntityTwilightDemonShot::new,             "twilight_demon_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityWildwoodLog>>			 WILDWOOD_LOG = registerProjectile(EntityWildwoodLog::new,                          "wildwood_log");
 
     //Arrows
     public static final DeferredHolder<EntityType<?>, EntityType<EdenArrow>> EDEN_ARROW = registerArrowProjectile(EdenArrow::new, "eden_arrow");
@@ -269,7 +341,7 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTermid>> 			 TERMID 			 = registerEntity(EntityTermid::new, 		    "termid", 			    .4F, 1.6875F, 1.5625F, 0x384d6e, 0x6388d4);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityVerek>> 			 VEREK 				 = registerEntity(EntityVerek::new, 			"verek", 			        .8F, 2, 1.8F, 0x0d5754, 0x3a8e89);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityWildwoodGolem>> 	 WILDWOOD_GOLEM 	 = registerEntity(EntityWildwoodGolem::new, 	"wildwood_golem", 	    1.3F, 2.9F, 2.7F, 0x4889de, 0x1e4a91);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityMage>> 				 MAGE 				 = registerEntity(EntityMage::new, 				"mage", 			        .9F, 2.2F, 2, 0x0f7adf, 0x2fc7fb);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityMageBase>> MAGE = registerEntity((type, level) -> new EntityMageBase(type, level, MAGE_SHOT::value), "mage", .9F, 2.2F, 2, 0x0f7adf, 0x2fc7fb);
 
     //Apalachia
     public static final DeferredHolder<EntityType<?>, EntityType<EntityApalachiaTomo>> 	 APALACHIA_TOMO 	 = registerEntity(EntityApalachiaTomo::new, 	"apalachia_tomo", 		.99F, .83F, .5875F, 0xffffff, 0xffffff);
@@ -277,7 +349,7 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityEnchantedWarrior>> 	 ENCHANTED_WARRIOR 	 = registerEntity(EntityEnchantedWarrior::new, 	"enchanted_warrior", 	    .6F, 2.25F, 1.98F, 0xffffff, 0xffffff);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityApalachiaGolem>> 	 APALACHIA_GOLEM 	 = registerEntity(EntityApalachiaGolem::new, 	"apalachia_golem", 		1.3F, 2.9F, 2.7F, 0x7c4bca, 0x4417a2);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityEnchantedArcher>> 	 ENCHANTED_ARCHER  	 = registerEntity(EntityEnchantedArcher::new, 	"enchanted_archer", 	    1.8F, 3, 2.9F, 0x160430, 0x2f0a66);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntitySpellbinder>> 		 SPELLBINDER 		 = registerEntity(EntitySpellbinder::new, 		"spellbinder", 			.9F, 2.2F, 2, 0x8b27de, 0xd16ff7);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityMageBase>> SPELLBINDER = registerEntity((type, level) -> new EntityMageBase(type, level, SPELLBINDER_SHOT::value), "spellbinder", .9F, 2.2F, 2, 0x8b27de, 0xd16ff7);
 
     //Skythern
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySamek>>			     SAMEK 			     = registerEntity(EntitySamek::new, 			"samek", 			        .8F, 2, 1.74F, 0xa6a875, 0x6e703b);
@@ -285,7 +357,7 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySkythernGolem>>      SKYTHERN_GOLEM 	 = registerEntity(EntitySkythernGolem::new, 	"skythern_golem", 	    1.3F, 2.9F, 2.65F, 0x6b6b6b, 0x474747);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityMegalith>>		     MEGALITH 		     = registerEntity(EntityMegalith::new,		    "megalith", 		        1.2F, 4, 3.6F, 0x7b7b7b, 0x939393);
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySkythernArcher>>     SKYTHERN_ARCHER     = registerEntity(EntitySkythernArcher::new,    "skythern_archer",        1.8F, 3, 2.9F, 0x3e3e3e, 0x828282);
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityMystic>>		     MYSTIC 			 = registerEntity(EntityMystic::new, 		    "mystic", 			    .9F, 2.2F, 2, 0xb7a5a9, 0xe4d9dd);
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityMageBase>> MYSTIC = registerEntity((type, level) -> new EntityMageBase(type, level, MYSTIC_SHOT::value), "mystic", .9F, 2.2F, 2, 0xb7a5a9, 0xe4d9dd);
     public static final DeferredHolder<EntityType<?>, EntityType<EntityAdvancedCori>>	     ADVANCED_CORI 	     = registerEntity(EntityAdvancedCori::new, 	    "advanced_cori", 	        .6F, 1.5F, .8125F, 0x160f00, 0xffc446);
 
     //Mortum
@@ -786,25 +858,91 @@ public class EntityRegistry {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         DivineRPG.LOGGER.info("[DivineRPG] Registered entity renders");
         //Projectiles
-        event.registerEntityRenderer(BOUNCING_PROJECTILE.get(), 	RenderShooterBullet::new);
-        event.registerEntityRenderer(DISK.get(),                    RenderShooterBullet::new);
+        event.registerEntityRenderer(THROWN_ITEM.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(SNOWFLAKE_SHURIKEN.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(VILE_STORM.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(GRENADE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(DISK.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(DISSIPATOR.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(EYE_SHARD.get(), (context) -> new RenderDivineItemProjectile<>(context, ItemRegistry.cyclops_eye_shards::value));
+        event.registerEntityRenderer(GOLDEN_FURY_SHOT.get(), (context) -> new RenderDivineItemProjectile<>(context, () -> Items.GOLD_NUGGET));
+        event.registerEntityRenderer(CORRUPTED_BULLET.get(), (context) -> new RenderDivineItemProjectile<>(context, ItemRegistry.corrupted_bullet::value));
+        event.registerEntityRenderer(LADY_LUNA_SPARKLER.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(SOUL_FIEND_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(MAGE_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(SPELLBINDER_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(MYSTIC_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(SORCERER_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(SUNSTORM_SHOT.get(), RenderDivineProjectile::new);
+        event.registerEntityRenderer(ATTRACTOR_BEAM.get(), (context) -> new RenderDivineProjectile<>(context, "arcana_shot"));
+        event.registerEntityRenderer(REFLECTOR_BEAM.get(), (context) -> new RenderDivineProjectile<>(context, "arcana_shot"));
+        event.registerEntityRenderer(ICE_BULLET.get(), (context) -> new RenderDivineProjectile<>(context, "serenade_of_ice"));
+        event.registerEntityRenderer(DEATH_BULLET.get(), (context) -> new RenderDivineProjectile<>(context, "serenade_of_death"));
+        event.registerEntityRenderer(SOUND_OF_MUSIC.get(), (context) -> new RenderDivineProjectile<>(context, "sound_of_music"));
+        event.registerEntityRenderer(SOUND_OF_CAROLS.get(), (context) -> new RenderDivineProjectile<>(context, "sound_of_carols"));
+        event.registerEntityRenderer(SOUND_OF_WHALES.get(), (context) -> new RenderDivineProjectile<>(context, "sound_of_whales"));
+        event.registerEntityRenderer(SCYTHE_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "scythe"));
+        event.registerEntityRenderer(MAELSTROM_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "maelstrom"));
+        event.registerEntityRenderer(SPARKLER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "sparkler"));
+        event.registerEntityRenderer(FIREFLY.get(), (context) -> new RenderDivineProjectile<>(context, "firefly"));
+        event.registerEntityRenderer(MERIKS_MISSILE.get(), (context) -> new RenderDivineProjectile<>(context, "meriks_missile"));
+        event.registerEntityRenderer(GENERALS_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "generals_staff"));
+        event.registerEntityRenderer(STAR.get(), (context) -> new RenderDivineProjectile<>(context, "starlight"));
+        event.registerEntityRenderer(METEOR.get(), (context) -> new RenderDivineProjectile<>(context, "meteor"));
+        event.registerEntityRenderer(CRAB_CLAW.get(), (context) -> new RenderDivineProjectile<>(context, "crab_anchor"));
+        event.registerEntityRenderer(FROST_CLAW.get(), (context) -> new RenderDivineProjectile<>(context, "frostclaw_cannon"));
+        event.registerEntityRenderer(BOWHEAD_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "bowhead_anchor"));
+        event.registerEntityRenderer(FROST_CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "frost_cannon"));
+        event.registerEntityRenderer(FRACTITE_CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "fractite_cannon"));
+        event.registerEntityRenderer(GHAST_CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "ghast_cannon"));
+        event.registerEntityRenderer(BLASTER_BULLET.get(), (context) -> new RenderDivineProjectile<>(context, "blaster_shot"));
+        event.registerEntityRenderer(BOUNCING_PROJECTILE.get(), (context) -> new RenderDivineProjectile<>(context, "bouncing_projectile"));
+        event.registerEntityRenderer(CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "cannon"));
+        event.registerEntityRenderer(EVERSIGHT_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "eversight"));
+        event.registerEntityRenderer(TWILIGHT_DEMON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "twilight_demon_shot"));
+        event.registerEntityRenderer(BONE_FRAGMENT.get(), (context) -> new RenderDivineProjectile<>(context, "bone_fragment"));
+        event.registerEntityRenderer(BONE_BOMB.get(), (context) -> new RenderDivineProjectile<>(context, "bone_bomb"));
+        event.registerEntityRenderer(CAVE_ROCK.get(), (context) -> new RenderDivineProjectile<>(context, "cave_rock"));
+        event.registerEntityRenderer(CORI_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "cori_shot"));
+        event.registerEntityRenderer(MANDRAGORA_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "mandragora_shot"));
+        event.registerEntityRenderer(KAZROTIC_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "kazrotic_shot"));
+        event.registerEntityRenderer(ZORAGON_BOMB.get(), (context) -> new RenderDivineProjectile<>(context, "zoragon_bomb"));
+        event.registerEntityRenderer(RAGLOK_BOMB.get(), (context) -> new RenderDivineProjectile<>(context, "raglok_bomb"));
+        event.registerEntityRenderer(WATCHER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "watcher_shot"));
+        event.registerEntityRenderer(KING_OF_SCORCHERS_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "king_of_scorchers_shot"));
+        event.registerEntityRenderer(KING_OF_SCORCHERS_METEOR.get(), (context) -> new RenderDivineProjectile<>(context, "king_of_scorchers_meteor"));
+        event.registerEntityRenderer(WRECK_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "wreck_shot"));
+        event.registerEntityRenderer(WRECK_BOMB.get(), (context) -> new RenderDivineProjectile<>(context, "wreck_explosive_projectile"));
+
+        event.registerEntityRenderer(EDEN_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "eden_phaser"));
+        event.registerEntityRenderer(WILDWOOD_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "wildwood_phaser"));
+        event.registerEntityRenderer(APALACHIA_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "apalachia_phaser"));
+        event.registerEntityRenderer(SKYTHERN_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "skythern_phaser"));
+        event.registerEntityRenderer(MORTUM_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "mortum_phaser"));
+        event.registerEntityRenderer(HALITE_PHASER_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "halite_phaser"));
+
+        event.registerEntityRenderer(EDEN_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "eden_blitz"));
+        event.registerEntityRenderer(WILDWOOD_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "wildwood_blitz"));
+        event.registerEntityRenderer(APALACHIA_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "apalachia_blitz"));
+        event.registerEntityRenderer(SKYTHERN_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "skythern_blitz"));
+        event.registerEntityRenderer(MORTUM_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "mortum_blitz"));
+        event.registerEntityRenderer(HALITE_BLITZ_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "halite_blitz"));
+
+        event.registerEntityRenderer(CRAB_ANCHOR_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "crab_anchor"));
+        event.registerEntityRenderer(SHARK_ANCHOR_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "shark_anchor"));
+        event.registerEntityRenderer(BOWHEAD_ANCHOR_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "bowhead_anchor"));
+        event.registerEntityRenderer(LIOPLEURODON_ANCHOR_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "liopleurodon_anchor"));
+
         event.registerEntityRenderer(DISSIMENT_SHOT.get(), 			(Context context) -> new RenderDivineProjectile<>(context, "dissiment_shot"));
         event.registerEntityRenderer(ENDER_TRIPLETS_FIREBALL.get(), (Context context) -> new RenderDivineFireball<>(context, "ender_triplets_fireball"));
-        event.registerEntityRenderer(FIREFLY.get(), 				(Context context) -> new RenderDivineProjectile<>(context, "firefly"));
         event.registerEntityRenderer(FRACTITE_SHOT.get(), 			(Context context) -> new RenderDivineFireball<>(context, "fractite_shot"));
         event.registerEntityRenderer(FROST_CLOUD.get(),             RenderFrostCloud::new);
         event.registerEntityRenderer(FROST_SHOT.get(), 				(Context context) -> new RenderDivineFireball<>(context, "frost_shot"));
         event.registerEntityRenderer(FYRACRYX_FIREBALL.get(), 		(Context context) -> new RenderDivineFireball<>(context, ResourceLocation.withDefaultNamespace("textures/items/fireball.png")));
-        event.registerEntityRenderer(LADY_LUNA_SPARKLER.get(),      RenderShooterBullet::new);
-        event.registerEntityRenderer(MERIKS_MISSILE.get(), 			(Context context) -> new RenderDivineProjectile<>(context, "meriks_missile"));
-        event.registerEntityRenderer(PARTICLE_BULLET.get(),         RenderShooterBullet::new);
+
         event.registerEntityRenderer(SAGUARO_WORM_SHOT.get(),       RenderSaguaroWormShot::new);
         event.registerEntityRenderer(SCORCHER_SHOT.get(), 			(Context context) -> new RenderDivineFireball<>(context, "scorcher_shot"));
-        event.registerEntityRenderer(SHOOTER_BULLET.get(),          RenderShooterBullet::new);
         event.registerEntityRenderer(SKYRE_BULLET.get(), 		    (Context context) -> new RenderDivineProjectile<>(context, "skyre_bullet"));
-        event.registerEntityRenderer(SOUL_FIEND_SHOT.get(),         RenderDivineProjectile::new);
-        event.registerEntityRenderer(TWILIGHT_DEMON_SHOT.get(), 	(Context context) -> new RenderDivineProjectile<>(context, "twilight_demon_shot"));
-        event.registerEntityRenderer(WILDWOOD_LOG.get(),            RenderWildwoodLog::new);
 
         //Arrows
         event.registerEntityRenderer(EDEN_ARROW.get(), (context) -> new RenderDivineArrow(context, "eden_arrow"));

@@ -46,7 +46,6 @@ public class DivineRPG {
         AttachmentRegistry.ATTACHMENT_TYPES.register(bus);
         TriggerRegistry.TRIGGERS.register(bus);
         PlacementModifierRegistry.PLACEMENT_MODIFIER.register(bus);
-        ProfessionRegistry.PROFESSIONS.register(bus);
         EventRegistry.init();
         NeoForge.EVENT_BUS.addListener(SpawnEvents::spawnPlacementCheck);
         bus.addListener(this::setup);

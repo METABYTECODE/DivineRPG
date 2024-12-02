@@ -1,7 +1,7 @@
 package divinerpg.entities.vanilla.nether;
 
 import divinerpg.entities.base.EntityDivineFireballMob;
-import divinerpg.entities.projectile.EntityScorcherShot;
+import divinerpg.entities.projectile.fireball.EntityScorcherShot;
 import divinerpg.registries.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

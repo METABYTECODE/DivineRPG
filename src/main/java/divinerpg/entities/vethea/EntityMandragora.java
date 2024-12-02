@@ -1,8 +1,6 @@
 package divinerpg.entities.vethea;
 
 import divinerpg.entities.base.EntityDivineMonster;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -33,7 +31,9 @@ public class EntityMandragora extends EntityDivineMonster {
 
     public void attackEntity(LivingEntity e) {
         if (isAlive() && getTarget() != null && !level().isClientSide) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.MANDRAGORA_SHOT);
+            ThrowableProjectile projectile = EntityRegistry.MANDRAGORA_SHOT.get().create(level());
+            projectile.setOwner(this);
+            projectile.setPos(getEyePosition());
             double d0 = getTarget().getX() - this.getX();
             double d1 = getTarget().getY(0.3333333333333333D) - projectile.getY();
             double d2 = getTarget().getZ() - this.getZ();

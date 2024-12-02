@@ -2,8 +2,6 @@ package divinerpg.entities.boss;
 
 import divinerpg.entities.goals.SunstormAttackGoal;
 import divinerpg.entities.base.EntityDivineBoss;
-import divinerpg.entities.projectile.EntityParticleBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.sounds.*;
 import net.minecraft.world.BossEvent.BossBarColor;
@@ -30,7 +28,9 @@ public class EntitySunstorm extends EntityDivineBoss implements RangedAttackMob 
                     target.igniteForSeconds(3);
                 }
 
-                ThrowableProjectile projectile = new EntityParticleBullet(EntityRegistry.PARTICLE_BULLET.get(), level(), this, BulletType.SUNSTORM);
+                ThrowableProjectile projectile = EntityRegistry.SUNSTORM_SHOT.get().create(level());
+                projectile.setOwner(this);
+                projectile.setPos(getEyePosition());
                 double tx = getTarget().getX() - this.getX();
                 double ty = getTarget().getEyeY() - this.getEyeY();
                 double tz = getTarget().getZ() - this.getZ();

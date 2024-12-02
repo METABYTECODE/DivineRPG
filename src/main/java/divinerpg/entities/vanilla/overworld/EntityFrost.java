@@ -2,6 +2,7 @@ package divinerpg.entities.vanilla.overworld;
 
 import divinerpg.entities.base.EntityDivineFireballMob;
 import divinerpg.entities.projectile.*;
+import divinerpg.entities.projectile.fireball.EntityFrostShot;
 import divinerpg.registries.SoundRegistry;
 import net.minecraft.sounds.*;
 import net.minecraft.world.entity.*;

@@ -1,6 +1,6 @@
 package divinerpg.items.vethea;
 
-import divinerpg.items.base.ItemBow;
+import divinerpg.items.ranged.ItemBow;
 import divinerpg.registries.SoundRegistry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;

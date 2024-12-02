@@ -1,8 +1,6 @@
 package divinerpg.entities.vethea;
 
 import divinerpg.entities.base.EntityDivineFlyingMob;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,7 +19,9 @@ public class EntityZoragon extends EntityDivineFlyingMob implements RangedAttack
     }
     @Override public void performRangedAttack(LivingEntity entity, float range) {
         if(isAlive() && getTarget() != null && !level().isClientSide) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.ZORAGON_BOMB);
+            ThrowableProjectile projectile = EntityRegistry.ZORAGON_BOMB.get().create(level());
+            projectile.setOwner(this);
+            projectile.setPos(getEyePosition());
             double d0 = getTarget().getX() - getX();
             double d1 = getTarget().getY(.3333333333333333) - projectile.getY();
             double d2 = getTarget().getZ() - getZ();

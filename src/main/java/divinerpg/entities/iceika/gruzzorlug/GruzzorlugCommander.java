@@ -1,8 +1,6 @@
 package divinerpg.entities.iceika.gruzzorlug;
 
 import divinerpg.entities.base.EntityDivineMerchant;
-import divinerpg.entities.projectile.EntityShooterBullet;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.*;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -31,7 +29,9 @@ public class GruzzorlugCommander extends Gruzzorlug implements RangedAttackMob {
 	}
 	@Override public void performRangedAttack(LivingEntity target, float f) {
 		if(isAlive() && getTarget() != null) {
-            ThrowableProjectile projectile = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.FRACTITE_CANNON_SHOT);
+            ThrowableProjectile projectile = EntityRegistry.FRACTITE_CANNON_SHOT.get().create(level());
+			projectile.setOwner(this);
+			projectile.setPos(getEyePosition());
             double d0 = getTarget().getX() - getX(), d1 = getTarget().getY(.3333333333333333) - projectile.getY(), d2 = getTarget().getZ() - getZ(), d3 = Mth.sqrt((float)(d0 * d0 + d2 * d2));
             projectile.shoot(d0, d1 + d3 * .15, d2, 1.6F, .8F);
             level().addFreshEntity(projectile);

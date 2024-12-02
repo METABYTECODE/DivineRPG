@@ -48,7 +48,7 @@ public abstract class EntityPeacefulUntilAttacked extends EntityDivineMonster {
     }
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(AttachmentRegistry.ANGRY.get(this)) AttachmentRegistry.ANGER_TIME.set(this, 400 + random.nextInt(400));
+        if(!level().isClientSide() && AttachmentRegistry.ANGRY.get(this)) AttachmentRegistry.ANGER_TIME.set(this, 400 + random.nextInt(400));
         return super.hurt(source, amount);
     }
     @Override

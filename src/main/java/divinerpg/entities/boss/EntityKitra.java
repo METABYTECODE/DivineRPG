@@ -1,8 +1,7 @@
 package divinerpg.entities.boss;
 
-import divinerpg.entities.projectile.EntityShooterBullet;
+import divinerpg.entities.projectile.bullet.BoneBomb;
 import divinerpg.entities.vanilla.overworld.EntityWhale;
-import divinerpg.enums.BulletType;
 import divinerpg.registries.EntityRegistry;
 import divinerpg.util.DamageSources;
 import net.minecraft.core.BlockPos;
@@ -24,12 +23,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
-import net.minecraft.world.phys.HitResult.Type;
 
 import java.util.*;
 
 public class EntityKitra extends EntityWhale implements RangedAttackMob {
-    private ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.WHITE, BossEvent.BossBarOverlay.PROGRESS));
+    private final ServerBossEvent bossInfo = new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.WHITE, BossEvent.BossBarOverlay.PROGRESS);
     public EntityKitra(EntityType<? extends EntityWhale> type, Level worldIn) {
         super(type, worldIn);
     }
@@ -64,49 +62,7 @@ public class EntityKitra extends EntityWhale implements RangedAttackMob {
     @Override
     public void performRangedAttack(LivingEntity entity, float f) {
         if(isAlive() && getTarget() != null && !level().isClientSide) {
-            EntityShooterBullet e = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), this, level(), BulletType.BONE_BOMB) {
-                @Override
-                public void onHitEntity(EntityHitResult result) {
-                    if(!(result.getEntity() instanceof EntityKitra)) super.onHitEntity(result);
-                }
-                @Override
-                public void onHit(HitResult result) {
-                    super.onHit(result);
-                    if(result.getType() != Type.MISS) {
-                        for(int i = 0; i < 64; i++) {
-                            double motionX = (random.nextDouble() - .5) * 2D, motionY = (random.nextDouble() - .5) * 2D, motionZ = (random.nextDouble() - .5) * 2D;
-                            EntityShooterBullet e = new EntityShooterBullet(EntityRegistry.SHOOTER_BULLET.get(), (LivingEntity) getOwner(), level(), BulletType.BONE_FRAGMENT) {
-                                @Override
-                                public void onHitEntity(EntityHitResult result) {
-                                    if(!(result.getEntity() instanceof EntityKitra)) super.onHitEntity(result);
-                                }
-                                @Override
-                                public void tick() {
-                                    super.tick();
-                                    if(isInWater()) noPhysics = true;
-                                    else noPhysics = false;
-                                }
-                            };
-                            e.setOwner(getOwner());
-                            e.setPos(result.getLocation());
-                            e.shoot(motionX, motionY, motionZ, 1F, 0F);
-                            level().addFreshEntity(e);
-                        } kill();
-                    }
-                }
-                @Override
-                public void tick() {
-                    super.tick();
-                    if(isInWater()) noPhysics = true;
-                    else noPhysics = false;
-                    double radius = getBbWidth() * 1.5;
-                    AABB aabb = new AABB(getX() - radius, getY() - radius, getZ() - radius, getX() + radius, getY() + radius, getZ() + radius);
-                    BlockPos.betweenClosedStream(aabb).forEach(blockPos -> {
-                        BlockState blockState = level().getBlockState(blockPos);
-                        if(blockState.is(BlockTags.ICE)) level().destroyBlock(blockPos, true);
-                    });
-                }
-            };
+            BoneBomb e = EntityRegistry.BONE_BOMB.get().create(level());
             // Calculate vector between whale and target
             double dx = getTarget().getX() - getX(), dy = getTarget().getY() - getY(), dz = getTarget().getZ() - getZ();
             e.setOwner(this);
