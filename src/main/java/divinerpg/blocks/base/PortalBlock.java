@@ -3,6 +3,7 @@ package divinerpg.blocks.base;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import divinerpg.DivineRPG;
 import divinerpg.block_entities.block.PortalBlockEntity;
 import divinerpg.registries.BlockEntityRegistry;
 import divinerpg.util.UniversalPosition;
@@ -11,11 +12,13 @@ import divinerpg.world.placement.Surface.*;
 import net.minecraft.core.*;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -36,14 +39,17 @@ public class PortalBlock extends BaseEntityBlock implements Portal {
 	public static final VoxelShape X_AXIS_AABB = Block.box(0.0, 0.0, 6.0, 16.0, 16.0, 10.0), Z_AXIS_AABB = Block.box(6.0, 0.0, 0.0, 10.0, 16.0, 16.0);
 	public final ResourceKey<Level> rootDimension;
 	public final TagKey<Block> frameTag;
-	public PortalBlock(Properties properties, ResourceKey<Level> rootDimension, TagKey<Block> frameTag) {
+	public final ResourceLocation particleLocation;
+	public SimpleParticleType particle;
+	public PortalBlock(Properties properties, ResourceKey<Level> rootDimension, TagKey<Block> frameTag, ResourceLocation particle) {
 		super(properties);
 		this.rootDimension = rootDimension;
 		this.frameTag = frameTag;
 		registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X));
+		particleLocation = particle;
 	}
-	public PortalBlock(Properties properties, ResourceLocation rootDimension, TagKey<Block> frameTag) {
-		this(properties, ResourceKey.create(Registries.DIMENSION, rootDimension), frameTag);
+	public PortalBlock(Properties properties, ResourceLocation rootDimension, TagKey<Block> frameTag, ResourceLocation particle) {
+		this(properties, ResourceKey.create(Registries.DIMENSION, rootDimension), frameTag, particle);
 	}
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -266,13 +272,16 @@ public class PortalBlock extends BaseEntityBlock implements Portal {
         return entity instanceof Player player ? Math.max(1, level.getGameRules().getInt(player.getAbilities().invulnerable ? GameRules.RULE_PLAYERS_NETHER_PORTAL_CREATIVE_DELAY : GameRules.RULE_PLAYERS_NETHER_PORTAL_DEFAULT_DELAY)) : 0;
     }
 	//the boring part
-	public static final MapCodec<PortalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(propertiesCodec(), ResourceLocation.CODEC.fieldOf("target_dimension").forGetter(PortalBlock::rootDimension), TagKey.codec(Registries.BLOCK).fieldOf("target_position").forGetter(PortalBlock::frameTag)).apply(instance, PortalBlock::new));
+	public static final MapCodec<PortalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(propertiesCodec(), ResourceLocation.CODEC.fieldOf("target_dimension").forGetter(PortalBlock::rootDimension), TagKey.codec(Registries.BLOCK).fieldOf("supported_blocks").forGetter(PortalBlock::frameTag), ResourceLocation.CODEC.fieldOf("particle").forGetter(PortalBlock::particle)).apply(instance, PortalBlock::new));
 	@Override
 	protected MapCodec<? extends BaseEntityBlock> codec() {
 		return CODEC;
 	}
 	public ResourceLocation rootDimension() {
 		return rootDimension.location();
+	}
+	public ResourceLocation particle() {
+		return particleLocation;
 	}
 	public TagKey<Block> frameTag() {
 		return frameTag;
@@ -304,4 +313,13 @@ public class PortalBlock extends BaseEntityBlock implements Portal {
             default -> state;
         };
     }
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		if(particleLocation != null) {
+			if(particle == null) {
+				particle = (SimpleParticleType) BuiltInRegistries.PARTICLE_TYPE.get(particleLocation);
+				if(particle == null) DivineRPG.LOGGER.warn("Null particle ResourceLocation");
+			} level.addParticle(particle, pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(), 0D, 0D, 0D);
+		}
+	}
 }
