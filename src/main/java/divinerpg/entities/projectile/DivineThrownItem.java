@@ -23,10 +23,8 @@ public class DivineThrownItem extends ThrowableItemProjectile {
     }
     public void drop() {
         ItemStack item = getItem();
-        if(canPickup && !item.isEmpty()) {
-            spawnAtLocation(getItem(), .1F);
-            level().broadcastEntityEvent(this, (byte)3);
-        } discard();
+        if(canPickup && !item.isEmpty()) spawnAtLocation(getItem(), .1F);
+        discard();
     }
     @Override public void tick() {
         super.tick();
@@ -53,7 +51,8 @@ public class DivineThrownItem extends ThrowableItemProjectile {
             if(entity instanceof LivingEntity livingentity) {
                 if(level() instanceof ServerLevel serverlevel1) EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, livingentity, damagesource, getWeaponItem());
                 doPostHurtEffects(livingentity);
-            } discard();
+            } canPickup = false;
+            drop();
         } else {
             entity.setRemainingFireTicks(i);
             deflect(ProjectileDeflection.REVERSE, entity, getOwner(), false);

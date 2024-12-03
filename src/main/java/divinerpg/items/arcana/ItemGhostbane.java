@@ -38,7 +38,7 @@ public class ItemGhostbane extends ItemMod {
     			pl.getCooldowns().addCooldown(this, cooldown);
     			BlockPos pos = context.getClickedPos();
     			if(!context.getLevel().getBlockState(pos).getCollisionShape(context.getLevel(), pos).isEmpty()) pos = pos.relative(context.getClickedFace());
-    			EntityRegistry.WRAITH.get().spawn((ServerLevel)context.getLevel(), ItemStack.EMPTY, pl, context.getClickedPos(), MobSpawnType.MOB_SUMMONED, true, false).tame(pl);
+    			EntityRegistry.WRAITH.get().spawn((ServerLevel)context.getLevel(), ItemStack.EMPTY, pl, pos, MobSpawnType.MOB_SUMMONED, true, false).tame(pl);
     			return InteractionResult.SUCCESS;
     		}
     	} return InteractionResult.PASS;

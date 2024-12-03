@@ -69,6 +69,7 @@ public class EntityRegistry {
 
     //Projectiles
     public static final DeferredHolder<EntityType<?>, EntityType<DivineThrownItem>> THROWN_ITEM = registerProjectile(DivineThrownItem::new, "thrown_item");
+    public static final DeferredHolder<EntityType<?>, EntityType<Tomato>> TOMATO = registerProjectile(Tomato::new, "tomato");
     public static final DeferredHolder<EntityType<?>, EntityType<SnowFlakeShuriken>> SNOWFLAKE_SHURIKEN = registerProjectile(SnowFlakeShuriken::new, "snowflake_shuriken");
     public static final DeferredHolder<EntityType<?>, EntityType<VileStorm>> VILE_STORM = registerProjectile(VileStorm::new, "vile_storm");
     public static final DeferredHolder<EntityType<?>, EntityType<Grenade>> GRENADE = registerProjectile(Grenade::new, "grenade");
@@ -859,6 +860,7 @@ public class EntityRegistry {
         DivineRPG.LOGGER.info("[DivineRPG] Registered entity renders");
         //Projectiles
         event.registerEntityRenderer(THROWN_ITEM.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(TOMATO.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(SNOWFLAKE_SHURIKEN.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(VILE_STORM.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(GRENADE.get(), ThrownItemRenderer::new);
@@ -1188,7 +1190,7 @@ public class EntityRegistry {
     }
     private static <T extends Mob> DeferredHolder<EntityType<?>, EntityType<T>> registerEntity(EntityFactory<T> factory, String name, float width, float height, float eyeHeight, int backgroundColor, int highlightColor, MobCategory category) {
         DeferredHolder<EntityType<?>, EntityType<T>> entity = ENTITIES.register(name, () -> EntityType.Builder.of(factory, category).sized(width, height).eyeHeight(eyeHeight).build(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, name).toString()));
-        ItemRegistry.ITEMS.register(name + "_spawn_egg", () -> new DeferredSpawnEggItem(entity, backgroundColor, highlightColor, new Item.Properties()));
+        CreativeTabRegistry.misc.add(ItemRegistry.ITEMS.register(name + "_spawn_egg", () -> new DeferredSpawnEggItem(entity, backgroundColor, highlightColor, new Item.Properties())));
         return entity;
     }
     private static <T extends Mob> void registerMobAttributes(EntityAttributeCreationEvent event, DeferredHolder<EntityType<?>, EntityType<T>> entity, EntityStats stats) {

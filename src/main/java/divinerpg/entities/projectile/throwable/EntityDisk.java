@@ -3,6 +3,7 @@ package divinerpg.entities.projectile.throwable;
 import divinerpg.DivineRPG;
 import divinerpg.entities.projectile.DivineThrownItem;
 import divinerpg.items.ranged.ItemThrowable;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 
 public class EntityDisk extends DivineThrownItem {
@@ -28,10 +30,25 @@ public class EntityDisk extends DivineThrownItem {
             playSound(SoundEvents.ARROW_SHOOT, 0.5F, 1F);
         }
     }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        if(getOwner() == null) super.onHitBlock(result);
+        else {
+            BlockState blockstate = level().getBlockState(result.getBlockPos());
+            blockstate.onProjectileHit(level(), blockstate, result, this);
+            Vec3 mv = getDeltaMovement();
+            double x = mv.x, y = mv.y, z = mv.z;
+            if(result.getDirection() == Direction.DOWN || result.getDirection() == Direction.UP) lerpMotion(x * 0.6, y * -0.6, z * 0.6);
+            else if(result.getDirection() == Direction.EAST || result.getDirection() == Direction.WEST) lerpMotion(x * -0.6, y * 0.6, z * 0.6);
+            else if(result.getDirection() == Direction.NORTH || result.getDirection() == Direction.SOUTH) lerpMotion(x * 0.6, y * 0.6, z * -0.6);
+        }
+    }
+
     @Override public void onHitEntity(EntityHitResult result) {
         Entity entity1 = getOwner(), entity = result.getEntity();
         if(entity1.equals(entity) && entity1 instanceof Player p) {
-            if(!p.isCreative()) p.addItem(getItem());
+            if(canPickup) p.addItem(getItem());
             discard();
             return;
         } ItemStack item = getItem();

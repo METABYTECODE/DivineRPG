@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 public class VetheanCannon extends ItemRangedWeapon {
     final float damage;
     public VetheanCannon(float damage) {
-        super("acid", ItemRegistry.acid::toStack, EntityRegistry.CANNON_SHOT::value);
+        super("ammo/vethean_cannon", ItemRegistry.acid::toStack, EntityRegistry.CANNON_SHOT::value);
         sound = SoundRegistry.BLITZ.get();
         arcanaConsumedUse = 10;
         this.damage = damage;

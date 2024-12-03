@@ -30,20 +30,22 @@ public class RenderDivineProjectile<T extends Projectile> extends EntityRenderer
 
     @Override
     public void render(T entity, float yaw, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int packedLight) {
-        super.render(entity, yaw, partialTicks, matrix, buffer, packedLight);
-        matrix.pushPose();
-        matrix.scale(0.5f, 0.5f, 0.5f);
-        matrix.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        matrix.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose matrixEntry = matrix.last();
-        Matrix4f matrix4f = matrixEntry.pose();
-        VertexConsumer vertexBuilder = buffer.getBuffer(renderType);
+        if(entity.tickCount > 2) {
+            super.render(entity, yaw, partialTicks, matrix, buffer, packedLight);
+            matrix.pushPose();
+            matrix.scale(0.5f, 0.5f, 0.5f);
+            matrix.mulPose(this.entityRenderDispatcher.cameraOrientation());
+            matrix.mulPose(Axis.YP.rotationDegrees(180.0F));
+            PoseStack.Pose matrixEntry = matrix.last();
+            Matrix4f matrix4f = matrixEntry.pose();
+            VertexConsumer vertexBuilder = buffer.getBuffer(renderType);
 
-        pos(vertexBuilder, matrix4f, packedLight, 0, 0, 0, 1);
-        pos(vertexBuilder, matrix4f, packedLight, 1, 0, 1, 1);
-        pos(vertexBuilder, matrix4f, packedLight, 1, 1, 1, 0);
-        pos(vertexBuilder, matrix4f, packedLight, 0, 1, 0, 0);
-        matrix.popPose();
+            pos(vertexBuilder, matrix4f, packedLight, 0, 0, 0, 1);
+            pos(vertexBuilder, matrix4f, packedLight, 1, 0, 1, 1);
+            pos(vertexBuilder, matrix4f, packedLight, 1, 1, 1, 0);
+            pos(vertexBuilder, matrix4f, packedLight, 0, 1, 0, 0);
+            matrix.popPose();
+        }
     }
 
     private static void pos(VertexConsumer vertexBuilder, Matrix4f matrix4f, int lightmapUV, float x, float y, float u, float v) {

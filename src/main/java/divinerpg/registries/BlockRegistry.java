@@ -896,26 +896,28 @@ public class BlockRegistry {
         return registerBlock(name, block, Rarity.COMMON);
     }
     private static <T extends Block> DeferredBlock<T> registerBlock(String registryName, Supplier<T> block, Rarity rarity) {
-            DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
-        BLOCK_ITEMS.register(registryName, () -> new BlockItem(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+        DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
+        CreativeTabRegistry.blocks.add(BLOCK_ITEMS.register(registryName, () -> new BlockItem(registeredBlock.get(), new Item.Properties().rarity(rarity))));
         return registeredBlock;
     }
     private static <T extends Block> DeferredBlock<T> registerFireResistantBlock(String registryName, Supplier<T> block) {
-            DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
-        BLOCK_ITEMS.register(registryName, () -> new BlockItem(registeredBlock.get(), new Item.Properties().fireResistant()));
+        DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
+        CreativeTabRegistry.blocks.add(BLOCK_ITEMS.register(registryName, () -> new BlockItem(registeredBlock.get(), new Item.Properties().fireResistant())));
         return registeredBlock;
     }
     private static <T extends Block> DeferredBlock<T> registerWithRender(String registryName, Supplier<T> block, Rarity rarity) {
-            DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
-        if(Objects.equals(registryName, "arcanium_extractor")) BLOCK_ITEMS.register(registryName, () -> new ItemArcaniumExtractor(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "bone_chest")) BLOCK_ITEMS.register(registryName, () -> new ItemBoneChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "demon_furnace")) BLOCK_ITEMS.register(registryName, () -> new ItemDemonFurnace(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "frosted_chest")) BLOCK_ITEMS.register(registryName, () -> new ItemFrostedChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "present_box")) BLOCK_ITEMS.register(registryName, () -> new ItemPresentBox(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "eden_chest")) BLOCK_ITEMS.register(registryName, () -> new ItemEdenChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "parasecta_altar")) BLOCK_ITEMS.register(registryName, () -> new ItemParasectaAltar(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else if(Objects.equals(registryName, "dramix_altar")) BLOCK_ITEMS.register(registryName, () -> new ItemDramixAltar(registeredBlock.get(), new Item.Properties().rarity(rarity)));
-        else BLOCK_ITEMS.register(registryName, () -> new ItemStatueBlock(registeredBlock::get, new Item.Properties().rarity(rarity).fireResistant()));
+        DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
+        CreativeTabRegistry.blocks.add(switch(registryName) {
+            case "arcanium_extractor" -> BLOCK_ITEMS.register(registryName, () -> new ItemArcaniumExtractor(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "bone_chest" -> BLOCK_ITEMS.register(registryName, () -> new ItemBoneChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "demon_furnace" -> BLOCK_ITEMS.register(registryName, () -> new ItemDemonFurnace(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "frosted_chest" -> BLOCK_ITEMS.register(registryName, () -> new ItemFrostedChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "present_box" -> BLOCK_ITEMS.register(registryName, () -> new ItemPresentBox(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "eden_chest" -> BLOCK_ITEMS.register(registryName, () -> new ItemEdenChest(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "parasecta_altar" -> BLOCK_ITEMS.register(registryName, () -> new ItemParasectaAltar(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            case "dramix_altar" -> BLOCK_ITEMS.register(registryName, () -> new ItemDramixAltar(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+            default -> BLOCK_ITEMS.register(registryName, () -> new ItemStatueBlock(registeredBlock::get, new Item.Properties().rarity(rarity).fireResistant()));
+        });
         return registeredBlock;
     }
 }

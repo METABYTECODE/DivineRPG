@@ -96,12 +96,6 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
         return this;
     }
     @Override
-    public ItemStack getDefaultInstance() {
-        ItemStack stack = super.getDefaultInstance();
-        if(!breakable) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
-        return stack;
-    }
-    @Override
     protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weapon, ItemStack ammo, boolean isCrit) {
         Projectile p = projectileType.get().create(level);
         if(p instanceof DivineThrownItem t) t.setItem(ammo);
@@ -167,5 +161,6 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
         if(arcanaConsumedUse > 0) tooltip.add(LocalizeUtils.arcanaConsumed(arcanaConsumedUse));
         if(infinite) tooltip.add(LocalizeUtils.infiniteAmmo());
         else if(ammoType != null) tooltip.add(LocalizeUtils.ammo(ammoType));
+        if(!breakable) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }
