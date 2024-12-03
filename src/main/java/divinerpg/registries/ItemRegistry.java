@@ -490,7 +490,7 @@ public class ItemRegistry {
 
             //Shotguns
             corrupted_bullet = registerTool("corrupted_bullet"),
-            corrupted_cannon = registerTool("corrupted_cannon", () -> new Shotgun("ammo/corrupted_cannon", ItemRegistry.corrupted_bullet::toStack, EntityRegistry.CORRUPTED_BULLET::value, 1672, 15, 4).withTooltip(LocalizeUtils.rangedDam("4x10")).withSound(SoundRegistry.GHAST_CANNON.get())),
+            corrupted_cannon = registerTool("corrupted_cannon", () -> new Shotgun("ammo/corrupted_cannon", () -> new ItemStack(ItemRegistry.corrupted_bullet.get(), 4), EntityRegistry.CORRUPTED_BULLET::value, 1672, 15, 4).withTooltip(LocalizeUtils.rangedDam("4x10")).withSound(SoundRegistry.GHAST_CANNON.get())),
             arcanite_blaster = registerTool("arcanite_blaster", () -> new Shotgun(EntityRegistry.BLASTER_BULLET::value, 1127, 30, 30).withTooltip(LocalizeUtils.arcanaDam("30x13")).withSound(SoundRegistry.GHAST_CANNON.get()).arcanaUse(20)),
 
     //Tool Sets
