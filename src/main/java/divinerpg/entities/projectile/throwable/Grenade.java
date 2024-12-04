@@ -14,6 +14,6 @@ public class Grenade extends DivineThrownItem {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        level().explode(this, getX(), getY(), getZ(), 3, false, Level.ExplosionInteraction.TNT);
+        if(!level().isClientSide()) level().explode(this, getX(), getY(), getZ(), 3, false, Level.ExplosionInteraction.TNT);
     }
 }

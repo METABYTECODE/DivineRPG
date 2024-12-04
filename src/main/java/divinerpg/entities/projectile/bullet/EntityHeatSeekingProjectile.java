@@ -55,6 +55,11 @@ public class EntityHeatSeekingProjectile extends ThrowableProjectile {
     }
     @Override
     protected void onHitEntity(EntityHitResult result) {
+        discard();
     }
-
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        discard();
+    }
 }

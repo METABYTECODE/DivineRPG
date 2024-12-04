@@ -27,7 +27,7 @@ public class EntityMerikMissile extends EntityHeatSeekingProjectile {
             }
             if(!level().isClientSide()) {
                 level().explode(this, this.xo, this.yo, this.zo, 2, false, Level.ExplosionInteraction.TNT);
-                kill();
+                discard();
             }
         }
     }
@@ -37,7 +37,7 @@ public class EntityMerikMissile extends EntityHeatSeekingProjectile {
         if(tickCount > 1) {
             if(!level().isClientSide()) {
                 level().explode(this, this.xo, this.yo, this.zo, 2, false, Level.ExplosionInteraction.TNT);
-                kill();
+                discard();
             }
         }
     }

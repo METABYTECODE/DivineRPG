@@ -17,7 +17,7 @@ public class Bomb extends ThrowableProjectile {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        level().explode(this, xo, yo, zo, 3, false, Level.ExplosionInteraction.MOB);
+        if(!level().isClientSide()) level().explode(this, xo, yo, zo, 3, false, Level.ExplosionInteraction.MOB);
         discard();
     }
 }

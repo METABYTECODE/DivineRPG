@@ -11,21 +11,18 @@ import net.neoforged.api.distmarker.*;
 public class ParticlePortal extends TextureSheetParticle {
     SpriteSet animatedSprite;
     private final float portalParticleScale;
-    private final double portalPosX, portalPosY, portalPosZ;
     public ParticlePortal(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeed, double ySpeed, double zSpeed, float r, float g, float b, SpriteSet sprite) {
         this(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeed, ySpeed, zSpeed, 1, r, g, b, sprite);
     }
     public ParticlePortal(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeed, double ySpeed, double zSpeed, float scale, float r, float g, float b, SpriteSet sprite) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeed, ySpeed, zSpeed);
         xd = yd = zd = 0;
-        quadSize *= .8;
-        quadSize *= .9;
         lifetime = (int)(32 / (Math.random() * .8 + .2));
         lifetime = (int)((float)lifetime * .5);
         portalParticleScale = quadSize;
-        portalPosX = x = xCoordIn;
-        portalPosY = y = yCoordIn;
-        portalPosZ = z = zCoordIn;
+        x = xCoordIn;
+        y = yCoordIn;
+        z = zCoordIn;
         rCol = r;
         gCol = g;
         bCol = b;
@@ -51,16 +48,6 @@ public class ParticlePortal extends TextureSheetParticle {
         super.render(buffer, renderInfo, partialTicks);
     }
     @Override public void tick() {
-        xo = x;
-        yo = y;
-        zo = z;
-        float var1 = (float)age / (float)lifetime;
-        float var2 = var1;
-        var1 = -var1 + var1 * var1 * 2;
-        var1 = 1 - var1;
-        x = portalPosX + xd * var1;
-        y = portalPosY + yd * var1 + (1 - var2);
-        z = portalPosZ + zd * var1;
         if(age++ >= lifetime) remove();
     }
     @Override public ParticleRenderType getRenderType() {return ParticleRenderType.PARTICLE_SHEET_OPAQUE;}

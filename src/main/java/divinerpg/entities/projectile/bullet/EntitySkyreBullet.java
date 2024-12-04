@@ -27,7 +27,7 @@ public class EntitySkyreBullet extends DivineThrowableProjectile {
     protected void onHit(HitResult result) {
         if(tickCount > 1 && !level().isClientSide()) {
             level().explode(this, xo, yo, zo, 2, false, Level.ExplosionInteraction.MOB);
-            kill();
+            discard();
         }
     }
 }

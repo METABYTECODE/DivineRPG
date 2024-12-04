@@ -14,6 +14,6 @@ public class WatcherShot extends DivineThrowableProjectile {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        level().explode(this, xo, yo, zo, 5, false, Level.ExplosionInteraction.MOB);
+        if(!level().isClientSide()) level().explode(this, xo, yo, zo, 5, false, Level.ExplosionInteraction.MOB);
     }
 }

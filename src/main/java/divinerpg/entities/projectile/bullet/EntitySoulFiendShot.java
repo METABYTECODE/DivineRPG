@@ -19,7 +19,7 @@ public class EntitySoulFiendShot extends ThrowableProjectile {
     public void onHit(HitResult result) {
         if(tickCount > 1 && !level().isClientSide()) {
             for(int i = 0; i < 3; i++) EntityRegistry.SOUL_SPIDER.get().spawn((ServerLevel) level(), ItemStack.EMPTY, null, new BlockPos((int) result.getLocation().x, (int) result.getLocation().y, (int) result.getLocation().z), MobSpawnType.MOB_SUMMONED, true, false);
-            kill();
+            discard();
         }
     }
     @Override

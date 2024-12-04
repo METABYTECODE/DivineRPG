@@ -30,16 +30,16 @@ public class Shotgun extends ItemRangedWeapon {
         this.cooldown = cooldown;
         this.projectileCount = projectileCount;
     }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         ItemStack ammo = findAmmo(player);
-        if(ammo != null && !ammo.isEmpty() && ammo.getCount() >= projectileCount && Arcana.getAmount(player) >= arcanaConsumedUse) {
+        if(ammo != null && !ammo.isEmpty() && ammo.getCount() > 0 && Arcana.getAmount(player) >= arcanaConsumedUse) {
+            int count = Math.min(ammo.getCount(), projectileCount);
             if(!level.isClientSide) {
-                for(int i = 0; i < projectileCount; i++) shoot((ServerLevel) level, player, player.getUsedItemHand(), stack, List.of(ammo), power, 10F, false, null);
+                for(int i = 0; i < count; i++) shoot((ServerLevel) level, player, player.getUsedItemHand(), stack, List.of(ammo), power, 10F, false, null);
                 if(arcanaConsumedUse > 0) Arcana.modifyAmount(player, -arcanaConsumedUse);
-            } if(!player.isCreative()) ammo.shrink(projectileCount);
+            } if(!player.isCreative()) ammo.shrink(count);
             if(cooldown > 0) player.getCooldowns().addCooldown(this, cooldown);
             player.awardStat(Stats.ITEM_USED.get(this));
             player.playSound(sound != null ? sound : SoundEvents.ARROW_SHOOT, 1, 1);

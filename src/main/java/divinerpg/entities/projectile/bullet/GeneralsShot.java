@@ -21,7 +21,7 @@ public class GeneralsShot extends DivineParticleProjectile {
     }
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
+        hitBlockNoDiscard(result);
         if(shouldSpray) {
             EntityType<GeneralsShot> type = EntityRegistry.GENERALS_SHOT.get();
             Vec3 pos = position().add(0D, .01D, 0D);

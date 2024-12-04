@@ -100,7 +100,7 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
         Projectile p = projectileType.get().create(level);
         if(p instanceof DivineThrownItem t) t.setItem(ammo);
         p.setOwner(shooter);
-        p.setPos(shooter.getEyePosition().add(0D, -0.15, 0D));
+        p.setPos(shooter.getEyePosition().add(0D, -0.147, 0D));
         return p;
     }
     public ItemStack getDefaultCreativeAmmo(@Nullable Player player, ItemStack projectileWeaponItem) {

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 
 public class DivineThrowableProjectile extends ThrowableProjectile {
@@ -50,6 +51,14 @@ public class DivineThrowableProjectile extends ThrowableProjectile {
             setDeltaMovement(getDeltaMovement().scale(.2));
             if(!level().isClientSide && getDeltaMovement().lengthSqr() < 1.0E-7) discard();
         }
+    }
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        discard();
+    }
+    protected void hitBlockNoDiscard(BlockHitResult result) {
+        super.onHitBlock(result);
     }
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {

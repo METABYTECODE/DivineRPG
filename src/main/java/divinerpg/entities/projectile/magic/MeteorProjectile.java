@@ -13,7 +13,7 @@ public class MeteorProjectile extends StarProjectile {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        level().explode(this, xo, yo, zo, 4.5F, false, Level.ExplosionInteraction.TNT);
+        if(!level().isClientSide()) level().explode(this, xo, yo, zo, 4.5F, false, Level.ExplosionInteraction.TNT);
         discard();
     }
 }

@@ -5,7 +5,9 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class AttractorBeam extends ThrowableProjectile {
     public AttractorBeam(EntityType<? extends ThrowableProjectile> entityType, Level level) {
@@ -23,6 +25,12 @@ public class AttractorBeam extends ThrowableProjectile {
     }
     @Override protected void onHitEntity(EntityHitResult result) {//TODO: make it also hit item entities
         result.getEntity().addDeltaMovement(getDeltaMovement().scale(-0.2F));
+        discard();
+    }
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        discard();
     }
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 }
