@@ -1,0 +1,17 @@
+{
+  "result": {
+    "id": "divinerpg:snowstorm_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "divinerpg:soulfire_arrow"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "divinerpg:ice_stone"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

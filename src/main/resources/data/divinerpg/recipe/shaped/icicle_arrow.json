@@ -1,0 +1,24 @@
+{
+  "result": {
+    "id": "divinerpg:icicle_arrow",
+    "count": 2
+  },
+  "pattern": [
+    "X",
+    "I",
+    "F"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": {
+      "item": "divinerpg:ice_shards"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    },
+    "F": {
+      "item": "minecraft:feather"
+    }
+  }
+}
