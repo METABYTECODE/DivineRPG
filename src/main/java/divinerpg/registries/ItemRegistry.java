@@ -223,14 +223,14 @@ public class ItemRegistry {
             purple_glowbone = registerItem("purple_glowbone", () -> new ItemModFood(FoodList.PURPLE_GLOWBONE, true)),
             pink_glowbone = registerItem("pink_glowbone", () -> new ItemModFood(FoodList.PINK_GLOWBONE, true)),
             sky_flower = registerItem("sky_flower", ItemSkyFlower::new),
-            honeysuckle = registerItem("honeysuckle", () -> new ItemModFood(FoodList.HONEYSUCKLE)),
-            honeychunk = registerItem("honeychunk", () -> new ItemModFood(FoodList.HONEYCHUNK)),
-            dream_carrot = registerItem("dream_carrot", () -> new ItemModFood(FoodList.DREAM_CARROT)),
-            dream_melon = registerItem("dream_melon", () -> new ItemModFood(FoodList.DREAM_MELON)),
-            dream_pie = registerItem("dream_pie", () -> new ItemModFood(FoodList.DREAM_PIE)),
-            dream_cake = registerItem("dream_cake", () -> new ItemModFood(FoodList.DREAM_CAKE)),
-            dream_sweets = registerItem("dream_sweets", () -> new ItemHealingFood(FoodList.DREAM_SWEETS)),
-            dream_sours = registerItem("dream_sours", () -> new ItemHealingFood(FoodList.DREAM_SOURS)),
+            honeysuckle = registerItemVethean("honeysuckle", () -> new ItemModFood(FoodList.HONEYSUCKLE)),
+            honeychunk = registerItemVethean("honeychunk", () -> new ItemModFood(FoodList.HONEYCHUNK)),
+            dream_carrot = registerItemVethean("dream_carrot", () -> new ItemModFood(FoodList.DREAM_CARROT)),
+            dream_melon = registerItemVethean("dream_melon", () -> new ItemModFood(FoodList.DREAM_MELON)),
+            dream_pie = registerItemVethean("dream_pie", () -> new ItemModFood(FoodList.DREAM_PIE)),
+            dream_cake = registerItemVethean("dream_cake", () -> new ItemModFood(FoodList.DREAM_CAKE)),
+            dream_sweets = registerItemVethean("dream_sweets", () -> new ItemHealingFood(FoodList.DREAM_SWEETS)),
+            dream_sours = registerItemVethean("dream_sours", () -> new ItemHealingFood(FoodList.DREAM_SOURS)),
 
             //Seeds
             tomato_seeds = registerItem("tomato_seeds", () -> new ItemNameBlockItem(BlockRegistry.tomatoPlant.get(), new Properties())),
@@ -935,7 +935,16 @@ public class ItemRegistry {
             tormented_leggings = registerTool("tormented_leggings", () -> new ItemDivineArmor(TORMENTED, LEGGINGS, 45)),
             tormented_boots = registerTool("tormented_boots", () -> new ItemDivineArmor(TORMENTED, BOOTS, 45));
 
-    private static DeferredItem<Item> registerItemVethean(String registryId) {return ITEMS.register(registryId, () -> new ItemVethean());}
+    private static DeferredItem<Item> registerItemVethean(String registryId) {
+        DeferredItem<Item> i = ITEMS.register(registryId, () -> new ItemVethean());
+        CreativeTabRegistry.misc.add(i);
+        return i;
+    }
+    private static <T extends Item> DeferredItem<T> registerItemVethean(String registryId, Supplier<T> item) {
+        DeferredItem<T> i = ITEMS.register(registryId, item);
+        CreativeTabRegistry.misc.add(i);
+        return i;
+    }
     private static DeferredItem<Item> registerItem(String registryId) {
         DeferredItem<Item> i = ITEMS.register(registryId, () -> new ItemMod());
         CreativeTabRegistry.misc.add(i);

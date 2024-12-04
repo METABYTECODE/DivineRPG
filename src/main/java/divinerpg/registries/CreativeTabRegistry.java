@@ -18,7 +18,9 @@ public class CreativeTabRegistry {
 
     public static final ArrayList<DeferredItem<? extends Item>> blocks = new ArrayList<>(), tools = new ArrayList<>(), misc = new ArrayList<>();
     public static void creativeTab(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTab() == BLOCKS.get()) for(DeferredItem<? extends Item> item : blocks) event.accept(item.get().getDefaultInstance());
+        if(event.getTab() == BLOCKS.get()) for(DeferredItem<? extends Item> item : blocks) {
+            if(!item.getId().toLanguageKey().contains("plant") || item.getId().toLanguageKey().contains("eye_plant")) event.accept(item.get().getDefaultInstance());
+        }
         else if(event.getTab() == TOOLS.get()) for(DeferredItem<? extends Item> item : tools) event.accept(item.get().getDefaultInstance());
         else if(event.getTab() == MISC.get()) for(DeferredItem<? extends Item> item : misc) event.accept(item.get().getDefaultInstance());
     }

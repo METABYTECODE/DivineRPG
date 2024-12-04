@@ -1128,7 +1128,7 @@
   "item.divinerpg.frost_sword": "Морозный меч",
   "item.divinerpg.frostking_sword": "Королевский морозный меч",
   "item.divinerpg.frost_cannon": "Морозная пушка",
-  "item.divinerpg.fractite_cannon": "Фрактайтовая пушка",
+  "item.divinerpg.fractite_cannon": "Фрактозная пушка",
 
   "item.divinerpg.icicle_bane": "Бич оледенения",
   "item.divinerpg.icicle_dagger": "Сосулечный кинжал",
@@ -1827,7 +1827,7 @@
   "entity.divinerpg.sabear": "Саблезубый медведь",
   "entity.divinerpg.hastreus": "Хастреус",
   "entity.divinerpg.glacide": "Глацид",
-  "entity.divinerpg.fractite": "Фрактайт",
+  "entity.divinerpg.fractite": "Фрактоз",
 
   "item.divinerpg.cauldron_fish_spawn_egg": "Яйцо призыва котловника",
   "item.divinerpg.cauldron_fish_bucket": "Котловник в ведре",
@@ -1848,7 +1848,7 @@
   "item.divinerpg.sabear_spawn_egg": "Яйцо призыва саблезубого медведя",
   "item.divinerpg.hastreus_spawn_egg": "Яйцо призыва хастреуса",
   "item.divinerpg.glacide_spawn_egg": "Яйцо призыва глацида",
-  "item.divinerpg.fractite_spawn_egg": "Яйцо призыва фрактайта",
+  "item.divinerpg.fractite_spawn_egg": "Яйцо призыва фрактоза",
 
   "entity.divinerpg.groglin_merchant": "Гроглин-торговец",
   "entity.divinerpg.groglin_sharlatan": "Гроглин-шарлатан",
@@ -2075,7 +2075,7 @@
   "entity.divinerpg.dissiment_shot": "Выстрел диссимента",
   "entity.divinerpg.ender_triplets_fireball": "Файербол тройни Эндера",
   "entity.divinerpg.firefly": "Снаряд светлячка",
-  "entity.divinerpg.fractite_shot": "Выстрел фрактайта",
+  "entity.divinerpg.fractite_shot": "Выстрел фрактоза",
   "entity.divinerpg.frost_cloud": "Морозное облако",
   "entity.divinerpg.frost_shot": "Выстрел мороза",
   "entity.divinerpg.fyracryx_fireball": "Файербол фиракрикса",
@@ -2127,6 +2127,24 @@
   "death.attack.divinerpg.trap": "%1$s попал в ловушку",
   "death.attack.divinerpg.trap.player": "%1$s попал в ловушку, спасаясь от %2$s",
   "death.attack.divinerpg.turtle": "%1$s был съеден черепахой",
+
+  "tag.item.divinerpg.armor_pouches": "Сумки для брони",
+  "tag.item.divinerpg.chunks": "Сумеречные куски",
+
+  "tag.item.divinerpg.ammo.aquatic_cannon": "Патроны водных пушек",
+  "tag.item.divinerpg.ammo.corrupted_cannon": "Патроны повреждённой пушки",
+  "tag.item.divinerpg.ammo.golden_fury": "Патроны золотой ярости",
+  "tag.item.divinerpg.ammo.frost_cannon": "Патроны морозной пушки",
+  "tag.item.divinerpg.ammo.fractite_cannon": "Патроны фрактозной пушки",
+  "tag.item.divinerpg.ammo.grenades": "Патроны гранатомёта",
+  "tag.item.divinerpg.ammo.vethean_cannon": "Патроны везейной пушки",
+
+  "tag.item.divinerpg.ammo.eden_blitz": "Патроны скорострельной пушки Эдема",
+  "tag.item.divinerpg.ammo.wildwood_blitz": "Патроны скорострельной пушки Диколесья",
+  "tag.item.divinerpg.ammo.apalachia_blitz": "Патроны скорострельной пушки Апалачии",
+  "tag.item.divinerpg.ammo.skythern_blitz": "Патроны скорострельной пушки Поднебесья",
+  "tag.item.divinerpg.ammo.mortum_blitz": "Патроны скорострельной пушки Мёртвума",
+  "tag.item.divinerpg.ammo.halite_blitz": "Патроны халитовой скорострельной пушки",
 
   "tooltip.divinerpg.ammo": "§9Боеприпасы: %s",
   "tooltip.divinerpg.ammo.infinite": "Бесконечность",
