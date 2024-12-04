@@ -1,7 +1,7 @@
 package divinerpg.entities.projectile.magic;
 
 import divinerpg.entities.projectile.DivineThrowableProjectile;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -17,6 +17,6 @@ public class DivineArcanaProjectile extends DivineThrowableProjectile {
     }
     @Override
     public DamageSource getDamageSource(EntityHitResult result) {
-        return damageSources().source(DamageSources.ARCANA, getOwner());
+        return damageSources().source(DamageRegistry.ARCANA.getKey(), getOwner());
     }
 }

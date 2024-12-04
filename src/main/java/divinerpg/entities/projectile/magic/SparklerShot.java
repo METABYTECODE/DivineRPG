@@ -1,6 +1,7 @@
 package divinerpg.entities.projectile.magic;
 
 import divinerpg.entities.projectile.DivineThrowableProjectile;
+import divinerpg.registries.DamageRegistry;
 import divinerpg.registries.ParticleRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +16,7 @@ public class SparklerShot extends DivineThrowableProjectile {
     }
     @Override
     public DamageSource getDamageSource(EntityHitResult result) {
-        return damageSources().source(divinerpg.util.DamageSources.ARCANA, this);
+        return damageSources().source(DamageRegistry.ARCANA.getKey(), this);
     }
     @Override
     public void tick() {

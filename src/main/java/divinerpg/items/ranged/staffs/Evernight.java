@@ -1,5 +1,6 @@
 package divinerpg.items.ranged.staffs;
 
+import divinerpg.registries.DamageRegistry;
 import divinerpg.util.*;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +15,7 @@ public class Evernight extends VetheanStaff {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         InteractionResultHolder<ItemStack> result = super.use(level, player, hand);
-        if(result.getResult().consumesAction() && !player.isCreative()) player.hurt(DamageSources.source(level, DamageSources.ARCANA), 19);
+        if(result.getResult().consumesAction() && !player.isCreative()) player.hurt(level.damageSources().source(DamageRegistry.ARCANA.getKey()), 19);
         return result;
     }
 }

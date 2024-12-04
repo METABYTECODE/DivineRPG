@@ -3,7 +3,7 @@ package divinerpg.entities.boss;
 import divinerpg.entities.projectile.bullet.BoneBomb;
 import divinerpg.entities.vanilla.overworld.EntityWhale;
 import divinerpg.registries.EntityRegistry;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.*;
@@ -128,7 +128,7 @@ public class EntityKitra extends EntityWhale implements RangedAttackMob {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         //Can only be damaged via magic or arcana
-        if (source.is(DamageTypes.MAGIC) || source == DamageSources.source(level(), DamageSources.ARCANA) || source.is(DamageTypes.FELL_OUT_OF_WORLD) || source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.LIGHTNING_BOLT) || source.is(DamageTypes.DRAGON_BREATH) || source.is(DamageTypes.INDIRECT_MAGIC) || source.is(DamageTypes.WITHER)) {
+        if (source.is(DamageTypes.MAGIC) || source == level().damageSources().source(DamageRegistry.ARCANA.getKey()) || source.is(DamageTypes.FELL_OUT_OF_WORLD) || source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.LIGHTNING_BOLT) || source.is(DamageTypes.DRAGON_BREATH) || source.is(DamageTypes.INDIRECT_MAGIC) || source.is(DamageTypes.WITHER)) {
             return super.hurt(source, amount);
         } else return false;
     }

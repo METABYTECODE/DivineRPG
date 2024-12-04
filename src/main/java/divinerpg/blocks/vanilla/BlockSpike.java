@@ -1,7 +1,7 @@
 package divinerpg.blocks.vanilla;
 
 import divinerpg.blocks.base.BlockMod;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
@@ -18,10 +18,9 @@ public class BlockSpike extends BlockMod {
     @Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn){
         if(entityIn instanceof LivingEntity) {
             if(isHot) {
-                entityIn.hurt(DamageSources.source(entityIn.level(), DamageSources.SPIKE), 8);
+                entityIn.hurt(level.damageSources().source(DamageRegistry.SPIKE.getKey()), 8);
                 entityIn.igniteForSeconds(10);
-            }
-            else entityIn.hurt(DamageSources.source(entityIn.level(), DamageSources.SPIKE), 5);
+            } else entityIn.hurt(level.damageSources().source(DamageRegistry.SPIKE.getKey()), 5);
         }
     }
 }

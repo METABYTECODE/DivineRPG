@@ -1,7 +1,7 @@
 package divinerpg.entities.projectile.magic;
 
+import divinerpg.registries.DamageRegistry;
 import divinerpg.registries.ParticleRegistry;
-import divinerpg.util.*;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +15,7 @@ public class EntityLadyLunaSparkler extends DivineParticleProjectile {
     }
     @Override
     public DamageSource getDamageSource(EntityHitResult result) {
-        return DamageSources.source(level(), DamageSources.SPIKE);
+        return level().damageSources().source(DamageRegistry.SPIKE.getKey());
     }
     @Override public boolean isNoGravity() {return true;}
     @Override

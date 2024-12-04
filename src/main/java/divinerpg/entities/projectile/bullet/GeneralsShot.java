@@ -2,7 +2,7 @@ package divinerpg.entities.projectile.bullet;
 
 import divinerpg.entities.projectile.magic.DivineParticleProjectile;
 import divinerpg.registries.*;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -17,7 +17,7 @@ public class GeneralsShot extends DivineParticleProjectile {
     }
     @Override
     public DamageSource getDamageSource(EntityHitResult result) {
-        return damageSources().source(DamageSources.ARCANA, this);
+        return damageSources().source(DamageRegistry.ARCANA.getKey(), this);
     }
     @Override
     protected void onHitBlock(BlockHitResult result) {

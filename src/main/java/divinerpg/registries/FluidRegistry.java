@@ -3,7 +3,6 @@ package divinerpg.registries;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import divinerpg.DivineRPG;
-import divinerpg.util.DamageSources;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
@@ -125,7 +124,7 @@ public class FluidRegistry {
                         //TODO: the fire gets extinguished during rains unlike when entity.lavaHurt() is used
                         entity.setRemainingFireTicks(12);
                         //That doesn't look right buh: me trying to copy the way entity.lavaHurt() works
-                        if(((entity instanceof LivingEntity && !entity.fireImmune() && !((LivingEntity) entity).hasEffect(MobEffects.FIRE_RESISTANCE)) || (!(entity instanceof LivingEntity) && !entity.fireImmune())) && entity.hurt(DamageSources.source(level, DamageSources.TAR), 4)) entity.playSound(SoundEvents.GENERIC_BURN, .4F, 2 + entity.getRandom().nextFloat() * .4F);
+                        if(((entity instanceof LivingEntity && !entity.fireImmune() && !((LivingEntity) entity).hasEffect(MobEffects.FIRE_RESISTANCE)) || (!(entity instanceof LivingEntity) && !entity.fireImmune())) && entity.hurt(level.damageSources().source(DamageRegistry.TAR.getKey()), 4)) entity.playSound(SoundEvents.GENERIC_BURN, .4F, 2 + entity.getRandom().nextFloat() * .4F);
                     }
                 }
             });

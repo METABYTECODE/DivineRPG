@@ -2,7 +2,7 @@ package divinerpg.entities.projectile.bullet;
 
 import divinerpg.entities.projectile.DivineThrowableProjectile;
 import divinerpg.registries.SoundRegistry;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public class EntitySkyreBullet extends DivineThrowableProjectile {
     @Override
     protected void doPostHurtEffects(LivingEntity entity) {
         if(entity instanceof Player) {
-            entity.hurt(DamageSources.source(level(), DamageSources.SPIKE), ((Player) entity).getHealth() / 2);
+            entity.hurt(level().damageSources().source(DamageRegistry.SPIKE.getKey()), entity.getHealth() / 2);
             level().playSound((Player) entity, entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.SKYRE_SPARK.get(), SoundSource.HOSTILE, 0, 0);
         } level().explode(this, xo, yo, zo, 4.5F, false, Level.ExplosionInteraction.MOB);
     }

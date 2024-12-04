@@ -1,7 +1,7 @@
 package divinerpg.entities.goals;
 
 import divinerpg.entities.vanilla.overworld.EntityAequorea;
-import divinerpg.util.DamageSources;
+import divinerpg.registries.DamageRegistry;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Turtle;
@@ -110,7 +110,7 @@ public class TurtleEatAequoreaGoal extends Goal {
         double d0 = this.getAttackReachSqr(entity);
         if (range <= d0 && this.ticksUntilNextAttack <= 0) {
             this.resetAttackCooldown();
-            entity.hurt(DamageSources.source(entity.level(), DamageSources.TURTLE), entity.getHealth());
+            entity.hurt(entity.level().damageSources().source(DamageRegistry.TURTLE.getKey()), entity.getHealth());
         }
 
     }
