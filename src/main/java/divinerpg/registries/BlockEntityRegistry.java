@@ -46,6 +46,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RobbinHutBlockEntity>> ROBBIN_HUT = register("robbin_hut", () -> BlockEntityType.Builder.of(RobbinHutBlockEntity::new, BlockRegistry.robbinHut.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrateBlockEntity>> CRATE = register("crate", () -> BlockEntityType.Builder.of(CrateBlockEntity::new, BlockRegistry.crate.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PortalBlockEntity>> PORTAL = register("portal", () -> BlockEntityType.Builder.of(PortalBlockEntity::new, BlockRegistry.arcanaPortal.get(), BlockRegistry.iceikaPortal.get(), BlockRegistry.edenPortal.get(), BlockRegistry.wildwoodPortal.get(), BlockRegistry.apalachiaPortal.get(), BlockRegistry.skythernPortal.get(), BlockRegistry.mortumPortal.get(), BlockRegistry.vetheaPortal.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<KarosDispenser>> KAROS_DISPENSER = register("karos_dispenser", () -> BlockEntityType.Builder.of(KarosDispenser::new, BlockRegistry.karosDispenser.get()).build(null));
     
     private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String registryName, Supplier<BlockEntityType<T>> tile) {
         return BLOCK_ENTITIES.register(registryName, tile);

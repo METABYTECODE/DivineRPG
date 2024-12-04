@@ -679,20 +679,20 @@ public class BlockRegistry {
             blossomedWeedwoodVine = registerBlock("blossomed_weedwood_vine", () -> new BlockModVine(COLOR_BLUE)),
 
             //Crops
-            tomatoPlant = registerBlock("tomato_plant", () -> new BlockModCrop(tomato_seeds.getId())),
-            whiteMushroomPlant = registerBlock("white_mushroom_plant", () -> new BlockModCrop(white_mushroom_seeds.getId())),
-            aquamarinePlant = registerBlock("aquamarine_plant", () -> new BlockModCrop(aquamarine_seeds.getId())),
-            eucalyptusPlant = registerBlock("eucalyptus_plant", () -> new BlockModCrop(eucalyptus_root_seeds.getId())),
-            firestockPlant = registerBlock("firestock_plant", () -> new BlockArcanaDoubleCrop(firestock_seeds.getId())),
-            hitchakPlant = registerBlock("hitchak_plant", () -> new BlockModCrop(hitchak_seeds.getId())),
-            lamonaPlant = registerBlock("lamona_plant", () -> new BlockModCrop(lamona_seeds.getId())),
-            marsinePlant = registerBlock("marsine_plant", () -> new BlockModCrop(marsine_seeds.getId())),
-            pinflyPlant = registerBlock("pinfly_plant", () -> new BlockArcanaDoubleCrop(pinfly_seeds.getId())),
-            veiloPlant = registerBlock("veilo_plant", () -> new BlockModCrop(veilo_seeds.getId())),
-            moonbulbPlant = registerBlock("moonbulb_plant", () -> new BlockModDoubleCrop(4, moonbulb_seeds.getId())),
-            purpleGlowbonePlant = registerBlock("purple_glowbone_plant", () -> new BlockModDoubleCrop(6, purple_glowbone_seeds.getId())),
-            pinkGlowbonePlant = registerBlock("pink_glowbone_plant", () -> new BlockModDoubleCrop(6, pink_glowbone_seeds.getId())),
-            skyPlant = registerBlock("sky_plant", () -> new BlockModCrop(sky_plant_seeds.getId())),
+            tomatoPlant = registerBlockNoTab("tomato_plant", () -> new BlockModCrop(tomato_seeds.getId())),
+            whiteMushroomPlant = registerBlockNoTab("white_mushroom_plant", () -> new BlockModCrop(white_mushroom_seeds.getId())),
+            aquamarinePlant = registerBlockNoTab("aquamarine_plant", () -> new BlockModCrop(aquamarine_seeds.getId())),
+            eucalyptusPlant = registerBlockNoTab("eucalyptus_plant", () -> new BlockModCrop(eucalyptus_root_seeds.getId())),
+            firestockPlant = registerBlockNoTab("firestock_plant", () -> new BlockArcanaDoubleCrop(firestock_seeds.getId())),
+            hitchakPlant = registerBlockNoTab("hitchak_plant", () -> new BlockModCrop(hitchak_seeds.getId())),
+            lamonaPlant = registerBlockNoTab("lamona_plant", () -> new BlockModCrop(lamona_seeds.getId())),
+            marsinePlant = registerBlockNoTab("marsine_plant", () -> new BlockModCrop(marsine_seeds.getId())),
+            pinflyPlant = registerBlockNoTab("pinfly_plant", () -> new BlockArcanaDoubleCrop(pinfly_seeds.getId())),
+            veiloPlant = registerBlockNoTab("veilo_plant", () -> new BlockModCrop(veilo_seeds.getId())),
+            moonbulbPlant = registerBlockNoTab("moonbulb_plant", () -> new BlockModDoubleCrop(4, moonbulb_seeds.getId())),
+            purpleGlowbonePlant = registerBlockNoTab("purple_glowbone_plant", () -> new BlockModDoubleCrop(6, purple_glowbone_seeds.getId())),
+            pinkGlowbonePlant = registerBlockNoTab("pink_glowbone_plant", () -> new BlockModDoubleCrop(6, pink_glowbone_seeds.getId())),
+            skyPlant = registerBlockNoTab("sky_plant", () -> new BlockModCrop(sky_plant_seeds.getId())),
 
             //Mob Pumpkins
             blazePumpkin = registerBlock("blaze_pumpkin", () -> new BlockMobPumpkin(() -> BLAZE_AMBIENT, COLOR_YELLOW)),
@@ -893,6 +893,14 @@ public class BlockRegistry {
 
     private static DeferredBlock<FlowerPotBlock> registerFlowerPot(String name, Supplier<? extends Block> flower) {
         return BLOCKS.register(name, () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, flower, Properties.ofFullCopy(Blocks.FLOWER_POT)));
+    }
+    private static <T extends Block> DeferredBlock<T> registerBlockNoTab(String name, Supplier<T> block) {
+        return registerBlockNoTab(name, block, Rarity.COMMON);
+    }
+    private static <T extends Block> DeferredBlock<T> registerBlockNoTab(String registryName, Supplier<T> block, Rarity rarity) {
+        DeferredBlock<T> registeredBlock = BLOCKS.register(registryName, block);
+        BLOCK_ITEMS.register(registryName, () -> new BlockItem(registeredBlock.get(), new Item.Properties().rarity(rarity)));
+        return registeredBlock;
     }
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         return registerBlock(name, block, Rarity.COMMON);

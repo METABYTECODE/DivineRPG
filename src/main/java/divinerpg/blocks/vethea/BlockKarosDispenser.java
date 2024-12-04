@@ -1,6 +1,7 @@
 package divinerpg.blocks.vethea;
 
 import com.mojang.serialization.MapCodec;
+import divinerpg.block_entities.block.KarosDispenser;
 import divinerpg.entities.projectile.arrows.KarosArrow;
 import divinerpg.registries.*;
 import it.unimi.dsi.fastutil.objects.*;
@@ -97,7 +98,7 @@ public class BlockKarosDispenser extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new DispenserBlockEntity(p_153215_, p_153216_);
+        return new KarosDispenser(p_153215_, p_153216_);
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext p_196258_1_) {
