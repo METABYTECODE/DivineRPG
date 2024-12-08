@@ -5,37 +5,36 @@ import com.mojang.math.Axis;
 import divinerpg.DivineRPG;
 import divinerpg.items.ranged.ItemRangedWeapon;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Projectile;
-import org.joml.*;
+import net.neoforged.api.distmarker.*;
+import org.joml.Matrix4f;
 
+@OnlyIn(Dist.CLIENT)
 public class RenderDivineProjectile<T extends Projectile> extends EntityRenderer<T> {
     protected final ResourceLocation TEXTURE;
     protected final RenderType renderType;
     
-    public RenderDivineProjectile(final Context context, final String name) {
+    public RenderDivineProjectile(final EntityRendererProvider.Context context, final String name) {
     	this(context, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "textures/projectiles/" + name + ".png"));
     }
-    public RenderDivineProjectile(final Context context) {
+    public RenderDivineProjectile(final EntityRendererProvider.Context context) {
     	this(context, ItemRangedWeapon.GENERIC);
     }
-    public RenderDivineProjectile(final Context context, final ResourceLocation texture) {
+    public RenderDivineProjectile(final EntityRendererProvider.Context context, final ResourceLocation texture) {
     	super(context);
-    	this.TEXTURE = texture;
-    	this.renderType = RenderType.entityCutoutNoCull(texture);
+    	TEXTURE = texture;
+    	renderType = RenderType.entityCutoutNoCull(texture);
     }
-
-    @Override
-    public void render(T entity, float yaw, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int packedLight) {
-        if(entity.tickCount > 2) {
+    @Override public void render(T entity, float yaw, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int packedLight) {
+        if(entity.tickCount > 2 || !(entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25)) {
             super.render(entity, yaw, partialTicks, matrix, buffer, packedLight);
             matrix.pushPose();
-            matrix.scale(0.5f, 0.5f, 0.5f);
-            matrix.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            matrix.mulPose(Axis.YP.rotationDegrees(180.0F));
+            matrix.scale(.5F, .5F, .5F);
+            matrix.mulPose(entityRenderDispatcher.cameraOrientation());
+            matrix.mulPose(Axis.YP.rotationDegrees(180));
             PoseStack.Pose matrixEntry = matrix.last();
             Matrix4f matrix4f = matrixEntry.pose();
             VertexConsumer vertexBuilder = buffer.getBuffer(renderType);
@@ -47,13 +46,8 @@ public class RenderDivineProjectile<T extends Projectile> extends EntityRenderer
             matrix.popPose();
         }
     }
-
     private static void pos(VertexConsumer vertexBuilder, Matrix4f matrix4f, int lightmapUV, float x, float y, float u, float v) {
-        vertexBuilder.addVertex(matrix4f, x - 0.5F, y - 0.25f, 0).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(lightmapUV).setNormal(0, 1, 0);
+        vertexBuilder.addVertex(matrix4f, x - .5F, y - .25F, 0).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(lightmapUV).setNormal(0, 1, 0);
     }
-
-    @Override
-    public ResourceLocation getTextureLocation(T entity) {
-        return TEXTURE;
-    }
+    @Override public ResourceLocation getTextureLocation(T entity) {return TEXTURE;}
 }

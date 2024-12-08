@@ -5,31 +5,30 @@ import com.mojang.math.Axis;
 import divinerpg.DivineRPG;
 import divinerpg.entities.projectile.DivineFireball;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.*;
 import org.joml.*;
 
+@OnlyIn(Dist.CLIENT)
 public class RenderDivineFireball<T extends DivineFireball> extends EntityRenderer<T> {
 	protected final ResourceLocation TEXTURE;
     protected final RenderType renderType;
-    
-    public RenderDivineFireball(final Context context, final String name) {
+    public RenderDivineFireball(final EntityRendererProvider.Context context, final String name) {
     	this(context, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "textures/projectiles/" + name + ".png"));
     }
-    public RenderDivineFireball(final Context context, final ResourceLocation texture) {
+    public RenderDivineFireball(final EntityRendererProvider.Context context, final ResourceLocation texture) {
     	super(context);
-    	this.TEXTURE = texture;
-    	this.renderType = RenderType.entityCutoutNoCull(texture);
+    	TEXTURE = texture;
+    	renderType = RenderType.entityCutoutNoCull(texture);
     }
-    @Override
-    public void render(T entity, float yaw, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int packedLight) {
+    @Override public void render(T entity, float yaw, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int packedLight) {
         super.render(entity, yaw, partialTicks, matrix, buffer, packedLight);
         matrix.pushPose();
-        matrix.scale(.5f, .5f, .5f);
+        matrix.scale(.5F, .5F, .5F);
         matrix.mulPose(entityRenderDispatcher.cameraOrientation());
-        matrix.mulPose(Axis.YP.rotationDegrees(180F));
+        matrix.mulPose(Axis.YP.rotationDegrees(180));
         PoseStack.Pose matrixEntry = matrix.last();
         Matrix4f matrix4f = matrixEntry.pose();
         Matrix3f normal = matrixEntry.normal();
@@ -41,10 +40,7 @@ public class RenderDivineFireball<T extends DivineFireball> extends EntityRender
         matrix.popPose();
     }
     private static void pos(VertexConsumer vertexBuilder, Matrix4f matrix4f, Matrix3f normal, int lightmapUV, float x, float y, float u, float v) {
-        vertexBuilder.addVertex(matrix4f, x - .5F, y - .25f, 0).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(lightmapUV).setNormal(0, 1, 0);
+        vertexBuilder.addVertex(matrix4f, x - .5F, y - .25F, 0).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(lightmapUV).setNormal(0, 1, 0);
     }
-    @Override
-    public ResourceLocation getTextureLocation(T entity) {
-        return TEXTURE;
-    }
+    @Override public ResourceLocation getTextureLocation(T entity) {return TEXTURE;}
 }

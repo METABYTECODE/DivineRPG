@@ -3,14 +3,17 @@
     "id": "divinerpg:ghast_pumpkin"
   },
   "pattern": [
-    "MMM",
-    "MPM",
-    "MMM"
+    "SSS",
+    "SPS",
+    "SMS"
   ],
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "group": "mob_pumpkin",
   "key": {
+    "S": {
+      "item": "minecraft:gunpowder"
+    },
     "P": {
       "item": "minecraft:pumpkin"
     },

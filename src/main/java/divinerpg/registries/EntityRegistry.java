@@ -68,110 +68,129 @@ public class EntityRegistry {
     public EntityRegistry(){}
 
     //Projectiles
+    //Throwables
     public static final DeferredHolder<EntityType<?>, EntityType<DivineThrownItem>> THROWN_ITEM = registerProjectile(DivineThrownItem::new, "thrown_item");
     public static final DeferredHolder<EntityType<?>, EntityType<Tomato>> TOMATO = registerProjectile(Tomato::new, "tomato");
     public static final DeferredHolder<EntityType<?>, EntityType<SnowFlakeShuriken>> SNOWFLAKE_SHURIKEN = registerProjectile(SnowFlakeShuriken::new, "snowflake_shuriken");
     public static final DeferredHolder<EntityType<?>, EntityType<VileStorm>> VILE_STORM = registerProjectile(VileStorm::new, "vile_storm");
     public static final DeferredHolder<EntityType<?>, EntityType<Grenade>> GRENADE = registerProjectile(Grenade::new, "grenade");
-    public static final DeferredHolder<EntityType<?>, EntityType<AttractorBeam>> ATTRACTOR_BEAM = registerProjectile(AttractorBeam::new, "attractor_beam");
-    public static final DeferredHolder<EntityType<?>, EntityType<ReflectorBeam>> REFLECTOR_BEAM = registerProjectile(ReflectorBeam::new, "reflector_beam");
+
+    //Serenades
     public static final DeferredHolder<EntityType<?>, EntityType<IceBullet>> ICE_BULLET = registerProjectile(IceBullet::new, "ice_bullet");
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBullet>> DEATH_BULLET = registerProjectile(DeathBullet::new, "death_bullet");
-    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_MUSIC = registerProjectile((type, level) -> new MusicalBullet(type, level, 9F), "sound_of_music");
-    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_CAROLS = registerProjectile((type, level) -> new MusicalBullet(type, level, 11F), "sound_of_carols");
-    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_WHALES = registerProjectile((type, level) -> new MusicalBullet(type, level, 13F), "sound_of_whales");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> SCYTHE_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 6F), "scythe_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EYE_SHARD = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3F), "eye_shard");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAELSTROM_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "maelstrom_shot");
+
+    //Sounds
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_MUSIC = registerProjectile((type, level) -> new MusicalBullet(type, level, 9), "sound_of_music");
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_CAROLS = registerProjectile((type, level) -> new MusicalBullet(type, level, 11), "sound_of_carols");
+    public static final DeferredHolder<EntityType<?>, EntityType<MusicalBullet>> SOUND_OF_WHALES = registerProjectile((type, level) -> new MusicalBullet(type, level, 13), "sound_of_whales");
+
+    //Anchors
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3), "crab_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> SHARK_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4), "shark_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 5), "bowhead_anchor_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> LIOPLEURODON_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6), "liopleurodon_anchor_shot");
+
+    //Other
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EYE_SHARD = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3), "eye_shard");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> SCYTHE_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 6), "scythe_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAELSTROM_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12, ParticleRegistry.APALACHIA_PORTAL), "maelstrom_shot");
+
+    //Cannons
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4), "crab_claw");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 7), "frost_claw");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6), "bowhead_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6), "frost_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FRACTITE_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 8), "fractite_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORRUPTED_BULLET = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 10), "corrupted_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> GHAST_CANNON_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 11), "ghast_cannon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> GOLDEN_FURY_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 17), "golden_fury_shot");
+
+    //Arcana
+    public static final DeferredHolder<EntityType<?>, EntityType<AttractorBeam>> ATTRACTOR_BEAM = registerProjectile(AttractorBeam::new, "attractor_beam");
+    public static final DeferredHolder<EntityType<?>, EntityType<ReflectorBeam>> REFLECTOR_BEAM = registerProjectile(ReflectorBeam::new, "reflector_beam");
     public static final DeferredHolder<EntityType<?>, EntityType<SparklerShot>> SPARKLER_SHOT = registerProjectile(SparklerShot::new, "sparkler_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFirefly>> FIREFLY = registerProjectile(EntityFirefly::new, "firefly");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityMerikMissile>> MERIKS_MISSILE = registerProjectile(EntityMerikMissile::new, "meriks_missile");
     public static final DeferredHolder<EntityType<?>, EntityType<GeneralsShot>> GENERALS_SHOT = registerProjectile(GeneralsShot::new, "generals_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<StarProjectile>> STAR = registerProjectile((type, level) -> new StarProjectile(type, level, 13F, ParticleRegistry.EDEN_PORTAL), "star");
+    public static final DeferredHolder<EntityType<?>, EntityType<StarProjectile>> STAR = registerProjectile((type, level) -> new StarProjectile(type, level, 13, ParticleRegistry.EDEN_PORTAL), "star");
     public static final DeferredHolder<EntityType<?>, EntityType<MeteorProjectile>> METEOR = registerProjectile(MeteorProjectile::new, "meteor");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "crab_claw");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CLAW = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 7F), "frost_claw");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "bowhead_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FROST_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "frost_cannon_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> FRACTITE_CANNON_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 8F), "fractite_cannon_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineMagicProjectile>> GHAST_CANNON_SHOT = registerProjectile((type, level) -> new DivineMagicProjectile(type, level, 11F), "ghast_cannon_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> GOLDEN_FURY_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 17F), "golden_fury_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORRUPTED_BULLET = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 10F), "corrupted_bullet");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineArcanaProjectile>> BLASTER_BULLET = registerProjectile((type, level) -> new DivineArcanaProjectile(type, level, 13F), "blaster_bullet");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new, "bouncing_projectile");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineArcanaProjectile>> BLASTER_BULLET = registerProjectile((type, level) -> new DivineArcanaProjectile(type, level, 13), "blaster_bullet");
+
+    //Phasers
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> EDEN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 8, ParticleRegistry.EDEN_PORTAL), "eden_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> WILDWOOD_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> APALACHIA_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12, ParticleRegistry.APALACHIA_PORTAL), "apalachia_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SKYTHERN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14, ParticleRegistry.SKYTHERN_PORTAL), "skythern_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MORTUM_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 16, ParticleRegistry.MORTUM_PORTAL), "mortum_phaser_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> HALITE_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 18, ParticleRegistry.HALITE_PORTAL), "halite_phaser_shot");
+
+    //Blitz
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> EDEN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 10, ParticleRegistry.EDEN_PORTAL), "eden_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> WILDWOOD_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> APALACHIA_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 14, ParticleRegistry.APALACHIA_PORTAL), "apalachia_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SKYTHERN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 16, ParticleRegistry.SKYTHERN_PORTAL), "skythern_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> MORTUM_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 18, ParticleRegistry.MORTUM_PORTAL), "mortum_blitz_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> HALITE_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 20, ParticleRegistry.HALITE_PORTAL), "halite_blitz_shot");
+
+    //Vethean weapons
     public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CANNON_SHOT = registerProjectile(DivineThrowableProjectile::new, "cannon_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EVERSIGHT_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 42F), "eversight_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new, "bouncing_projectile");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EVERSIGHT_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 42), "eversight_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDisk>> DISK = registerProjectile(EntityDisk::new, "disk");
     public static final DeferredHolder<EntityType<?>, EntityType<Dissipator>> DISSIPATOR = registerProjectile(Dissipator::new, "dissipator");
-    public static final DeferredHolder<EntityType<?>, EntityType<BoneFragment>> BONE_FRAGMENT = registerProjectile(BoneFragment::new, "bone_fragment");
-    public static final DeferredHolder<EntityType<?>, EntityType<BoneBomb>> BONE_BOMB = registerProjectile(BoneBomb::new, "bone_bomb");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CAVE_ROCK = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "cave_rock");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORI_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 20F), "cori_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAGE_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10F, ParticleRegistry.WILDWOOD_PORTAL), "mage_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SPELLBINDER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "speelbinder_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MYSTIC_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 13F, ParticleRegistry.SKYTHERN_PORTAL), "mystic_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SORCERER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14F, ParticleRegistry.MORTUM_PORTAL), "sorcerer_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> MANDRAGORA_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "mandragora_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KAZROTIC_SHOT = registerProjectile(Bomb::new, "kazrotic_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> ZORAGON_BOMB = registerProjectile(Bomb::new, "zoragon_bomb");
-    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> RAGLOK_BOMB = registerProjectile(Bomb::new, "raglok_bomb");
-    public static final DeferredHolder<EntityType<?>, EntityType<WatcherShot>> WATCHER_SHOT = registerProjectile(WatcherShot::new, "watcher_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<KingOfShorchersShot>> KING_OF_SCORCHERS_SHOT = registerProjectile(KingOfShorchersShot::new, "king_of_scorchers_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KING_OF_SCORCHERS_METEOR = registerProjectile(Bomb::new, "king_of_scorchers_meteor");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SUNSTORM_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12F, ParticleRegistry.EDEN_PORTAL), "sunstorm_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> WRECK_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 15F), "wreck_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> WRECK_BOMB = registerProjectile(Bomb::new, "wreck_bomb");
-
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> EDEN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 8F, ParticleRegistry.EDEN_PORTAL), "eden_phaser_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> WILDWOOD_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10F, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_phaser_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> APALACHIA_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12F, ParticleRegistry.APALACHIA_PORTAL), "apalachia_phaser_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SKYTHERN_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14F, ParticleRegistry.SKYTHERN_PORTAL), "skythern_phaser_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MORTUM_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 16F, ParticleRegistry.MORTUM_PORTAL), "mortum_phaser_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> HALITE_PHASER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 18F, ParticleRegistry.HALITE_PORTAL), "halite_phaser_shot");
-
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> EDEN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 10F, ParticleRegistry.EDEN_PORTAL), "eden_blitz_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> WILDWOOD_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12F, ParticleRegistry.WILDWOOD_PORTAL), "wildwood_blitz_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> APALACHIA_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 14F, ParticleRegistry.APALACHIA_PORTAL), "apalachia_blitz_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SKYTHERN_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 16F, ParticleRegistry.SKYTHERN_PORTAL), "skythern_blitz_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> MORTUM_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 18F, ParticleRegistry.MORTUM_PORTAL), "mortum_blitz_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> HALITE_BLITZ_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 20F, ParticleRegistry.HALITE_PORTAL), "halite_blitz_shot");
-
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CRAB_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 3F), "crab_anchor_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> SHARK_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4F), "shark_anchor_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> BOWHEAD_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 5F), "bowhead_anchor_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> LIOPLEURODON_ANCHOR_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6F), "liopleurodon_anchor_shot");
-
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDissimentShot>>			 DISSIMENT_SHOT = registerProjectile(EntityDissimentShot::new,                      "dissiment_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityEnderTripletsFireball>>  ENDER_TRIPLETS_FIREBALL = registerFireballProjectile(EntityEnderTripletsFireball::new, "ender_triplets_fireball");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFractiteShot>>			 FRACTITE_SHOT = registerFireballProjectile(EntityFractiteShot::new,                "fractite_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostCloud>>			 FROST_CLOUD = registerFrostCloud(EntityFrostCloud::new,                            "frost_cloud");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostShot>>				 FROST_SHOT = registerFireballProjectile(EntityFrostShot::new,                      "frost_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFyracryxFireball>>		 FYRACRYX_FIREBALL = registerFireballProjectile(EntityFyracryxFireball::new,        "fyracryx_fireball");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityLadyLunaSparkler>>		 LADY_LUNA_SPARKLER = registerProjectile(EntityLadyLunaSparkler::new,               "lady_luna_sparkler");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntitySaguaroWormShot>>		 SAGUARO_WORM_SHOT = registerProjectile(EntitySaguaroWormShot::new,                 "saguaro_worm_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityScorcherShot>>			 SCORCHER_SHOT = registerFireballProjectile(EntityScorcherShot::new,                "scorcher_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntitySkyreBullet>>			 SKYRE_BULLET = registerProjectile(EntitySkyreBullet::new,                          "skyre_bullet");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntitySoulFiendShot>>			 SOUL_FIEND_SHOT = registerProjectile(EntitySoulFiendShot::new,                     "soul_fiend_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemonShot>>		 TWILIGHT_DEMON_SHOT = registerProjectile(EntityTwilightDemonShot::new,             "twilight_demon_shot");
 
     //Arrows
-    public static final DeferredHolder<EntityType<?>, EntityType<EdenArrow>> EDEN_ARROW = registerArrowProjectile(EdenArrow::new, "eden_arrow");
-    public static final DeferredHolder<EntityType<?>, EntityType<EnderArrow>> ENDER_ARROW = registerArrowProjectile(EnderArrow::new, "ender_arrow");
-    public static final DeferredHolder<EntityType<?>, EntityType<FuryArrow>> FURY_ARROW = registerArrowProjectile(FuryArrow::new, "fury_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<HunterArrow>> HUNTER_ARROW = registerArrowProjectile(HunterArrow::new, "hunter_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<ShadowArrow>> SHADOW_ARROW = registerArrowProjectile(ShadowArrow::new, "shadow_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<IcicleArrow>> ICICLE_ARROW = registerArrowProjectile(IcicleArrow::new, "icicle_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<InfernoArrow>> INFERNO_ARROW = registerArrowProjectile(InfernoArrow::new, "inferno_arrow");
-    public static final DeferredHolder<EntityType<?>, EntityType<ShadowArrow>> SHADOW_ARROW = registerArrowProjectile(ShadowArrow::new, "shadow_arrow");
-    public static final DeferredHolder<EntityType<?>, EntityType<SnowstormArrow>> SNOWSTORM_ARROW = registerArrowProjectile(SnowstormArrow::new, "snowstorm_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<SoulfireArrow>> SOULFIRE_ARROW = registerArrowProjectile(SoulfireArrow::new, "soulfire_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowstormArrow>> SNOWSTORM_ARROW = registerArrowProjectile(SnowstormArrow::new, "snowstorm_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<EnderArrow>> ENDER_ARROW = registerArrowProjectile(EnderArrow::new, "ender_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<EdenArrow>> EDEN_ARROW = registerArrowProjectile(EdenArrow::new, "eden_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<WildwoodArrow>> WILDWOOD_ARROW = registerArrowProjectile(WildwoodArrow::new, "wildwood_arrow");
+    public static final DeferredHolder<EntityType<?>, EntityType<FuryArrow>> FURY_ARROW = registerArrowProjectile(FuryArrow::new, "fury_arrow");
 
-    //Vethean Arrows
+    //Vethean arrows
     public static final DeferredHolder<EntityType<?>, EntityType<TeakerArrow>> TEAKER_ARROW = registerArrowProjectile(TeakerArrow::new, "teaker_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<DarvenArrow>> DARVEN_ARROW = registerArrowProjectile(DarvenArrow::new, "darven_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<PardimalArrow>> PARDIMAL_ARROW = registerArrowProjectile(PardimalArrow::new, "pardimal_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<KarosArrow>> KAROS_ARROW = registerArrowProjectile(KarosArrow::new, "karos_arrow");
     public static final DeferredHolder<EntityType<?>, EntityType<EverArrow>> EVER_ARROW = registerArrowProjectile(EverArrow::new, "ever_arrow");
+
+    //Mob projectiles
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CAVE_ROCK = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 6), "cave_rock");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntitySaguaroWormShot>> SAGUARO_WORM_SHOT = registerProjectile(EntitySaguaroWormShot::new, "saguaro_worm_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityScorcherShot>> SCORCHER_SHOT = registerFireballProjectile(EntityScorcherShot::new, "scorcher_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostShot>> FROST_SHOT = registerFireballProjectile(EntityFrostShot::new, "frost_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostCloud>> FROST_CLOUD = registerFrostCloud(EntityFrostCloud::new, "frost_cloud");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFractiteShot>> FRACTITE_SHOT = registerFireballProjectile(EntityFractiteShot::new, "fractite_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityEnderTripletsFireball>> ENDER_TRIPLETS_FIREBALL = registerFireballProjectile(EntityEnderTripletsFireball::new, "ender_triplets_fireball");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFyracryxFireball>> FYRACRYX_FIREBALL = registerFireballProjectile(EntityFyracryxFireball::new, "fyracryx_fireball");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntitySkyreBullet>> SKYRE_BULLET = registerProjectile(EntitySkyreBullet::new, "skyre_bullet");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MAGE_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 10, ParticleRegistry.WILDWOOD_PORTAL), "mage_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SPELLBINDER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 12, ParticleRegistry.APALACHIA_PORTAL), "spellbinder_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> MYSTIC_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 13, ParticleRegistry.SKYTHERN_PORTAL), "mystic_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineParticleProjectile>> SORCERER_SHOT = registerProjectile((type, level) -> new DivineParticleProjectile(type, level, 14, ParticleRegistry.MORTUM_PORTAL), "sorcerer_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CORI_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 20), "cori_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> MANDRAGORA_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 4), "mandragora_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityDissimentShot>> DISSIMENT_SHOT = registerProjectile(EntityDissimentShot::new, "dissiment_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KAZROTIC_SHOT = registerProjectile(Bomb::new, "kazrotic_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> ZORAGON_BOMB = registerProjectile(Bomb::new, "zoragon_bomb");
+
+    //Boss projectiles
+    public static final DeferredHolder<EntityType<?>, EntityType<WatcherShot>> WATCHER_SHOT = registerProjectile(WatcherShot::new, "watcher_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<KingOfShorchersShot>> KING_OF_SCORCHERS_SHOT = registerProjectile(KingOfShorchersShot::new, "king_of_scorchers_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> KING_OF_SCORCHERS_METEOR = registerProjectile(Bomb::new, "king_of_scorchers_meteor");
+    public static final DeferredHolder<EntityType<?>, EntityType<BoneFragment>> BONE_FRAGMENT = registerProjectile(BoneFragment::new, "bone_fragment");
+    public static final DeferredHolder<EntityType<?>, EntityType<BoneBomb>> BONE_BOMB = registerProjectile(BoneBomb::new, "bone_bomb");
+    public static final DeferredHolder<EntityType<?>, EntityType<PhysicalParticleProjectile>> SUNSTORM_SHOT = registerProjectile((type, level) -> new PhysicalParticleProjectile(type, level, 12, ParticleRegistry.EDEN_PORTAL), "sunstorm_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntitySoulFiendShot>> SOUL_FIEND_SHOT = registerProjectile(EntitySoulFiendShot::new, "soul_fiend_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityTwilightDemonShot>> TWILIGHT_DEMON_SHOT = registerProjectile(EntityTwilightDemonShot::new, "twilight_demon_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityLadyLunaSparkler>> LADY_LUNA_SPARKLER = registerProjectile(EntityLadyLunaSparkler::new, "lady_luna_sparkler");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> RAGLOK_BOMB = registerProjectile(Bomb::new, "raglok_bomb");
+    public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> WRECK_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 15), "wreck_shot");
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomb>> WRECK_BOMB = registerProjectile(Bomb::new, "wreck_bomb");
 
     //Bosses
     public static final DeferredHolder<EntityType<?>, EntityType<EntityAncientEntity>>       ANCIENT_ENTITY 	 = registerEntity(EntityAncientEntity::new, 	"ancient_entity", 	    4, 6.5F, 6, 0x3f1e0c, 0xc46c33);

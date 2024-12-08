@@ -7,27 +7,30 @@ import net.minecraft.client.renderer.texture.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
+import net.neoforged.api.distmarker.*;
 
 import java.util.function.Supplier;
 
+@OnlyIn(Dist.CLIENT)
 public class RenderDivineItemProjectile<T extends Projectile> extends EntityRenderer<T> {
     private final Supplier<Item> item;
     private final ItemRenderer itemRenderer;
     public RenderDivineItemProjectile(EntityRendererProvider.Context context, Supplier<Item> item) {
         super(context);
-        this.itemRenderer = context.getItemRenderer();
+        itemRenderer = context.getItemRenderer();
         this.item = item;
     }
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        if(entity.tickCount > 2 || !(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25)) {
+    @Override public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        if(entity.tickCount > 2 || !(entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25)) {
             poseStack.pushPose();
-            poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            this.itemRenderer.renderStatic(item.get().getDefaultInstance(), ItemDisplayContext.GROUND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
+            poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
+            itemRenderer.renderStatic(item.get().getDefaultInstance(), ItemDisplayContext.GROUND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
             poseStack.popPose();
             super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         }
     }
-    public ResourceLocation getTextureLocation(Projectile entity) {
+    @SuppressWarnings("deprecation")
+    @Override public ResourceLocation getTextureLocation(Projectile entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 }

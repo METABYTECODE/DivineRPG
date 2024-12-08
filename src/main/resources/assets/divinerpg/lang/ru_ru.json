@@ -2069,7 +2069,6 @@
   "item.divinerpg.zone_spawn_egg": "Яйцо призыва зона",
   "item.divinerpg.zoragon_spawn_egg": "Яйцо призыва зорагона",
 
-  "entity.divinerpg.arrow_shot": "Божественная стрела",
   "entity.divinerpg.bouncing_projectile": "Отпрыгивающий снаряд",
   "entity.divinerpg.disk": "Диск",
   "entity.divinerpg.dissiment_shot": "Выстрел диссимента",
@@ -2081,15 +2080,12 @@
   "entity.divinerpg.fyracryx_fireball": "Файербол фиракрикса",
   "entity.divinerpg.lady_luna_sparkler": "Искромёт леди Луны",
   "entity.divinerpg.meriks_missile": "Взрывной снаряд Мерика",
-  "entity.divinerpg.particle_bullet": "Выстрел-частица",
   "entity.divinerpg.saguaro_worm_shot": "Выстрел червя-сагуаро",
   "entity.divinerpg.scorcher_shot": "Файербол лихача",
-  "entity.divinerpg.shooter_bullet": "Выстрел",
   "entity.divinerpg.skyre_bullet": "Снаряд скайра",
   "entity.divinerpg.soul_fiend_shot": "Выстрел демона душ",
   "entity.divinerpg.twilight_demon_shot": "Выстрел сумеречного демона",
   "entity.divinerpg.watcher_shot": "Выстрел Смотрителя",
-  "entity.divinerpg.wildwood_log": "Бревно дерева Диколесья",
 
   "painting.divinerpg.crawling.title": "Чудовище",
   "painting.divinerpg.crawling.author": "Sir_Deccy",
@@ -2128,23 +2124,20 @@
   "death.attack.divinerpg.trap.player": "%1$s попал в ловушку, спасаясь от %2$s",
   "death.attack.divinerpg.turtle": "%1$s был съеден черепахой",
 
-  "tag.divinerpg.armor_pouches": "Сумки для брони",
-  "tag.divinerpg.chunks": "Сумеречные куски",
+  "tag.divinerpg.ammo.aquatic_cannon": "Кактусы",
+  "tag.divinerpg.ammo.corrupted_cannon": "Повреждённые пули",
+  "tag.divinerpg.ammo.golden_fury": "Кусочки золота",
+  "tag.divinerpg.ammo.frost_cannon": "Снежки",
+  "tag.divinerpg.ammo.fractite_cannon": "Ледяные осколки",
+  "tag.divinerpg.ammo.grenades": "Гранаты",
+  "tag.divinerpg.ammo.vethean_cannon": "Кислота",
 
-  "tag.divinerpg.ammo.aquatic_cannon": "Патроны водных пушек",
-  "tag.divinerpg.ammo.corrupted_cannon": "Патроны повреждённой пушки",
-  "tag.divinerpg.ammo.golden_fury": "Патроны золотой ярости",
-  "tag.divinerpg.ammo.frost_cannon": "Патроны морозной пушки",
-  "tag.divinerpg.ammo.fractite_cannon": "Патроны фрактозной пушки",
-  "tag.divinerpg.ammo.grenades": "Патроны гранатомёта",
-  "tag.divinerpg.ammo.vethean_cannon": "Патроны везейной пушки",
-
-  "tag.divinerpg.ammo.eden_blitz": "Патроны скорострельной пушки Эдема",
-  "tag.divinerpg.ammo.wildwood_blitz": "Патроны скорострельной пушки Диколесья",
-  "tag.divinerpg.ammo.apalachia_blitz": "Патроны скорострельной пушки Апалачии",
-  "tag.divinerpg.ammo.skythern_blitz": "Патроны скорострельной пушки Поднебесья",
-  "tag.divinerpg.ammo.mortum_blitz": "Патроны скорострельной пушки Мёртвума",
-  "tag.divinerpg.ammo.halite_blitz": "Патроны халитовой скорострельной пушки",
+  "tag.divinerpg.ammo.eden_blitz": "Пыль Эдема",
+  "tag.divinerpg.ammo.wildwood_blitz": "Пыль Диколесья",
+  "tag.divinerpg.ammo.apalachia_blitz": "Пыль Апалачии",
+  "tag.divinerpg.ammo.skythern_blitz": "Пыль Поднебесья",
+  "tag.divinerpg.ammo.mortum_blitz": "Пыль Мёртвума",
+  "tag.divinerpg.ammo.halite_blitz": "Пыль Мёртвума",
 
   "tooltip.divinerpg.ammo": "§9Боеприпасы: %s",
   "tooltip.divinerpg.ammo.infinite": "Бесконечность",
@@ -2229,6 +2222,9 @@
   "tooltip.divinerpg.tool.harvest_level": "§9Уровень добычи: %s",
   "tooltip.divinerpg.torridite": "Бывший незерит",
   "tooltip.divinerpg.weakened_without_arcana": "Урон сильно снижен, если не хватает арканы",
+
+  "lore.divinerpg.red_cattle": "Страх неудачи, который движет вами",
+  "lore.divinerpg.wreck_potion": "Может быть, для этого найдется применение...",
 
   "message.divinerpg.ayeraco.blue": "Синий Айрако прибыл",
   "message.divinerpg.ayeraco.green": "Зелёный Айрако прибыл",
@@ -2767,8 +2763,5 @@
   "effect.divinerpg.demonized_hood.description": "Уменьшает получаемый урон от арканы.",
   "effect.divinerpg.finished_hood.description": "Уменьшает получаемый урон от арканы.",
   "effect.divinerpg.glistening_hood.description": "Уменьшает получаемый урон от арканы.",
-  "effect.divinerpg.tormented_hood.description": "Уменьшает получаемый урон от арканы.",
-
-  "lore.divinerpg.red_cattle": "Страх неудачи, который движет вами",
-  "lore.divinerpg.wreck_potion": "Может быть, для этого найдется применение..."
+  "effect.divinerpg.tormented_hood.description": "Уменьшает получаемый урон от арканы."
 }
