@@ -13,7 +13,6 @@ public class DamageRegistry {
         ARCANA = register("arcana", 0F),
         SPIKE = register("spike", .1F),
         TAR = DAMAGE_TYPE.register("tar", () -> new DamageType("tar", .1F, DamageEffects.BURNING)),
-        TRAP = register("trap", .1F),
         TURTLE = register("turtle", .1F);
     private static DeferredHolder<DamageType, DamageType> register(String name, float exhaustion) {
         return DAMAGE_TYPE.register(name, () -> new DamageType(name, exhaustion));

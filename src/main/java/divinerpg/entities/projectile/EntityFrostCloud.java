@@ -57,37 +57,31 @@ public class EntityFrostCloud extends Entity {
     @Override
     public void tick() {
         super.tick();
-        float f = getRadius();
         if(level().isClientSide()) {
+            float f = getRadius();
             float f5 = (float) Math.PI * f * f;
             for(float k1 = 0; k1 < f5; ++k1) {
                 float f6 = random.nextFloat() * ((float) Math.PI * 2F), f7 = Mth.sqrt(random.nextFloat()) * f, f8 = Mth.cos(f6) * f7, f9 = Mth.sin(f6) * f7;
                 level().addParticle(ParticleRegistry.FROST.get(), xo + f8, yo, zo + f9, (.5 - random.nextDouble()) * .15, .009999999776482582, (.5 - random.nextDouble()) * .15);
-            }
-        } else {
-            if(tickCount >= duration) {
-                kill();
-                return;
             }
             if(radiusPerTick != 0F) {
                 f += radiusPerTick;
                 if(f < .5F) {
                     kill();
                     return;
-                }
-                setRadius(f);
+                } setRadius(f);
             }
-            if(tickCount % 5 == 0) {
-                Iterator<Map.Entry<Entity, Integer>> iterator = reapplicationDelayMap.entrySet().iterator();
-                while(iterator.hasNext()) {
-                    Map.Entry<Entity, Integer> entry = iterator.next();
-                    if(tickCount >= entry.getValue().intValue()) iterator.remove();
-                }
+            if(tickCount >= duration) {
+                kill();
+                return;
+            }
+            if((tickCount & 3) == 0) {
+                reapplicationDelayMap.entrySet().removeIf(entry -> tickCount >= entry.getValue());
                 List<LivingEntity> list = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(f));
                 if(!list.isEmpty()) for(LivingEntity entity : list) if(!reapplicationDelayMap.containsKey(entity) && entity.isAffectedByPotions()) {
                     double d0 = entity.xo - xo, d1 = entity.zo - zo, d2 = d0 * d0 + d1 * d1;
                     if(d2 <= f * f) {
-                        reapplicationDelayMap.put(entity, Integer.valueOf(tickCount + reapplicationDelay));
+                        reapplicationDelayMap.put(entity, tickCount + reapplicationDelay);
                         if(!entity.isDeadOrDying() && entity.canFreeze()) {
                             entity.hurt(entity.level().damageSources().magic(), 1.5F);
                             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 0, false, false, false));
