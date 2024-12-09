@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -29,7 +30,7 @@ public class IcicleArrow extends DivineArrow {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        if(entity instanceof LivingEntity livingEntity && !(entity instanceof EnderMan)) {
+        if(entity instanceof LivingEntity livingEntity && !(entity instanceof EnderMan) && !(entity instanceof Player p && p.isCreative())) {
             livingEntity.setTicksFrozen(livingEntity.getTicksFrozen() + 80);
             if(livingEntity.isOnFire()) livingEntity.extinguishFire();
         } super.onHitEntity(result);

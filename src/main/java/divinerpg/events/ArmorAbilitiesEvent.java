@@ -5,8 +5,8 @@ import divinerpg.effect.mob.armor.*;
 import divinerpg.enums.ToolStats.SwordSpecial;
 import divinerpg.items.base.*;
 import divinerpg.registries.MobEffectRegistry;
-import divinerpg.registries.DamageRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.effect.*;
@@ -14,6 +14,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import java.util.ArrayList;
@@ -22,19 +23,24 @@ public class ArmorAbilitiesEvent {
 	@SubscribeEvent
 	public void onEquipmentChanged(LivingEquipmentChangeEvent event) {
 		LivingEntity entity = event.getEntity();
-		EquipmentSlot slot = event.getSlot();
-		if(slot.isArmor()) {
-			ItemStack s = event.getFrom();//remove armor effects of the previous armor piece
-			if(s != null && s.getItem() instanceof ItemDivineArmor armor && !s.is(event.getTo().getItem()) && armor.supportedEffects != null) for(Holder<MobEffect> effect : armor.supportedEffects) entity.removeEffect(effect);
-			updateAbilities(entity);
-		} else for(MobEffectInstance instance : entity.getActiveEffects()) if(instance.getEffect() instanceof UpdatableArmorEffect update) update.update(entity);
+		if(!entity.level().isClientSide()) {
+			EquipmentSlot slot = event.getSlot();
+			if(slot.isArmor()) {
+				ItemStack s = event.getFrom();//remove armor effects of the previous armor piece
+				if(s.getItem() instanceof ItemDivineArmor armor && !s.is(event.getTo().getItem()) && armor.supportedEffects != null) for(Holder<MobEffect> effect : armor.supportedEffects) entity.removeEffect(effect);
+				updateAbilities(entity.level().dimension(), entity);
+			} else updateEffects(entity.level().dimension(), entity);
+		}
 	}
-	public static void updateAbilities(LivingEntity entity) {
+	public static void updateEffects(ResourceKey<Level> level, LivingEntity entity) {
+		for(MobEffectInstance instance : entity.getActiveEffects()) if(instance.getEffect().value() instanceof UpdatableArmorEffect update) update.update(level, entity);
+	}
+	public static void updateAbilities(ResourceKey<Level> level, LivingEntity entity) {
 		ArrayList<Holder<MobEffect>> supportedEffects = new ArrayList<>();
 		ArrayList<Integer> amplifiers = new ArrayList<>();
 		ItemStack[] stack = {entity.getItemBySlot(EquipmentSlot.HEAD), entity.getItemBySlot(EquipmentSlot.CHEST), entity.getItemBySlot(EquipmentSlot.LEGS), entity.getItemBySlot(EquipmentSlot.FEET)};
 		ArrayList<ItemDivineArmor> equipment = new ArrayList<>();
-		for(ItemStack s : stack) if(s != null && s.getItem() instanceof ItemDivineArmor armor) equipment.add(armor);//list all divine armor pieces
+		for(ItemStack s : stack) if(s.getItem() instanceof ItemDivineArmor armor) equipment.add(armor);//list all divine armor pieces
 		for(ItemDivineArmor armor : equipment) if(armor.supportedEffects != null) for(int i = 0; i < armor.supportedEffects.length; i++) {//list all theoretically supported armor effects and their amplifiers
 			Holder<MobEffect> supportedEffect = armor.supportedEffects[i];
 			if(!supportedEffects.contains(supportedEffect)) {
@@ -43,8 +49,8 @@ public class ArmorAbilitiesEvent {
 			}
 		} boolean fullArmor = equipment.size() == 4;
 		if(fullArmor) {
-			ArmorMaterial mat = equipment.get(0).getMaterial().value();
-			for(int i = 1; fullArmor && i < 4; i++) if(equipment.get(i).getMaterial().value() != mat) fullArmor = false;//check if all armor pieces are of the same type
+			ArmorMaterial mat = equipment.getFirst().getMaterial().value();
+			for(int i = 1; fullArmor && i < 4; i++) fullArmor = equipment.get(i).getMaterial().value() == mat;//check if all armor pieces are of the same type
 			if(fullArmor) for(int i = 0; i < supportedEffects.size(); i++) {//apply all not yet present supported effects with their respected amplifiers
 				MobEffectInstance instance;
 				Holder<MobEffect> supportedEffect = supportedEffects.get(i);
@@ -52,10 +58,14 @@ public class ArmorAbilitiesEvent {
 				if(!entity.hasEffect(supportedEffect) || (shouldRemove = !(instance = entity.getEffect(supportedEffect)).isInfiniteDuration() || !(instance instanceof ArmorEffectInstance))) {
 					if(shouldRemove) entity.removeEffect(supportedEffect);
 					entity.addEffect(new ArmorEffectInstance(supportedEffect, amplifiers.get(i)));
-				} else if(supportedEffect instanceof UpdatableArmorEffect update) update.update(entity);
+				} else if(supportedEffect.value() instanceof UpdatableArmorEffect update) update.update(level, entity);
 			}
 		}//the following if case is intentionally not an else case
 		if(!fullArmor) for(Holder<MobEffect> supportedEffect : supportedEffects) if(entity.hasEffect(supportedEffect) && entity.getEffect(supportedEffect).isInfiniteDuration()) entity.removeEffect(supportedEffect);//remove all theoretically supported effects if full armor set is not present
+	}
+	@SubscribeEvent
+	public void onEffectRemoved(MobEffectEvent.Remove event) {
+		if(event.getEffect().is(MobEffectRegistry.SENG_FUR_STRENGTH.getKey())) event.getEffect().value().onMobRemoved(event.getEntity(), 0, null);
 	}
     @SubscribeEvent
     public void onLivingHurtEvent(LivingDamageEvent.Pre event) {

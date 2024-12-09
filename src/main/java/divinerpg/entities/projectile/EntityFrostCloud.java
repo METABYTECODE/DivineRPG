@@ -51,31 +51,37 @@ public class EntityFrostCloud extends Entity {
     public float getRadius() {
         return AttachmentRegistry.RADIUS.getOrDefault(this, 3F);
     }
-
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if(level().isClientSide()) AttachmentRegistry.RADIUS.requestAttachment(this, null);
+    }
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
     public void tick() {
         super.tick();
+        float f = getRadius();
         if(level().isClientSide()) {
-            float f = getRadius();
             float f5 = (float) Math.PI * f * f;
             for(float k1 = 0; k1 < f5; ++k1) {
                 float f6 = random.nextFloat() * ((float) Math.PI * 2F), f7 = Mth.sqrt(random.nextFloat()) * f, f8 = Mth.cos(f6) * f7, f9 = Mth.sin(f6) * f7;
                 level().addParticle(ParticleRegistry.FROST.get(), xo + f8, yo, zo + f9, (.5 - random.nextDouble()) * .15, .009999999776482582, (.5 - random.nextDouble()) * .15);
+            }
+        } else {
+            if(tickCount >= duration) {
+                kill();
+                return;
             }
             if(radiusPerTick != 0F) {
                 f += radiusPerTick;
                 if(f < .5F) {
                     kill();
                     return;
-                } setRadius(f);
+                } setPos(xo, yo, zo);
+                AttachmentRegistry.RADIUS.set(this, f);
             }
-            if(tickCount >= duration) {
-                kill();
-                return;
-            }
-            if((tickCount & 3) == 0) {
+            if(tickCount % 5 == 0) {
                 reapplicationDelayMap.entrySet().removeIf(entry -> tickCount >= entry.getValue());
                 List<LivingEntity> list = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(f));
                 if(!list.isEmpty()) for(LivingEntity entity : list) if(!reapplicationDelayMap.containsKey(entity) && entity.isAffectedByPotions()) {
@@ -98,10 +104,6 @@ public class EntityFrostCloud extends Entity {
         owner = ownerIn;
         ownerUniqueId = ownerIn == null ? null : ownerIn.getUUID();
     }
-    public void setRadius(float radiusIn) {
-        setPos(xo, yo, zo);
-        if(!level().isClientSide()) AttachmentRegistry.RADIUS.set(this, radiusIn);
-    }
     public void setRadiusPerTick(float radiusPerTickIn) {
         radiusPerTick = radiusPerTickIn;
     }
@@ -111,7 +113,7 @@ public class EntityFrostCloud extends Entity {
         duration = compound.getInt("Duration");
         reapplicationDelay = compound.getInt("ReapplicationDelay");
         radiusPerTick = compound.getFloat("RadiusPerTick");
-        setRadius(compound.getFloat("Radius"));
+        AttachmentRegistry.RADIUS.setSilent(this, compound.getFloat("Radius"));
         ownerUniqueId = compound.getUUID("OwnerUUID");
     }
     @Override

@@ -46,4 +46,12 @@ public class EntityMoonWolf extends Wolf {
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return !isTame();
     }
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 4;
+    }
+    @Override
+    public boolean isMaxGroupSizeReached(int i) {
+        return i > 4;
+    }
 }

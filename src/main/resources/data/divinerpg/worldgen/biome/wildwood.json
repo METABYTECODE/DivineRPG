@@ -59,13 +59,18 @@
     "creature": [
       {
         "type": "divinerpg:moon_wolf",
-        "weight": 4,
-        "minCount": 4,
+        "weight": 1,
+        "minCount": 1,
         "maxCount": 4
       }
     ]
   },
-  "spawn_costs": {},
+  "spawn_costs": {
+    "divinerpg:moon_wolf": {
+      "energy_budget": 0.2,
+      "charge": 1
+    }
+  },
   "carvers": {
     "air": [
       "minecraft:canyon"

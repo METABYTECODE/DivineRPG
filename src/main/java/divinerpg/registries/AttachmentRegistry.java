@@ -38,12 +38,11 @@ public class AttachmentRegistry {
 	//Single sided
 	/*
 	The SingleSidedAttachments can be replaced with a single field in the entity's class with overriding readAdditionalSaveData(CompondTag) and addAdditionalSaveData(CompondTag).
-	The benefit of the SingleSidedAttachments is that they provide a very simple way of controlling and overseeing sided data access.
+	The benefit of the SingleSidedAttachments is that they provide a very simple way of controlling and overseeing sided data access. Another benefit is that they can also be attached to non-divinerpg entities, just like regular attachments
 	 */
 	public static final SingleSidedAttachment<DimensionalInventory> DIMENSIONAL_INVENTORY = registerSingleSided("dimensional_inventory", DimensionalInventory::new, false);
 	public static final SingleSidedAttachment<UUID> ANGRY_AT = registerSingleSided("angry_at", () -> zero, UUID_CODEC, false);
 	public static final SingleSidedAttachment<Integer> ANGER_TIME = registerSingleSided("anger_time", () -> 0, Codec.INT, false);
-	public static final SingleSidedAttachment<Float> RADIUS = registerSingleSided("radius", () -> 0F, Codec.FLOAT, false);
 	public static final SingleSidedAttachment<Boolean> IMPORTANT = registerSingleSided("important", () -> false, Codec.BOOL, false);
 
 	//Server handled
@@ -58,6 +57,7 @@ public class AttachmentRegistry {
 	public static final ServerHandledAttachment<Boolean> HANGING = registerServerHandled("hanging", () -> false, Codec.BOOL, ByteBufCodecs.BOOL);
 	public static final ServerHandledAttachment<Boolean> SPECIAL = registerServerHandled("special", () -> false, Codec.BOOL, ByteBufCodecs.BOOL);
 	public static final ServerHandledAttachment<AttachedItem> ITEM = registerServerHandled("item", AttachedItem::new, AttachedItem.CODEC);
+	public static final ServerHandledAttachment<Float> RADIUS = registerServerHandled("radius", () -> 0F, Codec.FLOAT, ByteBufCodecs.FLOAT);
 
 	/*
 	Allowing clients to modify data is very hackable.
@@ -76,10 +76,13 @@ public class AttachmentRegistry {
 		GROGLIN_REPUTATION.registerPayload(r);
 		GRUZZORLUG_REPUTATION.registerPayload(r);
 		ICEIKA_MERCHANT_REPUTATION.registerPayload(r);
-		COLOR.registerPayload(r);
 		VARIANT.registerPayload(r);
 		HANGING.registerPayload(r);
 		SPECIAL.registerPayload(r);
+		ITEM.registerPayload(r);
+		RADIUS.registerPayload(r);
+
+		COLOR.registerPayload(r);
 	}
 
 	public static <T> SingleSidedAttachment<T> registerSingleSided(String name, Supplier<T> defaultValue, Codec<T> codec, boolean clientSide) {

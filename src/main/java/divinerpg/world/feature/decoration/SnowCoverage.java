@@ -27,7 +27,7 @@ public class SnowCoverage extends Feature<NoneFeatureConfiguration> {
 	@Override
 	public boolean place(NoneFeatureConfiguration c, WorldGenLevel level, ChunkGenerator g, RandomSource random, BlockPos pos) {
 		byte i = 0;
-		for(int x = pos.getX(); x < pos.getX() + 16; x++) for(int z = pos.getZ(); z < pos.getZ() + 16; z++) i += snow(level, random, new MutableBlockPos(x, Surface.getSurface(Surface_Type.HIGHEST_GROUND, Mode.FULL, level.getMinBuildHeight(), level.getMaxBuildHeight(), 0, level, random, x, z), z));
+		for(int x = pos.getX() & 0xFFFFFFF0, maxX = x + 16; x < maxX; x++) for(int z = pos.getZ() & 0xFFFFFFF0, maxZ = z + 16; z < maxZ; z++) i += snow(level, random, new MutableBlockPos(x, Surface.getSurface(Surface_Type.HIGHEST_GROUND, Mode.FULL, level.getMinBuildHeight(), level.getMaxBuildHeight(), 0, level, random, x, z), z));
 		return i > 0;
 	}
 	public static boolean isWaterBlock(BlockState state) {

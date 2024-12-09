@@ -31,7 +31,7 @@ public class VetheaInventorySwapEvent {
 					else d.saveInventory(player, OVERWORLD_INVENTORY);
 				} else if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.clearInventory(VETHEA_INVENTORY);
 				else d.clearInventory(OVERWORLD_INVENTORY);
-			} ArmorAbilitiesEvent.updateAbilities(player);
+			} ArmorAbilitiesEvent.updateAbilities(player.level().dimension(), player);
 		}
 	}
 	@SubscribeEvent(priority = EventPriority.HIGH)
@@ -42,7 +42,7 @@ public class VetheaInventorySwapEvent {
 			if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.loadInventory(player, VETHEA_INVENTORY);
 			else d.loadInventory(player, OVERWORLD_INVENTORY);
 			player.inventoryMenu.broadcastChanges();
-		} ArmorAbilitiesEvent.updateAbilities(player);
+		} ArmorAbilitiesEvent.updateAbilities(player.level().dimension(), player);
 	}
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onDimensionChange(EntityTravelToDimensionEvent event) {
@@ -60,7 +60,7 @@ public class VetheaInventorySwapEvent {
 					} player.removeAllEffects();
 				} else if(from && to) d.saveInventory(player, VETHEA_INVENTORY);
 				else d.saveInventory(player,  OVERWORLD_INVENTORY);
-			} ArmorAbilitiesEvent.updateAbilities(player);
+			} ArmorAbilitiesEvent.updateAbilities(event.getDimension(), player);
 		}
 	}
 }

@@ -3,12 +3,14 @@ package divinerpg.entities.projectile.throwable;
 import divinerpg.entities.projectile.DivineThrownItem;
 import divinerpg.items.ranged.ItemThrowable;
 import divinerpg.items.vethea.ItemVetheanDissipator;
+import divinerpg.registries.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -35,5 +37,9 @@ public class Dissipator extends EntityDisk {
             } if(level instanceof ServerLevel l && getOwner() instanceof Player p && !p.isCreative()) item.hurtAndBreak(1, l, p, (i) -> {});
             drop();
         }
+    }
+    @Override
+    protected Item getDefaultItem() {
+        return ItemRegistry.teaker_dissipator.get();
     }
 }

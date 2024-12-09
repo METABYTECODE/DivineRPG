@@ -3,6 +3,7 @@ package divinerpg.entities.projectile.throwable;
 import divinerpg.DivineRPG;
 import divinerpg.entities.projectile.DivineThrownItem;
 import divinerpg.items.ranged.ItemThrowable;
+import divinerpg.registries.ItemRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -67,4 +69,8 @@ public class EntityDisk extends DivineThrownItem {
         setDeltaMovement(getDeltaMovement().scale(.2));
     }
     @Override public boolean isNoGravity() {return true;}
+    @Override
+    protected Item getDefaultItem() {
+        return ItemRegistry.teaker_disk.get();
+    }
 }

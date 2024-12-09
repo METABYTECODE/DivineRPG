@@ -35,12 +35,11 @@ public class EntityFrostShot extends DivineFireball {
      */
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        if(!level().isClientSide() && tickCount > 1 && (result.getEntity() == null || !result.getEntity().equals(shootingEntity))) {
+        if(!level().isClientSide() && tickCount > 1 && !result.getEntity().equals(shootingEntity)) {
             List<LivingEntity> list = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4D, 2D, 4D));
             if(!list.isEmpty()) for(LivingEntity entitylivingbase : list) if(distanceTo(entitylivingbase) < 16D) {
             	EntityFrostCloud frostCloud = new EntityFrostCloud(EntityRegistry.FROST_CLOUD.get(), level(), xo, yo, zo);
                 frostCloud.setOwner(shootingEntity);
-                frostCloud.setRadius(3F);
                 frostCloud.setDuration(50);
                 frostCloud.setRadiusPerTick((0F - frostCloud.getRadius()) / frostCloud.getDuration());
                 frostCloud.setPos(entitylivingbase.xo, entitylivingbase.yo, entitylivingbase.zo);

@@ -4,8 +4,10 @@ import com.google.common.collect.*;
 
 import divinerpg.effect.mob.armor.*;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.level.Level;
 
 public class StepAssistEffect extends ArmorEffect implements UpdatableArmorEffect {
 	public static final AttributeModifier STEP_MOD = new AttributeModifier(Attributes.STEP_HEIGHT.getKey().location(), .6, AttributeModifier.Operation.ADD_VALUE);
@@ -24,7 +26,7 @@ public class StepAssistEffect extends ArmorEffect implements UpdatableArmorEffec
 		AttributeInstance stepHeight = map.getInstance(Attributes.STEP_HEIGHT);
 		if(stepHeight != null) stepHeight.removeModifier(STEP_MOD);
 	}
-	@Override public void update(LivingEntity entity) {
+	@Override public void update(ResourceKey<Level> level, LivingEntity entity) {
 		AttributeMap map = entity.getAttributes();
 		AttributeInstance stepHeight = map.getInstance(Attributes.STEP_HEIGHT);
 		if(stepHeight == null) {

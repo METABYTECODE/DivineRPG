@@ -1,8 +1,10 @@
 package divinerpg.effect.mob.armor.vanilla;
 
 import divinerpg.effect.mob.armor.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.level.Level;
 
 public class AngelicFlightEffect extends ArmorEffect implements UpdatableArmorEffect {
 	public AngelicFlightEffect() {super(10991286);}
@@ -27,7 +29,7 @@ public class AngelicFlightEffect extends ArmorEffect implements UpdatableArmorEf
 
 //	@Override public boolean isDurationEffectTick(int i, int j) {return false;}
 	@SuppressWarnings("deprecation")
-	@Override public void update(LivingEntity entity) {
+	@Override public void update(ResourceKey<Level> level, LivingEntity entity) {
 		if(entity instanceof ServerPlayer player && !player.isCreative() && !player.getAbilities().mayfly) {
 			player.getAbilities().mayfly = true;
 			player.onUpdateAbilities();
