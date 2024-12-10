@@ -1,4 +1,4 @@
-package divinerpg.entities.goals;
+package divinerpg.entities.goals.miner;
 
 import divinerpg.entities.vanilla.overworld.EntityMiner;
 import net.minecraft.world.entity.ai.goal.Goal;

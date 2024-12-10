@@ -1,4 +1,4 @@
-package divinerpg.entities.goals;
+package divinerpg.entities.goals.miner;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
