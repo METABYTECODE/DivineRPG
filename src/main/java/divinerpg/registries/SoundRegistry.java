@@ -259,7 +259,9 @@ public class SoundRegistry {
         MD_DESTINY_SONG = registerSong("destiny", MD_DESTINY, 159, 4),
         MD_RED_STAINS_SONG = registerSong("red_stains_on_the_bluest_snow", MD_RED_STAINS, 152, 1);
 
-    public static final Music CRYSTAL_TEARS_MUSIC = Musics.createGameMusic(CRYSTAL_TEARS);
+    public static final Music
+        CRYSTAL_TEARS_MUSIC = Musics.createGameMusic(CRYSTAL_TEARS),
+        SNOWFLAKES_MUSIC = Musics.createGameMusic(SNOWFLAKES_AFTER_BLIZZARD);
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSound(String registryName) {
         return SOUNDS.register(registryName, () -> createSoundEvent(registryName));

@@ -29,7 +29,7 @@ public class Ticker {
         if(evt.hasTime()) {
             tick++;
             if(tick>100000) tick = 0;
-            if(Math.random() < .001D) Utils.ICEIKA_WEATHER = Weather.newWeather(evt.getServer().getLevel(LevelRegistry.ICEIKA));
+            if(Math.random() < .0001D) Utils.ICEIKA_WEATHER = Weather.newWeather(evt.getServer().getLevel(LevelRegistry.ICEIKA));
         }
     }
 	@SubscribeEvent
@@ -63,11 +63,18 @@ public class Ticker {
             turtle.goalSelector.addGoal(3, new TurtleEatAequoreaGoal(turtle, turtle.getAttributeValue(Attributes.FOLLOW_RANGE), false));
         }
     }
+    public static volatile boolean wantsToPlaySnowflakes = false;
     @SubscribeEvent
     public void musicEvent(SelectMusicEvent e) {
         if(e.getPlayingMusic() == null) {
             ClientLevel level = Minecraft.getInstance().level;
-            if(level != null && level.dimension() == LevelRegistry.ICEIKA && AttachmentRegistry.IN_DUNGEON.get(Minecraft.getInstance().player)) e.setMusic(SoundRegistry.CRYSTAL_TEARS_MUSIC);
+            if(level != null && level.dimension() == LevelRegistry.ICEIKA) {
+                if(AttachmentRegistry.IN_DUNGEON.get(Minecraft.getInstance().player)) e.setMusic(SoundRegistry.CRYSTAL_TEARS_MUSIC);
+                else if(wantsToPlaySnowflakes) {
+                    e.setMusic(SoundRegistry.SNOWFLAKES_MUSIC);
+                    wantsToPlaySnowflakes = false;
+                }
+            }
         }
     }
 }
