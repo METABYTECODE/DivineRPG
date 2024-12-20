@@ -71,28 +71,26 @@ public abstract class ModFurnaceBlockEntity extends BaseContainerBlockEntity imp
 	public boolean isLit() {return this.litTime > 0;}
 	@Override
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-	      super.loadAdditional(tag, registries);
-	      items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-	      ContainerHelper.loadAllItems(tag, items, registries);
-	      litTime = tag.getInt("BurnTime");
-	      cookingProgress = tag.getInt("CookTime");
-	      cookingTotalTime = tag.getInt("CookTimeTotal");
-	      litDuration = getBurnDuration(items.get(1));
-	      CompoundTag compoundtag = tag.getCompound("RecipesUsed");
-	      for(String s : compoundtag.getAllKeys()) recipesUsed.put(ResourceLocation.withDefaultNamespace(s), compoundtag.getInt(s));
+		super.loadAdditional(tag, registries);
+		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+		ContainerHelper.loadAllItems(tag, items, registries);
+		litTime = tag.getInt("BurnTime");
+		cookingProgress = tag.getInt("CookTime");
+		cookingTotalTime = tag.getInt("CookTimeTotal");
+		litDuration = getBurnDuration(items.get(1));
+		CompoundTag compoundtag = tag.getCompound("RecipesUsed");
+		for(String s : compoundtag.getAllKeys()) recipesUsed.put(ResourceLocation.parse(s), compoundtag.getInt(s));
 	}
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-	      super.saveAdditional(tag, registries);
-	      tag.putInt("BurnTime", this.litTime);
-	      tag.putInt("CookTime", this.cookingProgress);
-	      tag.putInt("CookTimeTotal", this.cookingTotalTime);
-	      ContainerHelper.saveAllItems(tag, items, registries);
-	      CompoundTag compoundtag = new CompoundTag();
-	      this.recipesUsed.forEach((p_187449_, p_187450_) -> {
-	         compoundtag.putInt(p_187449_.toString(), p_187450_);
-	      });
-	      tag.put("RecipesUsed", compoundtag);
+		super.saveAdditional(tag, registries);
+		tag.putInt("BurnTime", litTime);
+		tag.putInt("CookTime", cookingProgress);
+		tag.putInt("CookTimeTotal", cookingTotalTime);
+		ContainerHelper.saveAllItems(tag, items, registries);
+		CompoundTag compoundtag = new CompoundTag();
+		recipesUsed.forEach((p_187449_, p_187450_) -> compoundtag.putInt(p_187449_.toString(), p_187450_));
+		tag.put("RecipesUsed", compoundtag);
 	}
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ModFurnaceBlockEntity block) {
 	      boolean flag = block.isLit();
@@ -103,7 +101,7 @@ public abstract class ModFurnaceBlockEntity extends BaseContainerBlockEntity imp
 	      boolean flag3 = !itemstack.isEmpty();
 	      if (block.isLit() || flag3 && flag2) {
 	         RecipeHolder<?> recipe;
-	         if (flag2) recipe = block.quickCheck.getRecipeFor(new SingleRecipeInput(block.items.get(0)), level).orElse(null);
+	         if (flag2) recipe = block.quickCheck.getRecipeFor(new SingleRecipeInput(block.items.getFirst()), level).orElse(null);
 	         else recipe = null;
 	         int maxStackSize = block.getMaxStackSize();
 	         if (!block.isLit() && block.canBurn(level.registryAccess(), recipe, block.items, maxStackSize, block)) {
@@ -130,13 +128,13 @@ public abstract class ModFurnaceBlockEntity extends BaseContainerBlockEntity imp
 	      } else if (!block.isLit() && block.cookingProgress > 0) block.cookingProgress = Mth.clamp(block.cookingProgress - 2, 0, block.cookingTotalTime);
 	      if (flag != block.isLit()) {
 	         flag1 = true;
-	         state = state.setValue(AbstractFurnaceBlock.LIT, Boolean.valueOf(block.isLit()));
+	         state = state.setValue(AbstractFurnaceBlock.LIT, block.isLit());
 	         level.setBlock(pos, state, 3);
 	      }
 	      if (flag1) setChanged(level, pos, state);
 	}
 	private boolean canBurn(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> inventory, int maxStackSize, ModFurnaceBlockEntity furnace) {
-		if(!inventory.get(0).isEmpty() && recipe != null) {
+		if(!inventory.getFirst().isEmpty() && recipe != null) {
 			@SuppressWarnings("unchecked")
 			ItemStack itemstack = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(furnace.getItem(0)), registryAccess);
 	        if(itemstack.isEmpty()) return false;
@@ -161,9 +159,6 @@ public abstract class ModFurnaceBlockEntity extends BaseContainerBlockEntity imp
             itemstack.shrink(1);
             return true;
         } else return false;
-	}
-	public boolean isFuel(ItemStack stack) {
-	      return stack.getBurnTime(null) > 0;
 	}
 	@Override
 	public int[] getSlotsForFace(Direction p_58363_) {
@@ -205,7 +200,7 @@ public abstract class ModFurnaceBlockEntity extends BaseContainerBlockEntity imp
 	@Override
 	public void setItem(int p_58333_, ItemStack p_58334_) {
 	      ItemStack itemstack = this.items.get(p_58333_);
-	      boolean flag = !p_58334_.isEmpty() && ItemStack.isSameItem(p_58334_, itemstack) && ItemStack.isSameItem(p_58334_, itemstack);
+	      boolean flag = !p_58334_.isEmpty() && ItemStack.isSameItem(p_58334_, itemstack);
 	      this.items.set(p_58333_, p_58334_);
 	      if (p_58334_.getCount() > this.getMaxStackSize()) p_58334_.setCount(this.getMaxStackSize());
 	      if (p_58333_ == 0 && !flag) {

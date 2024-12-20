@@ -1,6 +1,5 @@
 package divinerpg.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import divinerpg.DivineRPG;
 import divinerpg.client.menu.DreamLampMenu;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,7 +15,6 @@ public class DreamLampScreen extends AbstractContainerScreen<DreamLampMenu> {
         titleLabelY -= 2;
     }
     @Override public void render(GuiGraphics stack, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(stack, mouseX, mouseY, partialTicks);
         super.render(stack, mouseX, mouseY, partialTicks);
         renderTooltip(stack, mouseX, mouseY);
     }
@@ -25,10 +23,8 @@ public class DreamLampScreen extends AbstractContainerScreen<DreamLampMenu> {
         stack.drawString(font, playerInventoryTitle, 12, 71, 13563562);
     }
     @Override protected void renderBg(GuiGraphics stack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.setShaderTexture(0, texture);
         int edgeSpacingX = (width - getXSize()) / 2;
         int edgeSpacingY = (height - getYSize()) / 2;
-        stack.blit(texture, edgeSpacingX, edgeSpacingY, 0, 0, getXSize(), getYSize());
+        stack.blit(texture, edgeSpacingX, edgeSpacingY, 0, 0, getXSize(), getYSize(), 176, 166);
     }
 }

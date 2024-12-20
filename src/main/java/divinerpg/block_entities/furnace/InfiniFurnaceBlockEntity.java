@@ -77,7 +77,7 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 	@Override
 	public void setItem(int slot, ItemStack stack) {
 		ItemStack itemstack = items.get(slot);
-		boolean flag = !stack.isEmpty() && ItemStack.isSameItem(stack, itemstack) && ItemStack.isSameItem(stack, itemstack);
+		boolean flag = !stack.isEmpty() && ItemStack.isSameItem(stack, itemstack);
 	    items.set(slot, stack);
 	    if (stack.getCount() > getMaxStackSize()) stack.setCount(getMaxStackSize());
 	    if (slot == 0 && !flag) {
@@ -117,7 +117,7 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 position) {
 		List<RecipeHolder<?>> list = Lists.newArrayList();
         for(Entry<ResourceLocation> entry : recipesUsed.object2IntEntrySet()) level.getRecipeManager().byKey(entry.getKey()).ifPresent(p_300839_ -> {
-            list.add((RecipeHolder<?>)p_300839_);
+            list.add(p_300839_);
             createExperience(level, position, entry.getIntValue(), ((AbstractCookingRecipe)p_300839_.value()).getExperience());
         });
         return list;
@@ -131,7 +131,7 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 	}
 	public static void serverTick(Level level, BlockPos pos, BlockState state, InfiniFurnaceBlockEntity block) {
 		boolean changes = false;
-		RecipeHolder<?> recipe = block.quickCheck.getRecipeFor(new SingleRecipeInput(block.items.get(0)), level).orElse(null);
+		RecipeHolder<?> recipe = block.quickCheck.getRecipeFor(new SingleRecipeInput(block.items.getFirst()), level).orElse(null);
         int maxStackSize = block.getMaxStackSize();
 		if(block.isLit) {
 	        if(block.canBurn(level.registryAccess(), recipe, block.items, maxStackSize, block)) {
@@ -159,10 +159,10 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 		}
 	}
 	public boolean canLight(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> inventory, int maxStackSize, InfiniFurnaceBlockEntity furnace) {
-		return !inventory.get(0).isEmpty() && canBurn(registryAccess, recipe, inventory, maxStackSize, furnace);
+		return !inventory.getFirst().isEmpty() && canBurn(registryAccess, recipe, inventory, maxStackSize, furnace);
 	}
 	private boolean canBurn(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> inventory, int maxStackSize, InfiniFurnaceBlockEntity furnace) {
-		if(!inventory.get(0).isEmpty() && recipe != null) {
+		if(!inventory.getFirst().isEmpty() && recipe != null) {
 			@SuppressWarnings("unchecked")
 			ItemStack itemstack = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(furnace.getItem(0)), registryAccess);
 	        if(itemstack.isEmpty()) return false;
@@ -175,9 +175,9 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 	        }
 		} else return false;
 	}
+	@SuppressWarnings("unchecked")
 	private boolean burn(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> inventory, int maxStackSize, InfiniFurnaceBlockEntity furnace) {
 	    if(recipe != null && canBurn(registryAccess, recipe, inventory, maxStackSize, furnace)) {
-	        @SuppressWarnings("unchecked")
 			ItemStack itemstack = items.get(0), itemstack1 = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(furnace.getItem(0)), registryAccess), itemstack2 = items.get(1);
 	        if(itemstack2.isEmpty()) items.set(1, itemstack1.copy());
 	        else if(itemstack2.is(itemstack1.getItem())) itemstack2.grow(itemstack1.getCount());
@@ -187,26 +187,22 @@ public abstract class InfiniFurnaceBlockEntity extends BaseContainerBlockEntity 
 	}
 	@Override
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-	      super.loadAdditional(tag, registries);
-	      items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-	      ContainerHelper.loadAllItems(tag, items, registries);
-	      isLit = tag.getBoolean("isLit");
-	      cookingProgress = tag.getInt("CookTime");
-	      cookingTotalTime = tag.getInt("CookTimeTotal");
-	      CompoundTag compoundtag = tag.getCompound("RecipesUsed");
-	      for(String s : compoundtag.getAllKeys()) recipesUsed.put(ResourceLocation.withDefaultNamespace(s), compoundtag.getInt(s));
+		super.loadAdditional(tag, registries);
+		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+		ContainerHelper.loadAllItems(tag, items, registries);
+		cookingProgress = tag.getInt("CookTime");
+		cookingTotalTime = tag.getInt("CookTimeTotal");
+		CompoundTag compoundtag = tag.getCompound("RecipesUsed");
+		for(String s : compoundtag.getAllKeys()) recipesUsed.put(ResourceLocation.parse(s), compoundtag.getInt(s));
 	}
 	@Override
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-	      super.saveAdditional(tag, registries);
-	      tag.putBoolean("isLit", isLit);
-	      tag.putInt("CookTime", cookingProgress);
-	      tag.putInt("CookTimeTotal", cookingTotalTime);
-	      ContainerHelper.saveAllItems(tag, items, registries);
-	      CompoundTag compoundtag = new CompoundTag();
-	      recipesUsed.forEach((p_187449_, p_187450_) -> {
-	         compoundtag.putInt(p_187449_.toString(), p_187450_);
-	      });
-	      tag.put("RecipesUsed", compoundtag);
+		super.saveAdditional(tag, registries);
+		tag.putInt("CookTime", cookingProgress);
+		tag.putInt("CookTimeTotal", cookingTotalTime);
+		ContainerHelper.saveAllItems(tag, items, registries);
+		CompoundTag compoundtag = new CompoundTag();
+		recipesUsed.forEach((p_187449_, p_187450_) -> compoundtag.putInt(p_187449_.toString(), p_187450_));
+		tag.put("RecipesUsed", compoundtag);
 	}
 }

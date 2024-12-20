@@ -1,6 +1,5 @@
 package divinerpg.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import divinerpg.DivineRPG;
 import divinerpg.client.menu.InfusionTableMenu;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,7 +17,6 @@ public class InfusionTableScreen extends AbstractContainerScreen<InfusionTableMe
     }
 
     @Override public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         renderTooltip(matrixStack, mouseX, mouseY);
     }
@@ -26,12 +24,9 @@ public class InfusionTableScreen extends AbstractContainerScreen<InfusionTableMe
 
     @Override
     protected void renderBg(GuiGraphics matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, LOCATION);
-
         int edgeSpacingX = (this.width - this.getXSize()) / 2;
         int edgeSpacingY = (this.height - this.getYSize()) / 2;
-        matrixStack.blit(LOCATION, edgeSpacingX, edgeSpacingY, 0, 0, this.getXSize(), this.getYSize());
+        matrixStack.blit(LOCATION, edgeSpacingX, edgeSpacingY, 0, 0, this.getXSize(), this.getYSize(), 176, 166);
     }
 
     @Override

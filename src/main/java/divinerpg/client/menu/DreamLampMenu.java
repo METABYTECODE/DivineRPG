@@ -29,24 +29,24 @@ public class DreamLampMenu extends AbstractContainerMenu {
 	@Override public boolean stillValid(Player player) {return container.stillValid(player);}
 	@Override
 	public ItemStack quickMoveStack(Player player, int i) {
-	      ItemStack itemstack = ItemStack.EMPTY;
-	      Slot slot = slots.get(i);
-	      if (slot != null && slot.hasItem()) {
-	         ItemStack itemstack1 = slot.getItem();
-	         itemstack = itemstack1.copy();
-	         if (i == 0) {
-	            if (!moveItemStackTo(itemstack1, 1, 37, true)) return ItemStack.EMPTY;
-	         } else if (itemstack.is(ItemRegistry.acid.get())) {
-	        	 if (!moveItemStackTo(itemstack1, 0, 0, false)) return ItemStack.EMPTY;
-	         } else if (i >= 1 && i < 28) {
-	        	 if (!moveItemStackTo(itemstack1, 28, 37, false)) return ItemStack.EMPTY;
-	         } else if (i >= 28 && i < 37 && !this.moveItemStackTo(itemstack1, 1, 28, false)) return ItemStack.EMPTY;
-	         else if (!moveItemStackTo(itemstack1, 1, 37, false)) return ItemStack.EMPTY;
-	         if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
-	         else slot.setChanged();
-	         if (itemstack1.getCount() == itemstack.getCount()) return ItemStack.EMPTY;
-	         slot.onTake(player, itemstack1);
-	      }
-	      return itemstack;
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = slots.get(i);
+		if(slot.hasItem()) {
+			ItemStack itemstack1 = slot.getItem();
+			itemstack = itemstack1.copy();
+			if(i == 0) {
+				if(!moveItemStackTo(itemstack1, 1, 37, true)) return ItemStack.EMPTY;
+				slot.onQuickCraft(itemstack1, itemstack);
+			} else {
+				if(itemstack1.is(ItemRegistry.acid)) {
+					if(!moveItemStackTo(itemstack1, 0, 1, false)) return ItemStack.EMPTY;
+				} else if(i > 0 && i < 28) {
+					if(!moveItemStackTo(itemstack1, 28, 37, false)) return ItemStack.EMPTY;
+				} else if(i > 27 && i < 37 && !moveItemStackTo(itemstack1, 1, 28, false)) return ItemStack.EMPTY;
+			} if(itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
+			else slot.setChanged();
+			if(itemstack1.getCount() == itemstack.getCount()) return ItemStack.EMPTY;
+			slot.onTake(player, itemstack1);
+		} return itemstack;
 	}
 }

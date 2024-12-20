@@ -18,18 +18,14 @@ public class FrostedChestScreen extends AbstractContainerScreen<FrostedChestMenu
     }
 
     @Override public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
     protected void renderBg(GuiGraphics matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, LOCATION);
-
         int i = leftPos, j = topPos;
-        matrixStack.blit(LOCATION, i, j, 0, 0, imageWidth, imageHeight + 1);
+        matrixStack.blit(LOCATION, i, j, 0, 0, 176, 167, 176, 167);
     }
 
     @Override

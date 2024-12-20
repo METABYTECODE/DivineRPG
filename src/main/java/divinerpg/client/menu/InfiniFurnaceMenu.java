@@ -28,8 +28,7 @@ public class InfiniFurnaceMenu extends RecipeBookMenu<RecipeInput, Recipe<Recipe
 			  @Override
 			  public void onTake(Player player, ItemStack stack) {
 				  super.onTake(player, stack);
-				  if(player instanceof ServerPlayer)
-				  ((InfiniFurnaceBlockEntity)container).awardUsedRecipesAndPopExperience((ServerPlayer) player);
+				  if(player instanceof ServerPlayer) ((InfiniFurnaceBlockEntity)container).awardUsedRecipesAndPopExperience((ServerPlayer) player);
 			  }
 		  });
 	      for(int i = 0; i < 3; ++i) for(int j = 0; j < 9; ++j) addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -57,7 +56,7 @@ public class InfiniFurnaceMenu extends RecipeBookMenu<RecipeInput, Recipe<Recipe
 	public ItemStack quickMoveStack(Player player, int i) {
 	      ItemStack itemstack = ItemStack.EMPTY;
 	      Slot slot = slots.get(i);
-	      if (slot != null && slot.hasItem()) {
+	      if(slot.hasItem()) {
 	         ItemStack itemstack1 = slot.getItem();
 	         itemstack = itemstack1.copy();
 	         if (i == 1) {

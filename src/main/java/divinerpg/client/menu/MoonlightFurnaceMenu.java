@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class MoonlightFurnaceMenu extends DivineFurnaceMenu {
+public class MoonlightFurnaceMenu extends AbstractFurnaceMenu {
     public MoonlightFurnaceMenu(int i, Inventory inventory) {
         super(MenuTypeRegistry.MOONLIGHT_FURNACE.get(), RecipeType.SMELTING, RecipeBookType.FURNACE, i, inventory);
     }
