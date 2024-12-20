@@ -50,6 +50,17 @@
 				},
 				{
 					"type": "minecraft:item",
+					"weight": 1,
+					"name": "divinerpg:md_red_stains_on_the_bluest_snow",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": 1
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
 					"weight": 14,
 					"name": "divinerpg:snowflake",
 					"functions": [

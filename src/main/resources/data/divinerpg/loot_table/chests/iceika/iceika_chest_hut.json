@@ -95,6 +95,17 @@
 				},
 				{
 					"type": "minecraft:item",
+					"weight": 1,
+					"name": "divinerpg:md_destiny",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": 1
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
 					"weight": 4,
 					"name": "divinerpg:fruit_cake",
 					"functions": [
