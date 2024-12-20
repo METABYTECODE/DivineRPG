@@ -11,10 +11,9 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.*;
 import java.util.List;
-import java.util.Optional;
 
 public class ItemMod extends Item {
-	public Optional<Integer> nameColor;
+	public Integer nameColor;
     public int arcanaConsumedUse, cooldown;
     public ItemMod() {super(new Properties());}
     public ItemMod(Properties properties) {super(properties);}
@@ -45,6 +44,6 @@ public class ItemMod extends Item {
     }
     @Override
     public Component getName(ItemStack pStack) {
-    	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+    	return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

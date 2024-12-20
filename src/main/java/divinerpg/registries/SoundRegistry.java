@@ -1,9 +1,15 @@
 package divinerpg.registries;
 
 import divinerpg.DivineRPG;
+import net.minecraft.Util;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.Music;
+import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.JukeboxSong;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -11,6 +17,7 @@ import static divinerpg.DivineRPG.MODID;
 
 public class SoundRegistry {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, MODID);
+    public static final DeferredRegister<JukeboxSong> SONGS = DeferredRegister.create(Registries.JUKEBOX_SONG, MODID);
 
     public static final DeferredHolder<SoundEvent, SoundEvent>
     	ACID_HAG = registerSound("acid_hag"),
@@ -237,13 +244,22 @@ public class SoundRegistry {
         ICEIKA_MUSIC = registerSound("iceika_music"),
         SNOWFLAKES_AFTER_BLIZZARD = registerSound("snowflakes_after_blizzard"),
         SNOWFLAKES_AFTER_BLIZZARD_SYNTH = registerSound("snowflakes_after_blizzard_synth"),
-        FROZEN_DISPERSION = registerSound("frozen_dispersion"),
         CUP_OF_TEA = registerSound("cup_of_tea"),
+        FROZEN_DISPERSION = registerSound("frozen_dispersion"),
+        CRYSTAL_TEARS = registerSound("crystal_tears"),
+        ISOLATION = registerSound("isolation"),
+        MD_DESTINY = registerSound("md_destiny"),
+        MD_RED_STAINS = registerSound("md_red_stains_on_the_bluest_snow"),
         PATCHOULI_FLIP = registerSound("patchouli_flip"),
         PATCHOULI_OPEN = registerSound("patchouli_open"),
         MORTUM_AMBIENCE = registerSound("mortum_ambience"),
         MORTUM_MOOD = registerSound("mortum_mood");
 
+    public static final DeferredHolder<JukeboxSong, JukeboxSong>
+        MD_DESTINY_SONG = registerSong("destiny", MD_DESTINY, 159, 4),
+        MD_RED_STAINS_SONG = registerSong("red_stains_on_the_bluest_snow", MD_RED_STAINS, 152, 1);
+
+    public static final Music CRYSTAL_TEARS_MUSIC = Musics.createGameMusic(CRYSTAL_TEARS);
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSound(String registryName) {
         return SOUNDS.register(registryName, () -> createSoundEvent(registryName));
@@ -251,5 +267,8 @@ public class SoundRegistry {
 
     private static SoundEvent createSoundEvent(String soundPath) {
         return SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, soundPath));
+    }
+    private static DeferredHolder<JukeboxSong, JukeboxSong> registerSong(String name, Holder<SoundEvent> sound, float lengthInSeconds, int comparatorOutput) {
+        return SONGS.register(name, () -> new JukeboxSong(sound, Component.translatable(Util.makeDescriptionId("jukebox_song", ResourceLocation.fromNamespaceAndPath(MODID, name))), lengthInSeconds, comparatorOutput));
     }
 }

@@ -28,7 +28,7 @@ import java.util.Optional;
 public class ItemArmorPouch extends ItemMod {
 	public ItemArmorPouch(int nameColor) {
 		super(new Properties().stacksTo(1));
-		this.nameColor = Optional.of(nameColor);
+		this.nameColor = nameColor;
 	}
 	@Override
 	public boolean isFoil(ItemStack item) {

@@ -1174,6 +1174,9 @@
   "item.divinerpg.snowstorm_arrow": "Snowstorm Arrow",
   "entity.divinerpg.snowstorm_arrow": "Snowstorm Arrow",
 
+  "item.divinerpg.md_red_stains_on_the_bluest_snow": "Music Disc",
+  "item.divinerpg.md_destiny": "Music Disc",
+
   "item.divinerpg.sound_of_music": "Sound of Music",
   "entity.divinerpg.sound_of_music": "Sound of Music",
   "item.divinerpg.sound_of_carols": "Sound of Carols",
@@ -2304,6 +2307,9 @@
 
   "lore.divinerpg.red_cattle": "The fear of failure that drives you",
   "lore.divinerpg.wreck_potion": "Maybe there's a use for this somewhere...",
+
+  "jukebox_song.divinerpg.destiny": "3DA - Destiny",
+  "jukebox_song.divinerpg.red_stains_on_the_bluest_snow": "3DA - Red Stains on the bluest Snow",
 
   "message.divinerpg.ayeraco.blue": "The Blue Ayeraco has been called upon",
   "message.divinerpg.ayeraco.green": "The Green Ayeraco has been called upon",

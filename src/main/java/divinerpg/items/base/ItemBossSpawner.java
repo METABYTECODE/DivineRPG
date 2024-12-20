@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ItemBossSpawner extends ItemMod {
@@ -24,14 +23,14 @@ public class ItemBossSpawner extends ItemMod {
         dimensionID = dimension;
         ent = entity;
         langKey = key;
-        this.nameColor = Optional.of(RarityList.RED);
+        this.nameColor = RarityList.RED;
     }
     public ItemBossSpawner(String key, ResourceKey<Level> dimension) {
     	super(new Properties().stacksTo(1));
     	dimensionID = dimension;
     	langKey = key;
     	ent = null;
-        this.nameColor = Optional.of(RarityList.RED);
+        this.nameColor = RarityList.RED;
 	}
 	@Override public InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();

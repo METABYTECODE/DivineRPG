@@ -1303,6 +1303,34 @@
   	  "divinerpg:music/frozen_dispersion"
   	]
   },
+  "crystal_tears": {
+    "category": "music",
+    "stream": true,
+    "sounds": [
+      "divinerpg:music/crystal_tears"
+    ]
+  },
+  "isolation": {
+    "category": "music",
+    "stream": true,
+    "sounds": [
+      "divinerpg:music/isolation"
+    ]
+  },
+  "md_destiny": {
+    "category": "music",
+    "stream": true,
+    "sounds": [
+      "divinerpg:music/md_destiny"
+    ]
+  },
+  "md_red_stains_on_the_bluest_snow": {
+    "category": "music",
+    "stream": true,
+    "sounds": [
+      "divinerpg:music/md_red_stains_on_the_bluest_snow"
+    ]
+  },
   "patchouli_open": {
     "category": "player",
     "sounds": [

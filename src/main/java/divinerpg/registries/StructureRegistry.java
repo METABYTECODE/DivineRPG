@@ -8,6 +8,8 @@ import divinerpg.world.structure.LowestCeilingType;
 import divinerpg.world.structure.LowestGroundType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Rotation;
@@ -22,6 +24,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class StructureRegistry {
 	public static final StructurePlaceSettings defaultSettings = new StructurePlaceSettings().setIgnoreEntities(false).setFinalizeEntities(true).setLiquidSettings(LiquidSettings.APPLY_WATERLOGGING);
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPE = DeferredRegister.create(Registries.STRUCTURE_TYPE, DivineRPG.MODID);
+
+	public static final TagKey<Structure> ICEIKA_DUNGEON = TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "iceika_dungeon"));
 
     public static final DeferredHolder<StructureType<?>, StructureType<?>>
     	HIGHEST_GROUND = STRUCTURE_TYPE.register("highest_ground", () -> codecConv(HighestGroundType.CODEC)),

@@ -49,6 +49,8 @@ public class AttachmentRegistry {
 	public static final ServerHandledAttachment<Float> ARCANA = registerServerHandled("arcana", () -> 0F, Codec.FLOAT, ByteBufCodecs.FLOAT);
 	public static final ServerHandledAttachment<Float> MAX_ARCANA = registerServerHandled("max_arcana", () -> CommonConfig.Values.ARCANA_MAX, Codec.FLOAT, ByteBufCodecs.FLOAT);
 
+	public static final ServerHandledAttachment<Boolean> IN_DUNGEON = registerServerHandled("in_dungeon", () -> false, Codec.BOOL, ByteBufCodecs.BOOL);
+
 	public static final ServerHandledAttachment<Boolean> ANGRY = registerServerHandled("angry", () -> false, Codec.BOOL, ByteBufCodecs.BOOL);
 	public static final Reputation GROGLIN_REPUTATION = new Reputation("groglin_reputation", () -> Faction.GROGLIN);
 	public static final Reputation GRUZZORLUG_REPUTATION = new Reputation("gruzzorlug_reputation", () -> Faction.GRUZZORLUG);
@@ -72,6 +74,7 @@ public class AttachmentRegistry {
 	public static void registerPayloads(final PayloadRegistrar r) {
 		ARCANA.registerPayload(r);
 		MAX_ARCANA.registerPayload(r);
+		IN_DUNGEON.registerPayload(r);
 		ANGRY.registerPayload(r);
 		GROGLIN_REPUTATION.registerPayload(r);
 		GRUZZORLUG_REPUTATION.registerPayload(r);
