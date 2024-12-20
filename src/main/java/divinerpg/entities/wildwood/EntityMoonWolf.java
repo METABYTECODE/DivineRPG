@@ -52,6 +52,6 @@ public class EntityMoonWolf extends Wolf {
     }
     @Override
     public boolean isMaxGroupSizeReached(int i) {
-        return i > 4;
+        return i > 3;
     }
 }

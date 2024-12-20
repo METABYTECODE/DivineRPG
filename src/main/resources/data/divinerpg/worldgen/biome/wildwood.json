@@ -54,9 +54,7 @@
         "weight": 2,
         "minCount": 4,
         "maxCount": 4
-      }
-    ],
-    "creature": [
+      },
       {
         "type": "divinerpg:moon_wolf",
         "weight": 1,
@@ -67,7 +65,7 @@
   },
   "spawn_costs": {
     "divinerpg:moon_wolf": {
-      "energy_budget": 0.2,
+      "energy_budget": 0.1,
       "charge": 1
     }
   },
