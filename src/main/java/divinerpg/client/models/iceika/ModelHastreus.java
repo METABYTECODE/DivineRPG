@@ -12,7 +12,7 @@ import static divinerpg.util.ClientUtils.createLocation;
 
 public class ModelHastreus extends EntityModel<EntityHastreus> {
 	public static final ModelLayerLocation LAYER_LOCATION = createLocation("hastreus");
-	private final ModelPart Body, Tail, Head, Jaw, FrontRightLeg, BackRightLeg, FrontLeftLeg, BackLeftLeg;
+	public final ModelPart Body, Tail, Head, Jaw, FrontRightLeg, BackRightLeg, FrontLeftLeg, BackLeftLeg;
 	public ModelHastreus(EntityRendererProvider.Context context) {
 		ModelPart root = context.bakeLayer(LAYER_LOCATION);
 		Body = root.getChild("Body");
@@ -53,15 +53,12 @@ public class ModelHastreus extends EntityModel<EntityHastreus> {
 		partdefinition.addOrReplaceChild("BackLeftLeg", CubeListBuilder.create().texOffs(61, 0).addBox(-1.5F, -2, -3.5F, 8, 16, 8, cubeDef), PartPose.offset(4.5F, 10, 9.5F));
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
-	@Override public void prepareMobModel(EntityHastreus entity, float p_103622_, float p_103623_, float p_103624_) {
-		super.prepareMobModel(entity, p_103622_, p_103623_, p_103624_);
+	@Override public void prepareMobModel(EntityHastreus entity, float limbSwing, float limbSwingAmount, float partialTick) {
+		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 		int l = entity.getAttackTick();
 		if(l > 0) {
-			if(l > 5) {
-				Jaw.xRot = Mth.sin((-4 + l - p_103624_) / 4) * Mth.PI * .4F;
-			} else {
-				Jaw.xRot = .1571F * Mth.sin(Mth.PI * (l - p_103624_) / 10);
-			}
+			if(l > 5) Jaw.xRot = Mth.sin((-4 + l - partialTick) / 4) * Mth.PI * .4F;
+			else Jaw.xRot = .1571F * Mth.sin(Mth.PI * (l - partialTick) / 10);
 		} else Jaw.xRot = 0;
 	}
 	@Override public void setupAnim(EntityHastreus entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

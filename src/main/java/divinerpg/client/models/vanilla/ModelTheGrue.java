@@ -42,16 +42,13 @@ public class ModelTheGrue extends EntityModel<EntityTheGrue> {
 		LeftLeg.addOrReplaceChild("LeftFoot", CubeListBuilder.create().texOffs(0, 48).addBox(-3.5F, 0, -3, 5, 11, 6, cubeDef), PartPose.offset(6, 5, -2));
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
-	@Override public void prepareMobModel(EntityTheGrue entity, float p_103622_, float p_103623_, float p_103624_) {
-		super.prepareMobModel(entity, p_103622_, p_103623_, p_103624_);
+	@Override public void prepareMobModel(EntityTheGrue entity, float limbSwing, float limbSwingAmount, float partialTick) {
+		super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 		int l = entity.getAttackTick();
 		if(l > 0) {
-			if(l > 5) {
-				LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = Mth.sin((-4 + l - p_103624_) / 4) * Mth.PI * .4F + .1309F;
-			} else {
-				LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = .1571F * Mth.sin(Mth.PI * (l - p_103624_) / 10);
-			}
-		} else LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = Mth.sqrt((float)Math.atan(200 * p_103622_) / 3) * p_103623_ + .1309F;
+			if(l > 5) LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = Mth.sin((-4 + l - partialTick) / 4) * Mth.PI * .4F + .1309F;
+			else LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = .1571F * Mth.sin(Mth.PI * (l - partialTick) / 10);
+		} else LeftJaw.xRot = RightJaw.xRot = RightJaw.yRot = Mth.sqrt((float)Math.atan(200 * limbSwing) / 3) * limbSwingAmount + .1309F;
 	}
 	@Override public void setupAnim(EntityTheGrue entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		Head.yRot = netHeadYaw * Mth.DEG_TO_RAD;
