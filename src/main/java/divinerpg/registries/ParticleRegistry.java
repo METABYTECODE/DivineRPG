@@ -1,6 +1,7 @@
 package divinerpg.registries;
 
 import com.mojang.serialization.MapCodec;
+import divinerpg.DivineRPG;
 import divinerpg.client.particle.*;
 import divinerpg.client.particle.options.ParticleColouredOption;
 import net.minecraft.client.particle.FlameParticle;
@@ -10,6 +11,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.*;
 
@@ -34,25 +36,5 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> TAR = PARTICLES.register("tar", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SPLASH = PARTICLES.register("splash", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleColouredOption>> COLORED = PARTICLES.register("colored", () -> new ParticleType<ParticleColouredOption>(false) {@Override public MapCodec<ParticleColouredOption> codec() {return null;} @Override public StreamCodec<? super RegistryFriendlyByteBuf, ParticleColouredOption> streamCodec() {return null;}});
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void registerFactories(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ParticleRegistry.EDEN_PORTAL.get(), ParticlePortal.EdenProvider::new);
-        event.registerSpriteSet(ParticleRegistry.WILDWOOD_PORTAL.get(), ParticlePortal.WildwoodProvider::new);
-        event.registerSpriteSet(ParticleRegistry.APALACHIA_PORTAL.get(), ParticlePortal.ApalachiaProvider::new);
-        event.registerSpriteSet(ParticleRegistry.SKYTHERN_PORTAL.get(),ParticlePortal.SkythernProvider::new);
-        event.registerSpriteSet(ParticleRegistry.MORTUM_PORTAL.get(), ParticlePortal.MortumProvider::new);
-        event.registerSpriteSet(ParticleRegistry.HALITE_PORTAL.get(), ParticlePortal.HaliteProvider::new);
-        event.registerSpriteSet(ParticleRegistry.TWILIGHT_PORTAL.get(), ParticlePortal.TwilightProvider::new);
-        event.registerSpriteSet(ParticleRegistry.BLACK_FLAME.get(), FlameParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.BLUE_FLAME.get(), FlameParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.GREEN_FLAME.get(), FlameParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.PURPLE_FLAME.get(), FlameParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.FROST.get(), ParticleFrost.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.SPARKLER.get(), ParticleSparkler.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.ENDER_TRIPLET.get(), ParticleEnderTriplet.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.TAR.get(), ParticleTar.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.SPLASH.get(), ParticleSplash.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.COLORED.get(), ParticleColored.Provider::new);
-    }
+
 }

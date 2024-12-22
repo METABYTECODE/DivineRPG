@@ -53,14 +53,11 @@ public class DivineRPG {
         bus.addListener(this::setup);
         bus.addListener(this::post);
         bus.addListener(this::client);
-        bus.addListener(ArcanaRenderer::registerGUI);
         bus.addListener(SpawnEvents::registerSpawnPlacements);
         bus.addListener(CreativeTabRegistry::creativeTab);
         bus.register(Payloads.class);
         bus.register(EntityRegistry.class);
         bus.register(MenuTypeRegistry.class);
-        bus.register(LevelRegistry.class);
-        bus.register(ParticleRegistry.class);
         container.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, DivineRPG.MODID + "/common.toml");
         container.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, DivineRPG.MODID + "/client.toml");
 

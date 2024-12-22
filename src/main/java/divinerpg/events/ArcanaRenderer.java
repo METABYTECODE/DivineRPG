@@ -12,9 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameType;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
-@OnlyIn(Dist.CLIENT)
+@EventBusSubscriber(modid = DivineRPG.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ArcanaRenderer implements LayeredDraw.Layer {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "textures/gui/arcana_bar.png"), LOC = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "arcana_bar");
 	static long counter = 180;

@@ -20,11 +20,5 @@ public class LevelRegistry {
         ICEIKA = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "iceika")),
         ARCANA = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "arcana")),
         VETHEA = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "vethea"));
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void registerDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
-    	event.register(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "iceika_sky"), new IceikaSky());
-        event.register(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "twilight_sky"), new TwilightSky());
-        event.register(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "vethea_sky"), new VetheaSky());
-    }
+
 }

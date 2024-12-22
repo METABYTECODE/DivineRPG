@@ -1,5 +1,6 @@
 package divinerpg.registries;
 
+import divinerpg.DivineRPG;
 import divinerpg.block_entities.*;
 import divinerpg.block_entities.block.*;
 import divinerpg.block_entities.bosses.*;
@@ -7,7 +8,9 @@ import divinerpg.block_entities.chests.*;
 import divinerpg.block_entities.furnace.*;
 import divinerpg.client.renders.tiles.*;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.*;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.neoforge.registries.*;
@@ -45,7 +48,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RobbinNestBlockEntity>> ROBBIN_NEST = register("robbin_nest", () -> BlockEntityType.Builder.of(RobbinNestBlockEntity::new, BlockRegistry.robbinNest.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RobbinHutBlockEntity>> ROBBIN_HUT = register("robbin_hut", () -> BlockEntityType.Builder.of(RobbinHutBlockEntity::new, BlockRegistry.robbinHut.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrateBlockEntity>> CRATE = register("crate", () -> BlockEntityType.Builder.of(CrateBlockEntity::new, BlockRegistry.crate.get()).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PortalBlockEntity>> PORTAL = register("portal", () -> BlockEntityType.Builder.of(PortalBlockEntity::new, BlockRegistry.arcanaPortal.get(), BlockRegistry.iceikaPortal.get(), BlockRegistry.edenPortal.get(), BlockRegistry.wildwoodPortal.get(), BlockRegistry.apalachiaPortal.get(), BlockRegistry.skythernPortal.get(), BlockRegistry.mortumPortal.get(), BlockRegistry.vetheaPortal.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PortalBlockEntity>> PORTAL = register("portal", () -> BlockEntityType.Builder.of(PortalBlockEntity::new, BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "arcana_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "iceika_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "eden_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "wildwood_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "apalachia_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "skythern_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "mortum_portal")), BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(MODID, "vethea_portal"))).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<KarosDispenser>> KAROS_DISPENSER = register("karos_dispenser", () -> BlockEntityType.Builder.of(KarosDispenser::new, BlockRegistry.karosDispenser.get()).build(null));
     
     private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String registryName, Supplier<BlockEntityType<T>> tile) {
