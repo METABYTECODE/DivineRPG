@@ -30,7 +30,7 @@ public class ItemMod extends Item {
     }
     @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     	if(arcanaConsumedUse != 0 && Arcana.getAmount(player) >= arcanaConsumedUse) {
-            Arcana.modifyAmount(player, -arcanaConsumedUse);
+            if(!level.isClientSide()) Arcana.modifyAmount(player, -arcanaConsumedUse);
             player.getCooldowns().addCooldown(this, cooldown);
             player.awardStat(Stats.ITEM_USED.get(this));
             return arcanicUse(level, player, hand);

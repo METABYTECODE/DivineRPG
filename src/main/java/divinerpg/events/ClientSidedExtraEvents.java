@@ -5,7 +5,12 @@ import divinerpg.client.particle.*;
 import divinerpg.effect.dimension.IceikaSky;
 import divinerpg.effect.dimension.TwilightSky;
 import divinerpg.effect.dimension.VetheaSky;
+import divinerpg.registries.AttachmentRegistry;
+import divinerpg.registries.LevelRegistry;
 import divinerpg.registries.ParticleRegistry;
+import divinerpg.registries.SoundRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -14,6 +19,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.SelectMusicEvent;
 
 @EventBusSubscriber(modid = DivineRPG.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSidedExtraEvents {
@@ -43,5 +49,21 @@ public class ClientSidedExtraEvents {
         event.registerSpriteSet(ParticleRegistry.TAR.get(), ParticleTar.Provider::new);
         event.registerSpriteSet(ParticleRegistry.SPLASH.get(), ParticleSplash.Provider::new);
         event.registerSpriteSet(ParticleRegistry.COLORED.get(), ParticleColored.Provider::new);
+    }
+    public static class MusicEvent {
+        public static volatile boolean wantsToPlaySnowflakes = false;
+        @OnlyIn(Dist.CLIENT) @SubscribeEvent
+        public void musicEvent(SelectMusicEvent e) {
+            if(e.getPlayingMusic() == null) {
+                ClientLevel level = Minecraft.getInstance().level;
+                if(level != null && level.dimension() == LevelRegistry.ICEIKA) {
+                    if(AttachmentRegistry.IN_DUNGEON.get(Minecraft.getInstance().player)) e.setMusic(SoundRegistry.CRYSTAL_TEARS_MUSIC);
+                    else if(wantsToPlaySnowflakes) {
+                        e.setMusic(SoundRegistry.SNOWFLAKES_MUSIC);
+                        wantsToPlaySnowflakes = false;
+                    }
+                }
+            }
+        }
     }
 }

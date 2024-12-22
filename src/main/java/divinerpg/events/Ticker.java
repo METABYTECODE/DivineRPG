@@ -6,8 +6,6 @@ import divinerpg.entities.vanilla.overworld.EntityAequorea;
 import divinerpg.network.payload.Weather;
 import divinerpg.registries.*;
 import divinerpg.util.Utils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,7 +15,6 @@ import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.SelectMusicEvent;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.*;
@@ -63,18 +60,5 @@ public class Ticker {
             turtle.goalSelector.addGoal(3, new TurtleEatAequoreaGoal(turtle, turtle.getAttributeValue(Attributes.FOLLOW_RANGE), false));
         }
     }
-    public static volatile boolean wantsToPlaySnowflakes = false;
-    @SubscribeEvent
-    public void musicEvent(SelectMusicEvent e) {
-        if(e.getPlayingMusic() == null) {
-            ClientLevel level = Minecraft.getInstance().level;
-            if(level != null && level.dimension() == LevelRegistry.ICEIKA) {
-                if(AttachmentRegistry.IN_DUNGEON.get(Minecraft.getInstance().player)) e.setMusic(SoundRegistry.CRYSTAL_TEARS_MUSIC);
-                else if(wantsToPlaySnowflakes) {
-                    e.setMusic(SoundRegistry.SNOWFLAKES_MUSIC);
-                    wantsToPlaySnowflakes = false;
-                }
-            }
-        }
-    }
+
 }

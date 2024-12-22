@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import divinerpg.DivineRPG;
+import divinerpg.events.ClientSidedExtraEvents;
 import divinerpg.events.Ticker;
 import divinerpg.registries.SoundRegistry;
 import divinerpg.util.Utils;
@@ -171,7 +172,7 @@ public class IceikaSky extends DimensionSpecialEffects {
 	public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         if(isBlizzard && Utils.ICEIKA_WEATHER != 2 && level.canSeeSky(camera.getBlockPosition())) {
 			isBlizzard = false;
-			Ticker.wantsToPlaySnowflakes = true;
+			ClientSidedExtraEvents.MusicEvent.wantsToPlaySnowflakes = true;
         } isRaining = level.isRaining();
 		isBoneyard = level.getBiome(camera.getBlockPosition()).is(BONEYARD_LOCATION);
 		setupFog.run();
