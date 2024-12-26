@@ -14,19 +14,18 @@ import net.neoforged.neoforge.event.EventHooks;
 
 public class DivineFireball extends Fireball {
 	public byte explosionPower;
-    public LivingEntity shootingEntity;
     public DivineFireball(EntityType<? extends DivineFireball> type, Level world) {
         super(type, world);
         explosionPower = 0;
     }
     public DivineFireball(EntityType<? extends DivineFireball> type, Level world, LivingEntity shooter, double accelX, double accelY, double accelZ) {
         super(type, shooter, new Vec3(accelX, accelY, accelZ), world);
-        shootingEntity=shooter;
+        setOwner(shooter);
         explosionPower = 0;
     }
     public DivineFireball(EntityType<? extends DivineFireball> type, Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, byte explosionPower) {
         super(type, shooter, new Vec3(accelX, accelY, accelZ), world);
-        shootingEntity=shooter;
+        setOwner(shooter);
         this.explosionPower = explosionPower;
     }
     @Override

@@ -52,6 +52,7 @@ public abstract class EntityDivineFireballMob extends EntityDivineMonster implem
 	        if(isAlive() && target != null) {
 	        	Fireball projectile = getProjectile();
 	        	projectile.setPos(new Vec3(getX(), getEyeY(), getZ()));
+				projectile.setOwner(this);
 	            projectile.shoot(target.getX() - getX() + random.nextDouble() - random.nextDouble(), target.getEyeY() - getEyeY() - random.nextDouble() / 2D, target.getZ() - getZ() + random.nextDouble() - random.nextDouble(), 1.6F, .8F);
 	            level().addFreshEntity(projectile);
 	        }

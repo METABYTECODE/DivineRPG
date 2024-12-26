@@ -163,7 +163,6 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<EntitySaguaroWormShot>> SAGUARO_WORM_SHOT = registerProjectile(EntitySaguaroWormShot::new, "saguaro_worm_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityScorcherShot>> SCORCHER_SHOT = registerFireballProjectile(EntityScorcherShot::new, "scorcher_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostShot>> FROST_SHOT = registerFireballProjectile(EntityFrostShot::new, "frost_shot");
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFrostCloud>> FROST_CLOUD = registerFrostCloud(EntityFrostCloud::new, "frost_cloud");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFractiteShot>> FRACTITE_SHOT = registerFireballProjectile(EntityFractiteShot::new, "fractite_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityEnderTripletsFireball>> ENDER_TRIPLETS_FIREBALL = registerFireballProjectile(EntityEnderTripletsFireball::new, "ender_triplets_fireball");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFyracryxFireball>> FYRACRYX_FIREBALL = registerFireballProjectile(EntityFyracryxFireball::new, "fyracryx_fireball");
@@ -957,7 +956,6 @@ public class EntityRegistry {
         event.registerEntityRenderer(DISSIMENT_SHOT.get(), 			(Context context) -> new RenderDivineProjectile<>(context, "dissiment_shot"));
         event.registerEntityRenderer(ENDER_TRIPLETS_FIREBALL.get(), (Context context) -> new RenderDivineFireball<>(context, "ender_triplets_fireball"));
         event.registerEntityRenderer(FRACTITE_SHOT.get(), 			(Context context) -> new RenderDivineFireball<>(context, "fractite_shot"));
-        event.registerEntityRenderer(FROST_CLOUD.get(),             RenderFrostCloud::new);
         event.registerEntityRenderer(FROST_SHOT.get(), 				(Context context) -> new RenderDivineFireball<>(context, "frost_shot"));
         event.registerEntityRenderer(FYRACRYX_FIREBALL.get(), 		(Context context) -> new RenderDivineFireball<>(context, ResourceLocation.withDefaultNamespace("textures/items/fireball.png")));
 
@@ -1223,9 +1221,6 @@ public class EntityRegistry {
     }
     private static <T extends Mob> void registerDefaultMobAttributes(EntityAttributeCreationEvent event, DeferredHolder<EntityType<?>, EntityType<T>> entity) {
         event.put(entity.get(), Mob.createMobAttributes().add(Attributes.MAX_HEALTH, EntityStats.DEFAULT.getHealth()).add(Attributes.ATTACK_DAMAGE, EntityStats.DEFAULT.getAttackDamage()).add(Attributes.MOVEMENT_SPEED, EntityStats.DEFAULT.getMovementSpeed()).add(Attributes.FOLLOW_RANGE, EntityStats.DEFAULT.getFollowRange()).add(Attributes.FLYING_SPEED, EntityStats.DEFAULT.getMovementSpeed()).build());
-    }
-    private static DeferredHolder<EntityType<?>, EntityType<EntityFrostCloud>> registerFrostCloud(EntityType.EntityFactory<EntityFrostCloud> factory, String entityName){
-        return ENTITIES.register(entityName, () -> EntityType.Builder.of(factory, MobCategory.MISC).sized(.5F, .5F).setTrackingRange(120).setUpdateInterval(20).build(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, entityName).getPath()));
     }
     private static <T extends Projectile> DeferredHolder<EntityType<?>, EntityType<T>> registerProjectile(EntityType.EntityFactory<T> factory, String entityName, float width, float length) {
         return ENTITIES.register(entityName, () -> EntityType.Builder.of(factory, MobCategory.MISC).sized(width, length).setTrackingRange(120).setUpdateInterval(20).build(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, entityName).getPath()));

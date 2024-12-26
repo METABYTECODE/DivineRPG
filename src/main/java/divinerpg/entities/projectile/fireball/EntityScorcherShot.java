@@ -20,7 +20,7 @@ public class EntityScorcherShot extends DivineFireball {
         setPos(shooter.xo, shooter.yo, shooter.zo);
         double d = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ);
         setDeltaMovement(accelX / d * 0.1D, accelY / d * 0.1D, accelZ / d * 0.1D);
-        shootingEntity = shooter;
+        setOwner(shooter);
     }
     @Override
     public boolean hurt(DamageSource source, float amount) {
