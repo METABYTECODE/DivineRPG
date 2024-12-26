@@ -37,7 +37,7 @@ public class VetheaInventorySwapEvent {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player player = event.getEntity();
-		if(!CommonConfig.Values.SAFER_VETHEA) {
+		if(!CommonConfig.Values.SAFER_VETHEA && !event.isEndConquered()) {
 			DimensionalInventory d = AttachmentRegistry.DIMENSIONAL_INVENTORY.get(player);
 			if(player.level().dimension().equals(LevelRegistry.VETHEA)) d.loadInventory(player, VETHEA_INVENTORY);
 			else d.loadInventory(player, OVERWORLD_INVENTORY);
