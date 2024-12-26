@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ItemGhostbane extends ItemMod {
     public ItemGhostbane() {
-        super(new Properties().stacksTo(1));
+        super(new Properties().stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
         arcanaConsumedUse = 200;
         cooldown = 60;
     }
@@ -50,6 +50,5 @@ public class ItemGhostbane extends ItemMod {
         tooltip.add(LocalizeUtils.summonedHealth((int)EntityStats.WRAITH.getHealth()));
         tooltip.add(LocalizeUtils.summonedDespawn());
         super.appendHoverText(stack, context, tooltip, flagIn);
-        stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }

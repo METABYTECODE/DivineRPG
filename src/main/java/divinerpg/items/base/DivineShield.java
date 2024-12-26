@@ -16,22 +16,21 @@ import net.neoforged.api.distmarker.*;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public class DivineShield extends ShieldItem {
     public ResourceLocation resource;
-    public Optional<Integer> nameColor;
+    public Integer nameColor;
     private final Ingredient repairMaterial;
     public DivineShield(int nameColor, Item repairMaterial, int damage, String name) {
-        super(new Properties().durability(damage));
+        super((damage == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(damage)));
         this.repairMaterial = Ingredient.of(repairMaterial);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
         resource = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "textures/shield/" + name + ".png");
-        this.nameColor = Optional.of(nameColor);
+        this.nameColor = nameColor;
     }
     public DivineShield(Item repairMaterial, int damage, String name) {
-        super(new Properties().durability(damage));
+        super((damage == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(damage)));
         this.repairMaterial = Ingredient.of(repairMaterial);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
         resource = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "textures/shield/" + name + ".png");
@@ -46,7 +45,6 @@ public class DivineShield extends ShieldItem {
     @OnlyIn(Dist.CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, context, tooltip, flagIn);
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
     static class RenderProps implements IClientItemExtensions {
         public static RenderProps INSTANCE = new RenderProps();
@@ -54,6 +52,6 @@ public class DivineShield extends ShieldItem {
     }
     @Override
     public Component getName(ItemStack pStack) {
-    	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+    	return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

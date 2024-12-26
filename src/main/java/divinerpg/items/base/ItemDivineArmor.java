@@ -13,66 +13,64 @@ import net.minecraft.world.item.component.Unbreakable;
 import net.neoforged.api.distmarker.*;
 import java.util.List;
 
-import com.google.common.base.Optional;
-
 public class ItemDivineArmor extends ArmorItem implements IFullSetInfo {
     public ArmorInfo armorInfo;
     public final Holder<MobEffect>[] supportedEffects;
     public final int[] amplifier;
-    public Optional<Integer> nameColor;
+    public Integer nameColor;
     public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         supportedEffects = null;
         amplifier = null;
     }
     public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = null;
         amplifier = null;
     }
     public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, Properties properties) {
-        super(materialIn, slot, properties.durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties.durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = null;
         amplifier = null;
     }
     @SafeVarargs
 	public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, Properties properties, Holder<MobEffect> ... effects) {
-        super(materialIn, slot, properties.durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties.durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = effects;
         amplifier = null;
     }
     @SafeVarargs
 	public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, Holder<MobEffect> ... effects) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = effects;
         amplifier = null;
     }
     @SafeVarargs
 	public ItemDivineArmor(int rarity, Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, Holder<MobEffect> ... effects) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = effects;
         amplifier = null;
-        this.nameColor = Optional.of(rarity);
+        this.nameColor = rarity;
     }
     @SafeVarargs
 	public ItemDivineArmor(Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, int[] amplifier, Holder<MobEffect> ... effects) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = effects;
         this.amplifier = amplifier;
     }
     @SafeVarargs
 	public ItemDivineArmor(int rarity, Holder<ArmorMaterial> materialIn, ArmorItem.Type slot, int durability, ArmorInfo armorInfo, int[] amplifier, Holder<MobEffect> ... effects) {
-        super(materialIn, slot, new Properties().durability(slot.getDurability(durability)));
+        super(materialIn, slot, (slot.getDurability(durability) == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(slot.getDurability(durability))));
         this.armorInfo = armorInfo;
         supportedEffects = effects;
         this.amplifier = amplifier;
-        this.nameColor = Optional.of(rarity);
+        this.nameColor = rarity;
     }
     @Override public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer) {
         return stack.getItem() == ItemRegistry.seng_fur_boots.get() || stack.getItem() == ItemRegistry.santa_boots.get();
@@ -84,10 +82,9 @@ public class ItemDivineArmor extends ArmorItem implements IFullSetInfo {
     @OnlyIn(Dist.CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         if(armorInfo != null) tooltip.addAll(armorInfo.asString());
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
     @Override
     public Component getName(ItemStack pStack) {
-    	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+    	return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

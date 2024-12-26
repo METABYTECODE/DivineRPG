@@ -35,14 +35,14 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
     public int arcanaConsumedUse, cooldown;
     public final Supplier<EntityType<? extends Projectile>> projectileType;
     public Integer nameColor = null;
-    protected boolean infinite, breakable = true;
+    protected boolean infinite;
     protected final List<Component> tooltips = new ArrayList<>();
     public final Supplier<ItemStack> defaultItem;
 
     public ItemRangedWeapon(Supplier<EntityType<? extends Projectile>> projectileType, int uses) {
         this(null, Items.ARROW::getDefaultInstance, projectileType, uses);
     }
-    public ItemRangedWeapon(Properties properties, Supplier<EntityType<? extends Projectile>> projectileType) {
+    protected ItemRangedWeapon(Properties properties, Supplier<EntityType<? extends Projectile>> projectileType) {
         super(properties);
         this.ammoType = null;
         infinite = true;
@@ -53,15 +53,14 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
         this((String) null, Items.ARROW::getDefaultInstance, projectileType);
     }
     public ItemRangedWeapon(@Nullable String ammoType, Supplier<ItemStack> defaultItem, Supplier<EntityType<? extends Projectile>> projectileType) {
-        super(new Item.Properties().stacksTo(1));
+        super(new Item.Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)).stacksTo(1));
         this.ammoType = ammoType == null ? null : TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, ammoType));
         infinite = ammoType == null;
-        breakable = false;
         this.projectileType = projectileType;
         this.defaultItem = defaultItem;
     }
     public ItemRangedWeapon(@Nullable String ammoType, Supplier<ItemStack> defaultItem, Supplier<EntityType<? extends Projectile>> projectileType, int uses) {
-        super(new Item.Properties().stacksTo(1).durability(uses));
+        super((uses == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties().durability(uses)).stacksTo(1));
         this.ammoType = ammoType == null ? null : TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, ammoType));
         infinite = ammoType == null;
         this.projectileType = projectileType;
@@ -161,6 +160,5 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
         if(arcanaConsumedUse > 0) tooltip.add(LocalizeUtils.arcanaConsumed(arcanaConsumedUse));
         if(infinite) tooltip.add(LocalizeUtils.infiniteAmmo());
         else if(ammoType != null) tooltip.add(LocalizeUtils.ammo(ammoType));
-        if(!breakable) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }

@@ -21,21 +21,18 @@ public class ItemThrowable extends ItemRangedWeapon {
         this(EntityRegistry.THROWN_ITEM::value, damage);
         power = 2F;
         infinite = false;
-        breakable = true;
     }
     public ItemThrowable(Supplier<EntityType<? extends Projectile>> projectileType, float damage) {
         super(new Properties().stacksTo(32), projectileType);
         this.damage = damage;
         power = 2F;
         infinite = false;
-        breakable = true;
     }
     public ItemThrowable(Properties properties, Supplier<EntityType<? extends Projectile>> projectileType, float damage) {
         super(properties, projectileType);
         this.damage = damage;
         power = 2F;
         infinite = false;
-        breakable = true;
     }
     @Override
     public ItemStack getDefaultCreativeAmmo(@Nullable Player player, ItemStack projectileWeaponItem) {

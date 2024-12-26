@@ -36,17 +36,17 @@ import static net.minecraft.world.level.gameevent.GameEvent.BLOCK_CHANGE;
 import static net.neoforged.neoforge.common.ItemAbilities.*;
 
 public class ItemShickaxe extends DiggerItem {
-	public Optional<Integer> nameColor;
+	public Integer nameColor;
     //Base constructor
     public ItemShickaxe(Tier tier, Properties properties) {
-        super(tier, create(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "shickaxe_effective")), properties.attributes(ShovelItem.createAttributes(tier, 1, -2.4F)));
+        super(tier, create(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "shickaxe_effective")), (tier.getUses() == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties).attributes(ShovelItem.createAttributes(tier, 1, -2.4F)));
     }
     //Base shickaxes
     public ItemShickaxe(Tier tier) {this(tier, new Properties());}
     //Shickaxes with custom rarity
     public ItemShickaxe(Tier tier, int rarity) {
         this(tier, new Properties());
-        nameColor = Optional.of(rarity);
+        nameColor = rarity;
     }
     private static final Set<ItemAbility> TOOL_ACTIONS = Stream.of(AXE_DIG, AXE_SCRAPE, AXE_STRIP, AXE_WAX_OFF, PICKAXE_DIG, SHOVEL_DIG, SHOVEL_FLATTEN, HOE_DIG, HOE_TILL).collect(Collectors.toCollection(Sets::newIdentityHashSet));
     @Override public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {return TOOL_ACTIONS.contains(itemAbility);}
@@ -115,9 +115,8 @@ public class ItemShickaxe extends DiggerItem {
         TagKey<Block> tagKey = getTier().getIncorrectBlocksForDrops();
         if(tagKey == INCORRECT_FOR_DIAMOND_TOOL || tagKey == INCORRECT_FOR_NETHERITE_TOOL) tooltip.add(LocalizeUtils.harvestLevel(OBSIDIAN.asItem().getName(stack)));
         else if(tagKey == INCORRECT_FOR_IRON_TOOL) tooltip.add(LocalizeUtils.harvestLevel(DIAMOND.getName(stack)));
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
     @Override public Component getName(ItemStack pStack) {
-    	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+    	return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

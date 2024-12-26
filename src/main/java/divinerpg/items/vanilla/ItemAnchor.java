@@ -23,7 +23,7 @@ public class ItemAnchor extends ItemModSword {
     protected Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType;
     int baseDamageTooltip;
     public ItemAnchor(ToolStats stats, Supplier<EntityType<? extends DivineThrowableProjectile>> projectileType, int baseDamageTooltip) {
-        super(stats);
+        super(stats, new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
         this.projectileType = projectileType;
         this.baseDamageTooltip = baseDamageTooltip;
     }
@@ -45,6 +45,5 @@ public class ItemAnchor extends ItemModSword {
         tooltip.add(LocalizeUtils.rangedDam(baseDamageTooltip));
         tooltip.add(LocalizeUtils.infiniteAmmo());
         super.appendHoverText(stack, context, tooltip, flagIn);
-        stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }

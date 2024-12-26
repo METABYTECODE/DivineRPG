@@ -14,17 +14,17 @@ import static net.minecraft.tags.BlockTags.*;
 import static net.minecraft.world.item.Items.*;
 
 public class ItemModHoe extends HoeItem {
-    public Optional<Integer> nameColor;
+    public Integer nameColor;
     //Base constructor
     public ItemModHoe(Tier tier, float attackSpeed, Properties properties) {
-        super(tier, properties.attributes(HoeItem.createAttributes(tier, 0, attackSpeed)));
+        super(tier, (tier.getUses() == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties).attributes(HoeItem.createAttributes(tier, 0, attackSpeed)));
     }
     //Base hoes
     public ItemModHoe(Tier tier, float attackSpeed) {this(tier, attackSpeed, new Properties());}
     //Hoes with custom rarity
     public ItemModHoe(Tier tier, float attackSpeed, int rarity) {
         this(tier, attackSpeed, new Properties());
-        nameColor = Optional.of(rarity);
+        nameColor = rarity;
     }
 	@OnlyIn(Dist.CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
@@ -32,9 +32,8 @@ public class ItemModHoe extends HoeItem {
         TagKey<Block> tagKey = getTier().getIncorrectBlocksForDrops();
         if(tagKey == INCORRECT_FOR_DIAMOND_TOOL || tagKey == INCORRECT_FOR_NETHERITE_TOOL) tooltip.add(LocalizeUtils.harvestLevel(OBSIDIAN.asItem().getName(stack)));
         else if(tagKey == INCORRECT_FOR_IRON_TOOL) tooltip.add(LocalizeUtils.harvestLevel(DIAMOND.getName(stack)));
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
     @Override public Component getName(ItemStack pStack) {
-        return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+        return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

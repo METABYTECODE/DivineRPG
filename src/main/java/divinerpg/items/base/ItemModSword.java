@@ -18,23 +18,23 @@ import net.neoforged.api.distmarker.*;
 import java.util.*;
 
 public class ItemModSword extends SwordItem {
-	public Optional<Integer> nameColor;
+	public Integer nameColor;
     public int arcanaConsumedUse, arcanaConsumedAttack, cooldown;
     public ToolStats sword;
     //Base constructor
     public ItemModSword(Tier tier, Properties properties) {
-        super(tier, properties.attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
+        super(tier, (tier.getUses() == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties).attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
         sword = (ToolStats)tier;
     }
     //Have rarity
     public ItemModSword(Tier tier, int rarity) {
         this(tier, new Properties());
         sword = (ToolStats)tier;
-        nameColor = Optional.of(rarity);
+        nameColor = rarity;
     }
     //No rarity
     public ItemModSword(Tier tier) {
-        super(tier, new Properties().attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
+        super(tier, (tier.getUses() == 0 ? new Properties().component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : new Properties()).attributes(ShovelItem.createAttributes(tier, 1, tier.getSpeed())));
         sword = (ToolStats)tier;
     }
     public ItemModSword setAttackArcanaConsumption(int amount) {
@@ -77,9 +77,8 @@ public class ItemModSword extends SwordItem {
         if(sword.getSwordSpecial() == ToolStats.SwordSpecial.SPEED) tooltip.add(LocalizeUtils.i18n("shadow_saber"));
         if(arcanaConsumedUse > 0) tooltip.add(LocalizeUtils.arcanaConsumed(arcanaConsumedUse));
         if(arcanaConsumedAttack > 0) tooltip.add(LocalizeUtils.arcanaConsumed(arcanaConsumedAttack));
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
     @Override public Component getName(ItemStack pStack) {
-    	return nameColor != null && nameColor.isPresent() ? ((MutableComponent) super.getName(pStack)).withColor(nameColor.get()) : super.getName(pStack);
+    	return nameColor != null ? ((MutableComponent) super.getName(pStack)).withColor(nameColor) : super.getName(pStack);
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ItemEnderScepter extends ItemMod {
     public ItemEnderScepter() {
-        super(new Properties().stacksTo(1));
+        super(new Properties().stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
         arcanaConsumedUse = 75;
         cooldown = 10;
     }
@@ -40,6 +40,5 @@ public class ItemEnderScepter extends ItemMod {
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(LocalizeUtils.i18n("ender_scepter"));
         super.appendHoverText(stack, context, tooltip, flagIn);
-        stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }

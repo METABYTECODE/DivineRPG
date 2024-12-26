@@ -20,7 +20,6 @@ public class ItemScythe extends ItemRangedWeapon {
         sound = SoundRegistry.DEEP_LAUGH.get();
         cooldown = 10;
         infinite = true;
-        breakable = false;
     }
     private boolean isJackoman(Player player) {
         return player.getInventory().armor.get(0).is(ItemRegistry.jack_o_man_boots.get())

@@ -26,7 +26,7 @@ public class ItemBow extends BowItem {
     public final Supplier<Item> infinityArrow;
     public final float speedScale;
     public ItemBow(Properties properties, int uses, int useDuration, float speedScale, Supplier<Item> infinityArrow, Integer nameColor) {
-        super(properties.durability(uses));
+        super((uses == 0 ? properties.component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties.durability(uses)));
         this.useDuration = useDuration;
         this.nameColor = nameColor;
         this.infinityArrow = infinityArrow;
@@ -69,7 +69,6 @@ public class ItemBow extends BowItem {
         if(speed > 1) tooltip.add(LocalizeUtils.i18n(ChatFormatting.DARK_GREEN, "bow_speed.faster", String.format("%s", speed)));
         if(speed < 1) tooltip.add(LocalizeUtils.i18n(ChatFormatting.RED, "bow_speed.slower", String.format("%s", 1 / speed)));
         if(infinityArrow != null) tooltip.add(LocalizeUtils.infiniteAmmo());
-        if(stack.getMaxDamage() == 0) stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
         super.appendHoverText(stack, context, tooltip, flagIn);
     }
     @Override public Component getName(ItemStack pStack) {

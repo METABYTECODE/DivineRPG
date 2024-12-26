@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ItemDivineAccumulator extends ItemMod {
     public ItemDivineAccumulator() {
-        super(new Properties().stacksTo(1));
+        super(new Properties().stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
         arcanaConsumedUse = 80;
         cooldown = 10;
     }
@@ -42,6 +42,5 @@ public class ItemDivineAccumulator extends ItemMod {
         tooltip.add(LocalizeUtils.i18n("divine_accumulator.launch"));
         tooltip.add(LocalizeUtils.i18n("divine_accumulator.fall"));
         super.appendHoverText(stack, context, tooltip, flagIn);
-        stack.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
     }
 }
