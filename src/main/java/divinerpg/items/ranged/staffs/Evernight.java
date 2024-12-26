@@ -1,6 +1,6 @@
 package divinerpg.items.ranged.staffs;
 
-import divinerpg.registries.DamageRegistry;
+import divinerpg.registries.*;
 import divinerpg.util.*;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 
 public class Evernight extends VetheanStaff {
     public Evernight() {
-        super(80, 115F);
+        super(EntityRegistry.EVERNIGHT_SHOT::value, 80, 115F);
         tooltips.add(LocalizeUtils.onUseDam(19));
     }
     @Override

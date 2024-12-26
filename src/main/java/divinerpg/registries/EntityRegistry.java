@@ -135,6 +135,7 @@ public class EntityRegistry {
     //Vethean weapons
     public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> CANNON_SHOT = registerProjectile(DivineThrowableProjectile::new, "cannon_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>>	BOUNCING_PROJECTILE = registerProjectile(EntityBouncingProjectile::new, "bouncing_projectile");
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityBouncingProjectile>> EVERNIGHT_SHOT = registerProjectile(EntityBouncingProjectile::new, "evernight_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<DivineThrowableProjectile>> EVERSIGHT_SHOT = registerProjectile((type, level) -> new DivineThrowableProjectile(type, level, 42), "eversight_shot");
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDisk>> DISK = registerProjectile(EntityDisk::new, "disk");
     public static final DeferredHolder<EntityType<?>, EntityType<Dissipator>> DISSIPATOR = registerProjectile(Dissipator::new, "dissipator");
@@ -917,6 +918,7 @@ public class EntityRegistry {
         event.registerEntityRenderer(GHAST_CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "ghast_cannon"));
         event.registerEntityRenderer(BLASTER_BULLET.get(), (context) -> new RenderDivineProjectile<>(context, "blaster_shot"));
         event.registerEntityRenderer(BOUNCING_PROJECTILE.get(), (context) -> new RenderDivineProjectile<>(context, "bouncing_projectile"));
+        event.registerEntityRenderer(EVERNIGHT_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "evernight"));
         event.registerEntityRenderer(CANNON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "cannon"));
         event.registerEntityRenderer(EVERSIGHT_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "eversight"));
         event.registerEntityRenderer(TWILIGHT_DEMON_SHOT.get(), (context) -> new RenderDivineProjectile<>(context, "twilight_demon_shot"));

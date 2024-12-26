@@ -10,7 +10,7 @@ public class EntityBouncingProjectile extends DivineArcanaProjectile {
     int bounces = 0;
     public EntityBouncingProjectile(EntityType<? extends ThrowableProjectile> type, Level world) {super(type, world);}
     @Override public void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
+        hitBlockNoDiscard(result);
         Vec3 mv = getDeltaMovement();
         double x = mv.x, y = mv.y, z = mv.z;
         if(result.getDirection() == Direction.DOWN || result.getDirection() == Direction.UP) lerpMotion(x * 0.8, y * -0.8, z * 0.8);
