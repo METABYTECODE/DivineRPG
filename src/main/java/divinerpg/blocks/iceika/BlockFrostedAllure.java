@@ -7,6 +7,7 @@ import divinerpg.registries.ItemRegistry;
 import divinerpg.util.LocalizeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -37,38 +38,23 @@ public class BlockFrostedAllure extends BaseEntityBlock {
     }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(CATEGORY);}
     @Override public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(hand == InteractionHand.MAIN_HAND && player.getItemInHand(hand).getItem() == ItemRegistry.ice_stone.get()){
-            if(state.getValue(CATEGORY) == 0) {
-                level.setBlock(pos, state.setValue(CATEGORY, 1), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.monster"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            } if(state.getValue(CATEGORY) == 1) {
-                level.setBlock(pos, state.setValue(CATEGORY, 2), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.creature"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            } if(state.getValue(CATEGORY) == 2) {
-                level.setBlock(pos, state.setValue(CATEGORY, 3), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.ambient"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            } if(state.getValue(CATEGORY) == 3) {
-                level.setBlock(pos, state.setValue(CATEGORY, 4), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.water"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            } if(state.getValue(CATEGORY) == 4) {
-                level.setBlock(pos, state.setValue(CATEGORY, 5), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.misc"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            } if(state.getValue(CATEGORY) == 5) {
-                level.setBlock(pos, state.setValue(CATEGORY, 0), 0);
-                player.displayClientMessage(LocalizeUtils.clientMessage("frosted_allure.all"), true);
-                if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
-                return ItemInteractionResult.SUCCESS;
-            }
+        Item item = stack.getItem();
+        if(hand == InteractionHand.MAIN_HAND && item == ItemRegistry.ice_stone.get()){
+            int currentCategory = state.getValue(CATEGORY);
+            String[] messages = {
+                    "frosted_allure.all",
+                    "frosted_allure.monster",
+                    "frosted_allure.creature",
+                    "frosted_allure.ambient",
+                    "frosted_allure.water",
+                    "frosted_allure.misc"
+            };
+            int newCategory = (currentCategory + 1) % messages.length;
+            level.setBlock(pos, state.setValue(CATEGORY, newCategory), 0);
+            player.displayClientMessage(LocalizeUtils.clientMessage(messages[newCategory]), true);
+            stack.consume(1, player);
+            player.awardStat(Stats.ITEM_USED.get(item));
+            return ItemInteractionResult.SUCCESS;
         } return ItemInteractionResult.FAIL;
     }
     @OnlyIn(Dist.CLIENT)

@@ -2,6 +2,7 @@ package divinerpg.blocks.base;
 
 import divinerpg.enums.BlockColor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -34,7 +35,8 @@ public class BlockStatueColored extends BlockStatue {
             else if(stack.is(Items.YELLOW_DYE) && color != BlockColor.YELLOW) color = BlockColor.YELLOW;
             else if(stack.is(Items.WHITE_DYE) && color != BlockColor.WHITE) color = BlockColor.WHITE;
             else break colorTest;
-            if(!player.isCreative()) stack.shrink(1);
+            stack.consume(1, player);
+            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             player.setItemInHand(hand, stack);
             world.setBlock(pos, defaultBlockState().setValue(COLOR, color).setValue(FACING, state.getValue(FACING)), 3);
             return ItemInteractionResult.SUCCESS;

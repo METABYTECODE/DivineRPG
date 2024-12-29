@@ -48,7 +48,7 @@ public class ItemBossSpawner extends ItemMod {
             return InteractionResult.FAIL;
         } else {
         	if(!world.isClientSide && ent != null) ent.get().spawn((ServerLevel) world, player.getItemInHand(hand), player, pos1, MobSpawnType.MOB_SUMMONED, true, false);
-            if(!player.isCreative()) player.getItemInHand(hand).shrink(1);
+            player.getItemInHand(hand).consume(1, player);
             player.getCooldowns().addCooldown(this, 40);
             return InteractionResult.SUCCESS;
         }

@@ -53,7 +53,7 @@ public class EntityWorkshopMerchant extends EntityDivineMerchant implements Fact
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.snowflake.get(), 6), new ItemStack(ItemRegistry.seng_fur_chestplate.get(), 1), random.nextInt(7), 5),
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.snowflake.get(), 6), new ItemStack(ItemRegistry.seng_fur_leggings.get(), 1), random.nextInt(7), 5),
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.snowflake.get(), 6), new ItemStack(ItemRegistry.seng_fur_boots.get(), 1), random.nextInt(7), 5),
-                new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(ItemRegistry.egg_nog.get(), 2), random.nextInt(7), 5),
+                new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(ItemRegistry.egg_nog.get(), 1), random.nextInt(7), 5),
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(ItemRegistry.chocolate_log.get(), 5), random.nextInt(7), 5),
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(ItemRegistry.peppermints.get(), 15), random.nextInt(7), 5),
                 new EntityDivineMerchant.DivineTrades(new ItemStack(ItemRegistry.ice_stone.get(), 3), new ItemStack(ItemRegistry.fruit_cake.get(), 3), random.nextInt(7), 5),

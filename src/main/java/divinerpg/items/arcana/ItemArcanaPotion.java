@@ -24,7 +24,7 @@ public class ItemArcanaPotion extends ItemModFood {
     		if(Arcana.hasArcana(entityLiving)) Arcana.modifyAmount(entityLiving, amountToAdd);
     		if(entityLiving instanceof ServerPlayer player) {
     			player.awardStat(Stats.ITEM_USED.get(this));
-    			if(!player.isCreative()) stack.shrink(1);
+                stack.consume(1, player);
 			}
     	} return stack;
     }

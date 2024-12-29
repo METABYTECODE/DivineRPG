@@ -44,8 +44,8 @@ public class BlockArcanaDoor extends DoorBlock {
             if(!player.isCreative()) {
                 if(iblockstate.getValue(OPEN).equals(true)) return InteractionResult.FAIL;
                 if(itemstack.getItem() != key) return InteractionResult.FAIL;
-                itemstack.shrink(1);
-            } world.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.OPEN));
+            } itemstack.consume(1, player);
+            world.setBlockAndUpdate(pos, state.cycle(BlockStateProperties.OPEN));
             world.levelEvent(player, state.getValue(BlockStateProperties.OPEN) ? 1005 : 1011, pos, 0);
             if(state.getValue(OPEN)) world.playSound(player, pos, SoundEvents.IRON_DOOR_CLOSE, SoundSource.BLOCKS, 1F, .8F);
             else world.playSound(player, pos, SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 1F, .8F);

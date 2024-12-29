@@ -22,7 +22,7 @@ public class ItemWinterberry extends ItemNameBlockItem {
         	if(b = (face == Direction.UP && level.getBlockState(above).isAir())) level.setBlockAndUpdate(above, BlockRegistry.winterberryBush.get().defaultBlockState());
         	else if(b = (face == Direction.DOWN && level.getBlockState(below).isAir())) level.setBlockAndUpdate(below, BlockRegistry.winterberryVinesHead.get().defaultBlockState());
         	if(b) {
-            	if(!player.isCreative()) context.getItemInHand().shrink(1);
+            	context.getItemInHand().consume(1, player);
                 level.playSound(player, pos, SoundEvents.SWEET_BERRY_BUSH_PLACE, SoundSource.BLOCKS);
                 return InteractionResult.SUCCESS;
         	}

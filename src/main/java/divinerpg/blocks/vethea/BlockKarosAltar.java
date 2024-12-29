@@ -4,6 +4,7 @@ import divinerpg.entities.boss.EntityKaros;
 import divinerpg.registries.EntityRegistry;
 import divinerpg.registries.ItemRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,10 +50,9 @@ public class BlockKarosAltar extends BlockVetheaAltar {
     @Override
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         BlockPos bossSpawnPos = findSafeBossSpawnPos(world, pos, 10);
-        if(bossSpawnPos != null && stack != null && stack.getItem() == acceptedItem()) {
-            if (!player.isCreative()) {
-                stack.shrink(1);
-            }
+        if(bossSpawnPos != null && stack.getItem() == acceptedItem()) {
+            stack.consume(1, player);
+            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             spawnBoss(world, bossSpawnPos.above());
             return ItemInteractionResult.SUCCESS;
         } else {

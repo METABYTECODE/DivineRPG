@@ -39,7 +39,7 @@ public class Shotgun extends ItemRangedWeapon {
             if(!level.isClientSide) {
                 for(int i = 0; i < count; i++) shoot((ServerLevel) level, player, player.getUsedItemHand(), stack, List.of(ammo), power, 10F, false, null);
                 if(arcanaConsumedUse > 0) Arcana.modifyAmount(player, -arcanaConsumedUse);
-            } if(!player.isCreative()) ammo.shrink(count);
+            } ammo.consume(count, player);
             if(cooldown > 0) player.getCooldowns().addCooldown(this, cooldown);
             player.awardStat(Stats.ITEM_USED.get(this));
             player.playSound(sound != null ? sound : SoundEvents.ARROW_SHOOT, 1, 1);

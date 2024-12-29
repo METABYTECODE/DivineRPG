@@ -113,7 +113,7 @@ public class ItemRangedWeapon extends ProjectileWeaponItem {
             if(!level.isClientSide) {
                 shoot((ServerLevel) level, player, player.getUsedItemHand(), stack, List.of(ammo),  power, 1F, false, null);
                 if(arcanaConsumedUse > 0) Arcana.modifyAmount(player, -arcanaConsumedUse);
-            } if(!player.isCreative()) ammo.shrink(1);
+            } ammo.consume(1, player);
             if(cooldown > 0) player.getCooldowns().addCooldown(this, cooldown);
             player.awardStat(Stats.ITEM_USED.get(this));
             if(this instanceof ItemThrowable) {

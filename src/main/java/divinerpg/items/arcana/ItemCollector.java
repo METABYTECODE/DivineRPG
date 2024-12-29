@@ -23,7 +23,7 @@ public class ItemCollector extends ItemMod {
         ItemStack stack = player.getItemInHand(hand);
         if(block == BlockRegistry.dramixAltar.get()) {
             if(!level.isClientSide) EntityRegistry.DUNGEON_CONSTRUCTOR.get().spawn((ServerLevel) level, stack, player, pos, MobSpawnType.MOB_SUMMONED, true, false);
-            if(!player.isCreative()) stack.shrink(1);
+            stack.consume(1, player);
             player.getCooldowns().addCooldown(this, 20);
             return InteractionResult.SUCCESS;
         } return InteractionResult.PASS;

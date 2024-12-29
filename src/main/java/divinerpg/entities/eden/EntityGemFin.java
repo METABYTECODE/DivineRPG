@@ -40,7 +40,7 @@ public class EntityGemFin extends AbstractSchoolingFish {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
         if(!hasBeenFed && heldItem.getItem() == BlockRegistry.gemOfTheDunes.get().asItem()) {
-            if(!player.isCreative()) heldItem.shrink(1);
+            heldItem.consume(1, player);
             setFed(true);
             for(int i = 0; i < 7; ++i) {
                 double d0 = random.nextGaussian() * .02, d1 = random.nextGaussian() * .02, d2 = random.nextGaussian() * .02;

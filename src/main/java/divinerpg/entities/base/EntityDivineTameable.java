@@ -90,7 +90,7 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
         if(level().isClientSide()) return isOwnedBy(player) ? InteractionResult.CONSUME : InteractionResult.PASS;
         if(isTame()) {
             if(isFood(itemstack) && getHealth() < getMaxHealth()) {
-                if(!player.isCreative()) itemstack.shrink(1);
+                itemstack.consume(1, player);
                 heal((float) item.getFoodProperties(itemstack, this).nutrition());
                 gameEvent(GameEvent.EAT, this);
                 return InteractionResult.SUCCESS;
@@ -100,7 +100,7 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
                     DyeColor dyecolor = dyeitem.getDyeColor();
                     if(dyecolor != getCollarColor()) {
                         setCollarColor(dyecolor);
-                        if(!player.getAbilities().instabuild) itemstack.shrink(1);
+                        itemstack.consume(1, player);
                         return InteractionResult.SUCCESS;
                     } return super.mobInteract(player, hand);
                 }

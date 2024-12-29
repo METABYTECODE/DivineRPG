@@ -67,7 +67,7 @@ public class EntityDolossal extends AbstractHorse {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if(FOOD.test(stack)) {
-			if(!player.isCreative()) stack.shrink(1);
+			stack.consume(1, player);
 			handleEating(player, stack);
 			return InteractionResult.CONSUME;
 		} return super.mobInteract(player, hand);

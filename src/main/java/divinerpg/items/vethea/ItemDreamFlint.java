@@ -54,7 +54,7 @@ public class ItemDreamFlint extends ItemVethean {
 						while(world.getBlockState(place.move(Direction.WEST)).isAir()) world.setBlock(place, portal, 2);
 					}
 				} Player player = context.getPlayer();
-				if(!player.isCreative()) context.getItemInHand().shrink(1);
+				context.getItemInHand().consume(1, player);
 				player.playSound(SoundEvents.FLINTANDSTEEL_USE, 1, 1);
 				return InteractionResult.SUCCESS;
 			}
