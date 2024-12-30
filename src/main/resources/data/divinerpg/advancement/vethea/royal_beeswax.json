@@ -1,21 +1,20 @@
 {
+  "parent": "divinerpg:vethea/for_the_man_who_has_everything",
   "display": {
     "icon": {
-      "item": "divinerpg:hive_egg"
+      "id": "divinerpg:hive_egg"
     },
+    "frame": "goal",
     "title": {
       "translate": "advancement.divinerpg.vethea.royal_beeswax"
     },
-    "frame": "challenge",
     "description": {
       "translate": "advancement.divinerpg.vethea.royal_beeswax.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:vethea/for_the_man_who_has_everything",
   "criteria": {
     "kill_hive_queen": {
-      "trigger": "minecraft:player_killed_entity",
+      "trigger": "player_killed_entity",
       "conditions": {
         "entity": {
           "type": "divinerpg:hive_queen"

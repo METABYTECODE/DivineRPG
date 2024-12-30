@@ -1,21 +1,20 @@
 {
+  "parent": "divinerpg:twilight/forest_islands",
   "display": {
     "icon": {
-      "item": "divinerpg:wildwood_heart"
+      "id": "divinerpg:wildwood_heart"
     },
+    "frame": "goal",
     "title": {
       "translate": "advancement.divinerpg.twilight.forest_scourge"
     },
-    "frame": "challenge",
     "description": {
       "translate": "advancement.divinerpg.twilight.forest_scourge.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:twilight/forest_islands",
   "criteria": {
     "kill_boss_termasect": {
-      "trigger": "minecraft:player_killed_entity",
+      "trigger": "player_killed_entity",
       "conditions": {
         "entity": {
           "type": "divinerpg:termasect"

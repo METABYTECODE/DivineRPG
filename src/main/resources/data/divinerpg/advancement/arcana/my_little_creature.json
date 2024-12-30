@@ -1,20 +1,19 @@
 {
+  "parent": "divinerpg:arcana/root",
   "display": {
     "icon": {
-      "item": "divinerpg:seimer_spawn_egg"
+      "id": "divinerpg:seimer_spawn_egg"
     },
     "title": {
       "translate": "advancement.divinerpg.arcana.my_little_creature"
     },
-    "frame": "goal",
     "description": {
       "translate": "advancement.divinerpg.arcana.my_little_creature.desc"
     }
   },
-  "parent": "divinerpg:arcana/root",
   "criteria": {
     "tame_fyracryx": {
-      "trigger": "minecraft:tame_animal",
+      "trigger": "tame_animal",
       "conditions": {
         "entity": {
           "type": "divinerpg:fyracryx"
@@ -22,7 +21,7 @@
       }
     },
     "tame_seimer": {
-      "trigger": "minecraft:tame_animal",
+      "trigger": "tame_animal",
       "conditions": {
         "entity": {
           "type": "divinerpg:seimer"
@@ -30,7 +29,7 @@
       }
     },
     "tame_paratiku": {
-      "trigger": "minecraft:tame_animal",
+      "trigger": "tame_animal",
       "conditions": {
         "entity": {
           "type": "divinerpg:paratiku"
@@ -38,7 +37,7 @@
       }
     },
     "tame_golem_of_rejuvenation": {
-      "trigger": "minecraft:tame_animal",
+      "trigger": "tame_animal",
       "conditions": {
         "entity": {
           "type": "divinerpg:golem_of_rejuvenation"

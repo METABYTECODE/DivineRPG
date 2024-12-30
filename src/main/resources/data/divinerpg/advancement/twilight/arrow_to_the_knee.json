@@ -1,19 +1,20 @@
 {
+  "parent": "divinerpg:twilight/dark_another_day",
   "display": {
     "icon": {
-      "item": "divinerpg:twilight_bow"
+      "id": "divinerpg:twilight_bow"
     },
     "title": {
       "translate": "advancement.divinerpg.twilight.arrow_to_the_knee"
     },
     "description": {
       "translate": "advancement.divinerpg.twilight.arrow_to_the_knee.desc"
-    }
+    },
+    "hidden": true
   },
-  "parent": "divinerpg:twilight/dark_another_day",
   "criteria": {
     "hurt_by_twilight_archer": {
-      "trigger": "minecraft:entity_hurt_player",
+      "trigger": "entity_hurt_player",
       "conditions": {
         "damage": {
           "source_entity": {

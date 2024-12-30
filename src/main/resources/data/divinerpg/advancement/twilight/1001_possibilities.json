@@ -1,21 +1,19 @@
 {
+  "parent": "divinerpg:twilight/root",
   "display": {
     "icon": {
-      "item": "divinerpg:eden_block"
+      "id": "divinerpg:eden_block"
     },
     "title": {
       "translate": "advancement.divinerpg.twilight.1001_possibilities"
     },
-    "frame": "goal",
     "description": {
       "translate": "advancement.divinerpg.twilight.1001_possibilities.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:twilight/root",
   "criteria": {
     "enter_eden": {
-      "trigger": "minecraft:changed_dimension",
+      "trigger": "changed_dimension",
       "conditions": {
         "to": "divinerpg:eden"
       }

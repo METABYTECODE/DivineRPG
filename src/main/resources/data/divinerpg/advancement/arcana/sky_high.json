@@ -1,21 +1,19 @@
 {
+  "parent": "divinerpg:arcana/root",
   "display": {
     "icon": {
-      "item": "divinerpg:elevantium"
+      "id": "divinerpg:elevantium"
     },
     "title": {
       "translate": "advancement.divinerpg.arcana.sky_high"
     },
-    "frame": "goal",
     "description": {
       "translate": "advancement.divinerpg.arcana.sky_high.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:arcana/root",
   "criteria": {
     "step_on_elevantium": {
-      "trigger": "minecraft:enter_block",
+      "trigger": "enter_block",
       "conditions": {
         "block": "divinerpg:elevantium"
       }

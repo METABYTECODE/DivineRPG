@@ -1,27 +1,23 @@
 {
+  "parent": "divinerpg:overworld/root",
   "display": {
     "icon": {
-      "item": "divinerpg:divine_sword"
+      "id": "divinerpg:divine_sword"
     },
     "title": {
       "translate": "advancement.divinerpg.overworld.a_divine_plan"
     },
-    "frame": "goal",
     "description": {
       "translate": "advancement.divinerpg.overworld.a_divine_plan.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:overworld/root",
   "criteria": {
     "craft_divine_sword": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_sword"
-            ]
+            "items": "divinerpg:divine_sword"
           }
         ]
       }

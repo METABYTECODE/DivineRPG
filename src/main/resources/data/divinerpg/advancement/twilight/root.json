@@ -1,7 +1,8 @@
 {
   "display": {
+    "background": "divinerpg:textures/block/twilight_stone.png",
     "icon": {
-      "item": "divinerpg:apalachia_blade"
+      "id": "divinerpg:divine_rock"
     },
     "title": {
       "translate": "advancement.divinerpg.twilight.root"
@@ -9,12 +10,11 @@
     "description": {
       "translate": "advancement.divinerpg.twilight.root.desc"
     },
-    "background": "divinerpg:textures/block/twilight_stone.png",
-    "announce_to_chat": true
+    "announce_to_chat": false
   },
   "criteria": {
     "divinerpg": {
-      "trigger": "minecraft:changed_dimension",
+      "trigger": "changed_dimension",
       "conditions": {
         "to": "divinerpg:eden"
       }

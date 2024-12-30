@@ -1,30 +1,24 @@
 {
+  "parent": "divinerpg:iceika/boneyard",
   "display": {
     "icon": {
-      "item": "divinerpg:calcified_brain"
+      "id": "divinerpg:calcified_brain"
     },
+    "frame": "goal",
     "title": {
       "translate": "advancement.divinerpg.iceika.kill_kitra"
     },
     "description": {
       "translate": "advancement.divinerpg.iceika.kill_kitra.desc"
-    },
-    "frame": "goal"
+    }
   },
-  "parent": "divinerpg:iceika/boneyard",
   "criteria": {
-    "requirement": {
-      "trigger": "minecraft:player_killed_entity",
+    "kill_boss_kitra": {
+      "trigger": "player_killed_entity",
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "type": "divinerpg:kitra"
-            }
-          }
-        ]
+        "entity": {
+          "type": "divinerpg:kitra"
+        }
       }
     }
   }

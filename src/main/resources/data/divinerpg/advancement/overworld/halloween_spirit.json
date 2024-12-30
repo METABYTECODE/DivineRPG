@@ -1,20 +1,19 @@
 {
+  "parent": "divinerpg:overworld/root",
   "display": {
     "icon": {
-      "item": "divinerpg:scythe"
+      "id": "divinerpg:scythe"
     },
     "title": {
       "translate": "advancement.divinerpg.overworld.halloween_spirit"
     },
     "description": {
       "translate": "advancement.divinerpg.overworld.halloween_spirit.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:overworld/root",
   "criteria": {
     "talk_to_jack_o_man": {
-      "trigger": "minecraft:villager_trade",
+      "trigger": "villager_trade",
       "conditions": {
         "villager": {
           "type": "divinerpg:jack_o_man"

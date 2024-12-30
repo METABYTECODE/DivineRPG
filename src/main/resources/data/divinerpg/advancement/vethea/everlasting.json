@@ -1,75 +1,67 @@
 {
+  "parent": "divinerpg:vethea/lunar_emissary",
   "display": {
     "icon": {
-      "item": "divinerpg:eversight"
+      "id": "divinerpg:eversight"
     },
+    "frame": "challenge",
     "title": {
       "translate": "advancement.divinerpg.vethea.everlasting"
     },
-    "frame": "challenge",
     "description": {
       "translate": "advancement.divinerpg.vethea.everlasting.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:vethea/lunar_emissary",
+  "rewards": {
+    "experience": 500
+  },
   "criteria": {
     "obtain_everbright": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:everbright"
-            ]
+            "items": "divinerpg:everbright"
           }
         ]
       }
     },
     "obtain_everfright": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:everfright"
-            ]
+            "items": "divinerpg:everfright"
           }
         ]
       }
     },
     "obtain_everlight": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:everlight"
-            ]
+            "items": "divinerpg:everlight"
           }
         ]
       }
     },
     "obtain_evernight": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:evernight"
-            ]
+            "items": "divinerpg:evernight"
           }
         ]
       }
     },
     "obtain_eversight": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:eversight"
-            ]
+            "items": "divinerpg:eversight"
           }
         ]
       }

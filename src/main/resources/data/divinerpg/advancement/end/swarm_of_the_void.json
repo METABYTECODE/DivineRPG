@@ -1,21 +1,20 @@
 {
+  "parent": "divinerpg:end/blown_away",
   "display": {
     "icon": {
-      "item": "divinerpg:ayeraco_statue"
+      "id": "divinerpg:ayeraco_statue"
     },
+    "frame": "goal",
     "title": {
       "translate": "advancement.divinerpg.end.swarm_of_the_void"
     },
-    "frame": "challenge",
     "description": {
       "translate": "advancement.divinerpg.end.swarm_of_the_void.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:end/blown_away",
   "criteria": {
     "ayeraco": {
-      "trigger": "minecraft:player_killed_entity",
+      "trigger": "player_killed_entity",
       "conditions": {
         "entity": {
           "type": "divinerpg:ayeraco"

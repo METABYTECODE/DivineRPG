@@ -1,123 +1,107 @@
 {
+  "parent": "divinerpg:overworld/a_divine_plan",
   "display": {
     "icon": {
-      "item": "divinerpg:divine_helmet"
+      "id": "divinerpg:divine_helmet"
     },
+    "frame": "challenge",
     "title": {
       "translate": "advancement.divinerpg.overworld.attempt_at_ascension"
     },
-    "frame": "challenge",
     "description": {
       "translate": "advancement.divinerpg.overworld.attempt_at_ascension.desc"
-    },
-    "announce_to_chat": true
+    }
   },
-  "parent": "divinerpg:overworld/a_divine_plan",
+  "rewards": {
+    "experience": 500
+  },
   "criteria": {
     "divine_helmet": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_helmet"
-            ]
+            "items": "divinerpg:divine_helmet"
           }
         ]
       }
     },
     "divine_chestplate": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_chestplate"
-            ]
+            "items": "divinerpg:divine_chestplate"
           }
         ]
       }
     },
     "divine_leggings": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_leggings"
-            ]
+            "items": "divinerpg:divine_leggings"
           }
         ]
       }
     },
     "divine_boots": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_boots"
-            ]
+            "items": "divinerpg:divine_boots"
           }
         ]
       }
     },
     "divine_sword": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_sword"
-            ]
+            "items": "divinerpg:divine_sword"
           }
         ]
       }
     },
     "divine_axe": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_axe"
-            ]
+            "items": "divinerpg:divine_axe"
           }
         ]
       }
     },
     "divine_pickaxe": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_pickaxe"
-            ]
+            "items": "divinerpg:divine_pickaxe"
           }
         ]
       }
     },
     "divine_shovel": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_shovel"
-            ]
+            "items": "divinerpg:divine_shovel"
           }
         ]
       }
     },
     "divine_shickaxe": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:divine_shickaxe"
-            ]
+            "items": "divinerpg:divine_shickaxe"
           }
         ]
       }
